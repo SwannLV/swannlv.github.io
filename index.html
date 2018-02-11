@@ -1,4 +1,46 @@
-# swannlv.github.io
-<script>
-  window.location = 'https://swann-lv.herokuapp.com'
-</script>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Swann LV says ...</title>
+    <meta name="viewport" content="width=device-width">
+    <style type="text/css">
+      @media screen and (max-width: 1200px) {.block{ max-width: 100%; margin: auto; padding-bottom: 100px;} iframe {width:100%; height:100%; }}
+      @media screen and (min-width: 1200px) {.block{ max-width: 600px; margin: auto; padding-bottom: 100px; }}
+      body{background-color: #000000;}
+      .cmds{margin: 10px; color: silver; background: black;}
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <pre class='cmds'>
+swannlv:~/workspace (master) $ npm install -g yarn
+/home/ubuntu/.nvm/versions/node/v6.11.2/bin/yarn -> /home/ubuntu/.nvm/versions/node/v6.11.2/lib/node_modules/yarn/bin/yarn.js
+/home/ubuntu/.nvm/versions/node/v6.11.2/bin/yarnpkg -> /home/ubuntu/.nvm/versions/node/v6.11.2/lib/node_modules/yarn/bin/yarn.js
+/home/ubuntu/.nvm/versions/node/v6.11.2/lib
+└── yarn@1.3.2 
+        
+swannlv:~/workspace (master) $ yarn prod
+yarn run v1.3.2
+Hash: e973aa4b543cfe648dcf                                                               
+Version: webpack 2.7.0
+Time: 25192ms
+       Asset    Size  Chunks                    Chunk Names
+    build.js  812 kB       0  [emitted]  [big]  main
+build.js.map    5 MB       0  [emitted]         main
+Done in 27.41s.
+
+swannlv:~/workspace (master) $ git push origin master
+
+      </pre>
+    </div>
+    <script src="/dist/build.js"></script>
+   <div class="block">
+                        <a class="twitter-timeline"  href="https://twitter.com/search?q=iamSwannLV" data-widget-id="959045959048159233"
+                        data-chrome="noscrollbar,nofooter,noheader" data-dnt="true" data-width="100%"></a>
+            <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+
+      <!--<a class="twitter-timeline" href="https://twitter.com/iamSWANNLV?ref_src=twsrc%5Etfw"></a><script async src="https://platform.twitter.com/widget.js" charset="utf-8"></script>-->
+    </div>
+  </body>
+</html>
