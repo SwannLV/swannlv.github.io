@@ -8,10 +8,8 @@
       @media screen and (max-width: 1200px) {.block{ max-width: 100%; margin: auto; padding-bottom: 100px;} iframe {width:100%; height:100%; }}
       @media screen and (min-width: 1200px) {.block{ max-width: 600px; margin: auto; padding-bottom: 100px; }}
       body{background-color: #000000; margin: 0vh;}
-      ::-webkit-scrollbar {
-display: none;
-}
-      /*.cmds{margin: 10px; color: silver; background: black; font-family: monospace;}*/
+      @media screen and (min-width: 690px) {body{overflow:hidden;}}
+      ::-webkit-scrollbar {display: none;}
       .cmds{display: block; unicode-bidi: embed; font-family: monospace; white-space: pre; color: silver; margin: 10px;}
     </style>
   </head>
@@ -25,7 +23,7 @@ Hash: e973aa4b543cfe648dcf
 Version: webpack 2.7.0
 Time: 25192ms
        Asset    Size  Chunks                    Chunk Names
-    build.js  812 kB       0  [emitted]  [big]  main
+    build.js  812 kB       0  [emitted]         main
 build.js.map    5 MB       0  [emitted]         main
 Done in 27.41s.
 
