@@ -1,49 +1,139 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <title>I'm Swann LV</title>
-    <meta name="viewport" content="width=device-width">
-   <link href="https://fonts.googleapis.com/css?family=PT+Sans" rel="stylesheet">
-   <link href="https://fonts.googleapis.com/css?family=Exo:400,400i,700,700i" rel="stylesheet">
-    <style type="text/css">
-      @media screen and (max-width: 1200px) {.block{ max-width: 100%; margin: auto; padding-bottom: 100px;} iframe {width:100%; height:100%; }}
-      @media screen and (min-width: 1200px) {.block{ max-width: 600px; margin: auto; padding-bottom: 100px; }}
-      body{background-color: black; margin: 0vh; font-family: 'PT Sans', sans-serif;}
-      @media screen and (min-width: 690px) {body{overflow:hidden;}}
-      ::-webkit-scrollbar {display: none;}
-      .cmds{display: block; unicode-bidi: embed; font-family: monospace; white-space: pre; color: silver; margin: 10px;}
-    </style>
-    <meta name="title" content="Swann LE VIGOUROUX - Javascript Developer in Marseille - Vue.js & React.js" />
-    <meta name="author" content="Swann LE VIGOUROUX" />
-  </head>
-  <body>
-    <div id="app">
-      
-       <!-- <div class='cmds'>
-        
-swannlv:~/workspace (master) $ npm run prod
-Hash: e973aa4b543cfe648dcf                                                               
-Version: webpack 2.7.0
-Time: 25192ms
-       Asset    Size  Chunks                    Chunk Names
-    build.js  812 kB       0  [emitted]         main
-build.js.map    5 MB       0  [emitted]         main
-Done in 27.41s.
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>I'm Swann LV - CTO</title>
+<link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&display=swap" rel="stylesheet">
+<style>
+body {
+  margin:0; padding:0; font-family:'Fira Code', monospace; background:#1e1e1e; color:#d4d4d4; line-height:1.5;
+  display:flex; flex-direction:column; align-items:center;
+}
+a { color:#569cd6; text-decoration:none; }
+a:hover { text-decoration:underline; }
 
-swannlv:~/workspace (master) $ git push origin master
+/* Tagline au-dessus */
+.tagline {
+  margin-top:40px;
+  margin-bottom:20px;
+  font-size:1.2rem;
+  color:#9cdcfe;
+  text-align:center;
+  font-style:italic;
+}
 
-      </div> -->
-      
+/* IDE container */
+.ide { max-width:900px; width:90%; border-radius:8px; overflow:hidden; box-shadow:0 10px 30px rgba(0,0,0,0.5); }
+
+/* Top bar */
+.top-bar {
+  background:#252526; height:35px; display:flex; align-items:center; padding:0 10px; color:#d4d4d4; font-size:0.9rem;
+}
+.top-bar .buttons { display:flex; gap:8px; margin-right:10px; }
+.top-bar .button { width:12px; height:12px; border-radius:50%; display:inline-block; }
+.button.close { background:#f55353; }
+.button.minimize { background:#fdbc40; }
+.button.maximize { background:#4ec9b0; }
+.top-bar .title { flex:1; text-align:center; font-weight:600; }
+
+/* Code editor */
+pre {
+  margin:0; padding:20px; background:#1e1e1e; overflow-x:auto; white-space:pre-wrap;
+}
+code { display:block; }
+
+/* Syntax highlighting Dark+ */
+.keyword { color:#569cd6; font-weight:700; }
+.function { color:#dcdcaa; }
+.string { color:#d69d85; }
+.comment { color:#6a9955; font-style:italic; }
+.variable { color:#9cdcfe; }
+.class { color:#4ec9b0; }
+
+/* Line numbers */
+.line { counter-increment: line; display: block; position: relative; padding-left:40px; }
+.line::before { content: counter(line); position:absolute; left:0; width:35px; text-align:right; color:#6a9955; }
+
+/* Scroll animation */
+section { opacity:0; transform:translateY(20px); transition:0.8s ease-out; }
+section.visible { opacity:1; transform:translateY(0); }
+
+/* Footer */
+footer { text-align:center; color:#6a9955; margin-top:40px; font-style:italic; }
+</style>
+</head>
+<body>
+
+<!-- Tagline en haut, avant la fenêtre IDE -->
+<div class="tagline">// Transforming ideas into code, code into impact.</div>
+
+<div class="ide">
+  <div class="top-bar">
+    <div class="buttons">
+      <div class="button close"></div>
+      <div class="button minimize"></div>
+      <div class="button maximize"></div>
     </div>
-    <script src="/dist/build.js"></script>
-   <!--<div class="block">-->
-   <!--                     <a class="twitter-timeline"  href="https://twitter.com/search?q=iamSwannLV" data-widget-id="959045959048159233"-->
-   <!--                     data-chrome="noscrollbar,nofooter,noheader" data-dnt="true" data-width="100%"></a>-->
-   <!--         <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>-->
+    <div class="title">swann_cto.js</div>
+  </div>
 
-   <!-- </div>-->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-116067322-1"></script>
-<script>window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'UA-116067322-1');</script>
-  </body>
+  <pre><code>
+<span class="comment">// Swann Le Vigouroux - CTO @ Comet</span>
+<span class="keyword">const</span> swann = {
+  <span class="variable">role</span>: <span class="string">"CTO @ Comet"</span>,
+  <span class="variable">strengths</span>: [
+    <span class="string">"Management"</span>,
+    <span class="string">"Innovation"</span>,
+    <span class="string">"Structure & Cohesion"</span>,
+    <span class="string">"Alignment"</span>,
+    <span class="string">"Creativity"</span>,
+    <span class="string">"High Energy"</span>
+  ],
+  <span class="variable">mission</span>: <span class="string">"Transform challenges into durable innovation and align teams, product, and tech vision."</span>
+};
+
+<span class="comment">// Experience</span>
+<span class="keyword">class</span> Experience {
+  <span class="keyword">constructor</span>() {
+    <span class="variable">this.jobs</span> = [
+      { role: <span class="string">"CTO"</span>, company: <span class="string">"Comet"</span>, period: <span class="string">"Feb 2025 - Present"</span> },
+      { role: <span class="string">"Engineering Manager"</span>, company: <span class="string">"Comet"</span>, period: <span class="string">"Feb 2022 - Jan 2025"</span> },
+      { role: <span class="string">"Team Lead / Fullstack Dev"</span>, company: <span class="string">"Comet"</span>, period: <span class="string">"Sep 2020 - Feb 2022"</span> },
+      { role: <span class="string">"Lead Developer"</span>, company: <span class="string">"CMA CGM"</span>, period: <span class="string">"Feb 2017 - Oct 2018"</span> },
+      { role: <span class="string">"Creative Technologist / Lead Web Dev"</span>, company: <span class="string">"UNION Advertising"</span>, period: <span class="string">"2012 - 2015"</span> },
+      { role: <span class="string">"Software Engineer"</span>, company: <span class="string">"Anyware Video"</span>, period: <span class="string">"2009 - 2012"</span> }
+    ];
+  }
+}
+
+<span class="comment">// Skills</span>
+<span class="keyword">const</span> skills = [<span class="string">"Management"</span>, <span class="string">"Innovation"</span>, <span class="string">"Structure & Cohesion"</span>, <span class="string">"Alignment"</span>, <span class="string">"Creativity"</span>, <span class="string">"High Energy"</span>, <span class="string">"TypeScript / Node.js / React"</span>, <span class="string">"AWS / IA Generative"</span>, <span class="string">"Agile / Scrum"</span>];
+
+skills.forEach(<span class="function">console.log</span>);
+
+<span class="comment">// Education</span>
+<span class="keyword">const</span> education = { degree: <span class="string">"Master Informatique"</span>, school: <span class="string">"Aix-Marseille Université"</span>, period: <span class="string">"2007 - 2009"</span> };
+
+<span class="comment">// Languages</span>
+<span class="keyword">const</span> languages = [<span class="string">"French - Native"</span>, <span class="string">"English - Full Professional"</span>];
+
+  </code></pre>
+</div>
+
+<footer>
+  <span class="comment">// Swann Le Vigouroux - CTO @ Comet</span>
+</footer>
+
+<script>
+const sections = document.querySelectorAll('pre');
+const observer = new IntersectionObserver(entries=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting){ entry.target.style.opacity='1'; entry.target.style.transform='translateY(0)'; }
+  });
+}, {threshold:0.1});
+sections.forEach(sec => observer.observe(sec));
+</script>
+
+</body>
 </html>
