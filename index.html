@@ -295,286 +295,150 @@
 
         /* === SECTION COMMON === */
         section {
-            padding: 120px 40px;
-            max-width: 1400px;
+            padding: 80px 32px;
+            max-width: 1100px;
             margin: 0 auto;
         }
 
         .section-label {
             font-family: 'JetBrains Mono', monospace;
-            font-size: 13px;
+            font-size: 12px;
             color: var(--accent);
             text-transform: uppercase;
             letter-spacing: 2px;
-            margin-bottom: 16px;
-        }
-
-        .section-title {
-            font-size: clamp(32px, 5vw, 48px);
-            font-weight: 800;
-            letter-spacing: -1.5px;
-            margin-bottom: 24px;
-        }
-
-        .section-subtitle {
-            font-size: 18px;
-            color: var(--gray);
-            max-width: 600px;
-            margin-bottom: 64px;
-        }
-
-        /* === CASE STUDY === */
-        #case-study {
-            background: var(--dark-2);
-            border-radius: 32px;
-            margin: 0 40px;
-            max-width: calc(1400px - 80px);
-        }
-
-        .case-study-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 64px;
-            flex-wrap: wrap;
-            gap: 32px;
-        }
-
-        .case-study-meta {
-            display: flex;
-            gap: 32px;
-        }
-
-        .meta-item {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-        }
-
-        .meta-label {
-            font-size: 12px;
-            color: var(--gray);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .meta-value {
-            font-weight: 600;
-        }
-
-        .case-study-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 24px;
-            margin-bottom: 64px;
-        }
-
-        .metric-card {
-            background: var(--dark-3);
-            border-radius: 16px;
-            padding: 32px;
-            border: 1px solid rgba(255,255,255,0.05);
-        }
-
-        .metric-before-after {
-            display: flex;
-            align-items: center;
-            gap: 16px;
             margin-bottom: 12px;
         }
 
-        .metric-before {
-            font-size: 24px;
-            color: var(--gray);
-            text-decoration: line-through;
-        }
-
-        .metric-arrow {
-            color: var(--accent);
-            font-size: 20px;
-        }
-
-        .metric-after {
-            font-size: 32px;
+        .section-title {
+            font-size: clamp(24px, 4vw, 36px);
             font-weight: 800;
-            color: var(--accent);
-        }
-
-        .metric-label {
-            color: var(--gray);
-            font-size: 14px;
-        }
-
-        .case-study-content {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 64px;
-        }
-
-        .challenge, .solution {
-            padding: 32px;
-            background: var(--dark-3);
-            border-radius: 16px;
-            border: 1px solid rgba(255,255,255,0.05);
-        }
-
-        .challenge h4, .solution h4 {
-            font-size: 14px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: -1px;
             margin-bottom: 16px;
+        }
+
+        .section-subtitle {
+            font-size: 15px;
             color: var(--gray);
+            max-width: 500px;
+            margin: 0 auto 48px;
         }
 
-        .challenge p, .solution p {
-            font-size: 16px;
-            line-height: 1.8;
+        /* === CASE STUDIES === */
+        #projects {
+            max-width: 1000px;
         }
 
-        .solution {
-            border-color: rgba(210, 45, 45, 0.3);
+        .case-cards {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
         }
 
-        .solution h4 {
+        .case-card {
+            background: var(--dark-2);
+            border-radius: 16px;
+            padding: 24px;
+            border: 1px solid rgba(255,255,255,0.05);
+            text-decoration: none;
+            color: var(--light);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .case-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-4px);
+            box-shadow: 0 16px 40px rgba(210, 45, 45, 0.15);
+        }
+
+        .case-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12px;
+        }
+
+        .case-card-company {
+            font-weight: 600;
+        }
+
+        .case-card-role {
+            color: var(--gray);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+        }
+
+        .case-card-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin: 4px 0;
+        }
+
+        .case-card-desc {
+            font-size: 13px;
+            color: var(--gray);
+            line-height: 1.6;
+            flex-grow: 1;
+        }
+
+        .case-card-metrics {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .case-metric {
+            font-size: 11px;
+            color: var(--gray);
+            background: var(--dark-3);
+            padding: 4px 8px;
+            border-radius: 4px;
+        }
+
+        .case-metric strong {
             color: var(--accent);
+            font-weight: 700;
         }
 
-        .tech-used {
+        .case-card-tags {
             display: flex;
             flex-wrap: wrap;
-            gap: 8px;
-            margin-top: 24px;
+            gap: 6px;
         }
 
         .tech-tag {
             background: rgba(210, 45, 45, 0.1);
             color: var(--accent);
-            padding: 6px 12px;
-            border-radius: 6px;
-            font-size: 13px;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 10px;
             font-family: 'JetBrains Mono', monospace;
         }
 
-        /* === SITE PREVIEWS === */
-        .site-previews {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 24px;
-            margin-top: 48px;
-        }
-
-        .site-preview {
-            position: relative;
-            border-radius: 16px;
-            overflow: hidden;
-            background: var(--dark-3);
-            border: 1px solid rgba(255,255,255,0.05);
-            transition: all 0.3s ease;
-            text-decoration: none;
-            display: block;
-        }
-
-        .site-preview:hover {
-            border-color: var(--accent);
-            transform: translateY(-4px);
-            box-shadow: 0 20px 60px rgba(210, 45, 45, 0.15);
-        }
-
-        .site-preview-image {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-            object-position: top;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-        }
-
-        .site-preview-placeholder {
-            width: 100%;
-            height: 200px;
-            background: linear-gradient(135deg, var(--dark-2) 0%, var(--dark-3) 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .site-preview-placeholder::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 30px;
-            background: var(--dark);
-            display: flex;
-            align-items: center;
-        }
-
-        .site-preview-placeholder::after {
-            content: '● ● ●';
-            position: absolute;
-            top: 8px;
-            left: 12px;
-            font-size: 10px;
-            letter-spacing: 4px;
+        .case-card-link {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
             color: var(--gray);
+            margin-top: auto;
+            padding-top: 8px;
+            border-top: 1px solid rgba(255,255,255,0.05);
         }
 
-        .site-preview-placeholder .mock-content {
-            margin-top: 20px;
-            text-align: center;
-            padding: 20px;
-        }
-
-        .site-preview-placeholder .mock-logo {
-            font-size: 32px;
-            font-weight: 800;
+        .case-card:hover .case-card-link {
             color: var(--accent);
-            margin-bottom: 8px;
         }
 
-        .site-preview-placeholder .mock-tagline {
-            font-size: 12px;
-            color: var(--gray);
-        }
-
-        .site-preview-info {
-            padding: 20px;
-        }
-
-        .site-preview-title {
-            font-weight: 700;
-            font-size: 16px;
-            margin-bottom: 4px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .site-preview-title .external-icon {
-            font-size: 12px;
-            color: var(--gray);
+        .external-icon {
+            font-size: 10px;
             transition: color 0.2s;
         }
 
-        .site-preview:hover .external-icon {
-            color: var(--accent);
-        }
-
-        .site-preview-url {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 13px;
-            color: var(--gray);
-        }
-
-        .site-preview.featured {
-            grid-column: span 2;
-        }
-
-        .site-preview.featured .site-preview-placeholder {
-            height: 280px;
+        @media (max-width: 900px) {
+            .case-cards {
+                grid-template-columns: 1fr;
+            }
         }
 
         @media (max-width: 768px) {
@@ -820,7 +684,7 @@
                 padding: 80px 20px;
             }
 
-            #case-study {
+            #projects {
                 margin: 0 20px;
                 border-radius: 24px;
             }
@@ -842,7 +706,7 @@
         <div class="nav-links">
             <a href="#">Home</a>
             <a href="#journey">Journey</a>
-            <a href="#case-study">Case Study</a>
+            <a href="#projects">Projects</a>
             <a href="#contact">Contact</a>
             </div>
         <a href="mailto:le.vigouroux.swann@gmail.com" class="nav-cta">Let's Talk</a>
@@ -878,7 +742,7 @@
             </div>
                 <div class="hero-cta">
                     <a href="mailto:le.vigouroux.swann@gmail.com" class="btn btn-primary">Get in Touch</a>
-                    <a href="#case-study" class="btn btn-secondary">See My Work</a>
+                    <a href="#projects" class="btn btn-secondary">See My Work</a>
                     <a href="https://swannlv.github.io/swann-le-vigouroux.pdf" target="_blank" class="btn btn-secondary">📄 Resume (PDF)</a>
             </div>
         </div>
@@ -909,8 +773,8 @@
                     </p>
                     <span class="ship-impact">9 engineers · AI Platform · -85% time</span>
             </div>
-                </div>
-                
+            </div>
+
             <div class="ship-item">
                 <div class="ship-dot"></div>
                 <div class="ship-content">
@@ -935,8 +799,8 @@
                     </p>
                     <span class="ship-impact">5 engineers · Agile Transformation</span>
                 </div>
-            </div>
-
+                </div>
+                
             <div class="ship-item">
                 <div class="ship-dot"></div>
                 <div class="ship-content">
@@ -948,8 +812,8 @@
                     </p>
                     <span class="ship-impact">5 developers · Vue.js Pioneer</span>
             </div>
-        </div>
-
+                </div>
+                
             <div class="ship-item">
                 <div class="ship-dot"></div>
                 <div class="ship-content">
@@ -978,146 +842,91 @@
         </div>
     </section>
 
-    <!-- Case Study -->
-    <section id="case-study" class="fade-in">
-        <div class="case-study-header">
-            <div>
-                <div class="section-label">Case Study</div>
-                <h2 class="section-title">Nova AI Platform</h2>
-                <p class="section-subtitle" style="margin-bottom: 0;">
-                    How I led the development of a GenAI matching engine that transformed our core business.
-            </p>
-        </div>
-            <div class="case-study-meta">
-                <div class="meta-item">
-                    <span class="meta-label">Company</span>
-                    <span class="meta-value">Comet</span>
+    <!-- Projects -->
+    <section id="projects" class="fade-in">
+        <div class="section-label" style="text-align: center;">Projects</div>
+        <h2 class="section-title" style="text-align: center;">Projects & Impact</h2>
+        <p class="section-subtitle" style="text-align: center; margin: 0 auto 40px;">
+            A selection of projects where I led teams to deliver measurable business results.
+        </p>
+
+        <div class="case-cards">
+            <!-- Comet SaaS Platform -->
+            <a href="https://app.comet.co/" target="_blank" class="case-card">
+                <div class="case-card-header">
+                    <span class="case-card-company">⚡ Comet</span>
+                    <span class="case-card-role">Lead → EM · 2018-2025</span>
                 </div>
-                <div class="meta-item">
-                    <span class="meta-label">Role</span>
-                    <span class="meta-value">CTO</span>
-                    </div>
-                <div class="meta-item">
-                    <span class="meta-label">Year</span>
-                    <span class="meta-value">2025</span>
-                    </div>
-                <div class="meta-item">
-                    <span class="meta-label">Live</span>
-                    <span class="meta-value">
-                        <a href="https://www.comet.co/" target="_blank" style="color: var(--accent);">comet.co</a> · 
-                        <a href="https://app.comet.co/" target="_blank" style="color: var(--accent);">app</a>
-                    </span>
+                <h3 class="case-card-title">Full SaaS Platform</h3>
+                <p class="case-card-desc">Built the entire SaaS platform with the team. Freelance & client apps, matching engine, billing, analytics.</p>
+                <div class="case-card-metrics">
+                    <span class="case-metric"><strong>8→15</strong> engineers</span>
+                    <span class="case-metric"><strong>7</strong> years</span>
                 </div>
-            </div>
-                </div>
-                
-        <div class="case-study-grid">
-            <div class="metric-card">
-                <div class="metric-before-after">
-                    <span class="metric-before">78 min</span>
-                    <span class="metric-arrow">→</span>
-                    <span class="metric-after">12 min</span>
-                    </div>
-                <div class="metric-label">Portfolio creation time</div>
-                    </div>
-            <div class="metric-card">
-                <div class="metric-before-after">
-                    <span class="metric-before">1 hour</span>
-                    <span class="metric-arrow">→</span>
-                    <span class="metric-after">5 min</span>
-                </div>
-                <div class="metric-label">Candidate matching</div>
-            </div>
-            <div class="metric-card">
-                <div class="metric-before-after">
-                    <span class="metric-before">Legacy</span>
-                    <span class="metric-arrow">→</span>
-                    <span class="metric-after">-90%</span>
-                </div>
-                <div class="metric-label">Infrastructure cost (projected)</div>
-            </div>
-                    </div>
-                    
-        <div class="case-study-content">
-            <div class="challenge">
-                <h4>The Challenge</h4>
-                <p>
-                    Our team was spending 78 minutes per portfolio—manually extracting skills, formatting documents, and matching candidates. This wasn't scalable. We needed to 10x our throughput without 10x the headcount.
-                </p>
-                    </div>
-            <div class="solution">
-                <h4>The Solution</h4>
-                <p>
-                    Built a proprietary GenAI matching engine using extreme data compression techniques. Led the team through rapid prototyping cycles—shipping to production weekly and iterating based on real user data.
-                </p>
-                <div class="tech-used">
-                    <span class="tech-tag">AWS Bedrock</span>
+                <div class="case-card-tags">
                     <span class="tech-tag">TypeScript</span>
                     <span class="tech-tag">Node.js</span>
                     <span class="tech-tag">React</span>
+                    <span class="tech-tag">Vue.js</span>
+                    <span class="tech-tag">AWS</span>
+                </div>
+                <div class="case-card-link">app.comet.co <span class="external-icon">↗</span></div>
+            </a>
+
+            <!-- Nova AI -->
+            <a href="https://www.comet.co/" target="_blank" class="case-card">
+                <div class="case-card-header">
+                    <span class="case-card-company">⚡ Comet</span>
+                    <span class="case-card-role">CTO · 2025</span>
+                </div>
+                <h3 class="case-card-title">Nova AI Platform</h3>
+                <p class="case-card-desc">GenAI matching engine — portfolio creation from 78min to 12min, candidate matching from 1h to 5min.</p>
+                <div class="case-card-metrics">
+                    <span class="case-metric"><strong>-85%</strong> time</span>
+                    <span class="case-metric"><strong>-90%</strong> cost</span>
+                </div>
+                <div class="case-card-tags">
+                    <span class="tech-tag">AWS Bedrock</span>
+                    <span class="tech-tag">GenAI</span>
                     <span class="tech-tag">Terraform</span>
                 </div>
-            </div>
-        </div>
-
-        <!-- Site Previews -->
-        <div class="site-previews">
-            <a href="https://www.comet.co/" target="_blank" class="site-preview featured">
-                <div class="site-preview-placeholder">
-                    <div class="mock-content">
-                        <div class="mock-logo">⚡ COMET</div>
-                        <div class="mock-tagline">SaaS Platform · Nova AI Engine · Freelance Matching</div>
-                        <div style="margin-top: 16px; display: flex; gap: 8px; justify-content: center; flex-wrap: wrap;">
-                            <span class="tech-tag" style="font-size: 11px;">French Tech 120</span>
-                            <span class="tech-tag" style="font-size: 11px;">15 000+ freelances</span>
-                            <span class="tech-tag" style="font-size: 11px;">60+ clients</span>
-                            <span class="tech-tag" style="font-size: 11px;">GenAI Matching</span>
-                    </div>
-                </div>
-                    </div>
-                <div class="site-preview-info">
-                    <div class="site-preview-title">
-                        Comet — SaaS Platform & Nova AI
-                        <span class="external-icon">↗</span>
-                </div>
-                    <div class="site-preview-url">comet.co</div>
-                    </div>
+                <div class="case-card-link">comet.co <span class="external-icon">↗</span></div>
             </a>
 
-            <a href="https://www.shoppersdrugmart.ca/" target="_blank" class="site-preview featured">
-                <div class="site-preview-placeholder">
-                    <div class="mock-content">
-                        <div class="mock-logo" style="font-size: 20px; color: #e31837;">💊 SHOPPERS</div>
-                        <div class="mock-tagline">Canada's leading pharmacy</div>
+            <!-- Shoppers Drug Mart -->
+            <a href="https://www.shoppersdrugmart.ca/" target="_blank" class="case-card">
+                <div class="case-card-header">
+                    <span class="case-card-company">💊 Shoppers Drug Mart</span>
+                    <span class="case-card-role">Lead Dev · 2014</span>
                 </div>
+                <h3 class="case-card-title">E-commerce Platform</h3>
+                <p class="case-card-desc">Led squad for Canada's largest pharmacy chain. High-traffic e-commerce with complex product catalog.</p>
+                <div class="case-card-tags">
+                    <span class="tech-tag">JavaScript</span>
+                    <span class="tech-tag">E-commerce</span>
+                    <span class="tech-tag">Performance</span>
             </div>
-                <div class="site-preview-info">
-                    <div class="site-preview-title">
-                        Shoppers Drug Mart — E-commerce
-                        <span class="external-icon">↗</span>
-        </div>
-                    <div class="site-preview-url">shoppersdrugmart.ca</div>
-                </div>
+                <div class="case-card-link">shoppersdrugmart.ca <span class="external-icon">↗</span></div>
             </a>
 
-            <a href="https://www.cma-cgm.com/" target="_blank" class="site-preview featured">
-                <div class="site-preview-placeholder">
-                    <div class="mock-content">
-                        <div class="mock-logo" style="font-size: 20px;">🚢 CMA CGM</div>
-                        <div class="mock-tagline">Global shipping & logistics leader</div>
-                        <div style="margin-top: 12px; display: flex; gap: 8px; justify-content: center;">
-                            <span class="tech-tag" style="font-size: 11px;">Vue.js Pioneer</span>
-                            <span class="tech-tag" style="font-size: 11px;">Booking Platform</span>
+            <!-- CMA CGM -->
+            <a href="https://www.cma-cgm.com/" target="_blank" class="case-card">
+                <div class="case-card-header">
+                    <span class="case-card-company">🚢 CMA CGM</span>
+                    <span class="case-card-role">Lead Dev · 2016-2018</span>
                 </div>
+                <h3 class="case-card-title">Global Booking Platform</h3>
+                <p class="case-card-desc">Pioneered Vue.js adoption at one of the world's largest shipping companies. Built booking system serving global logistics operations.</p>
+                <div class="case-card-metrics">
+                    <span class="case-metric"><strong>5</strong> devs led</span>
+                    <span class="case-metric"><strong>Vue.js</strong> pioneer</span>
             </div>
+                <div class="case-card-tags">
+                    <span class="tech-tag">Vue.js</span>
+                    <span class="tech-tag">C#.Net</span>
+                    <span class="tech-tag">Logistics</span>
                 </div>
-                <div class="site-preview-info">
-                    <div class="site-preview-title">
-                        CMA CGM — Global Booking Platform
-                        <span class="external-icon">↗</span>
-            </div>
-                    <div class="site-preview-url">cma-cgm.com</div>
-        </div>
+                <div class="case-card-link">cma-cgm.com <span class="external-icon">↗</span></div>
             </a>
         </div>
     </section>
@@ -1146,7 +955,7 @@
                 <div class="contact-label">GitHub</div>
                 <div class="contact-value">swannlv</div>
             </a>
-            </div>
+        </div>
     </section>
 
     <!-- Footer -->
