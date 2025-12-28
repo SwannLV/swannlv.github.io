@@ -1,138 +1,1300 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>I'm Swann LV - CTO</title>
-<link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&display=swap" rel="stylesheet">
-<style>
-body {
-  margin:0; padding:0; font-family:'Fira Code', monospace; background:#1e1e1e; color:#d4d4d4; line-height:1.5;
-  display:flex; flex-direction:column; align-items:center;
-}
-a { color:#569cd6; text-decoration:none; }
-a:hover { text-decoration:underline; }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Swann Le Vigouroux — CTO</title>
+    <meta name="description" content="Hands-on CTO with 10 years in engineering leadership. I scale teams and ship AI products.">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <style>
+        :root {
+            --accent: #d22d2d;
+            --accent-light: #ff4d4d;
+            --dark: #0a0a0a;
+            --dark-2: #141414;
+            --dark-3: #1a1a1a;
+            --light: #fafafa;
+            --gray: #888;
+            --gray-dark: #444;
+        }
 
-/* Tagline au-dessus */
-.tagline {
-  margin-top:40px;
-  margin-bottom:20px;
-  font-size:1.2rem;
-  color:#9cdcfe;
-  text-align:center;
-  font-style:italic;
-}
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-/* IDE container */
-.ide { max-width:900px; width:90%; border-radius:8px; overflow:hidden; box-shadow:0 10px 30px rgba(0,0,0,0.5); }
+        html {
+            scroll-behavior: smooth;
+        }
 
-/* Top bar */
-.top-bar {
-  background:#252526; height:35px; display:flex; align-items:center; padding:0 10px; color:#d4d4d4; font-size:0.9rem;
-}
-.top-bar .buttons { display:flex; gap:8px; margin-right:10px; }
-.top-bar .button { width:12px; height:12px; border-radius:50%; display:inline-block; }
-.button.close { background:#f55353; }
-.button.minimize { background:#fdbc40; }
-.button.maximize { background:#4ec9b0; }
-.top-bar .title { flex:1; text-align:center; font-weight:600; }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: var(--dark);
+            color: var(--light);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
 
-/* Code editor */
-pre {
-  margin:0; padding:20px; background:#1e1e1e; overflow-x:auto; white-space:pre-wrap;
-}
-code { display:block; }
+        ::selection {
+            background: var(--accent);
+            color: white;
+        }
 
-/* Syntax highlighting Dark+ */
-.keyword { color:#569cd6; font-weight:700; }
-.function { color:#dcdcaa; }
-.string { color:#d69d85; }
-.comment { color:#6a9955; font-style:italic; }
-.variable { color:#9cdcfe; }
-.class { color:#4ec9b0; }
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
 
-/* Line numbers */
-.line { counter-increment: line; display: block; position: relative; padding-left:40px; }
-.line::before { content: counter(line); position:absolute; left:0; width:35px; text-align:right; color:#6a9955; }
+        /* === NAVIGATION === */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            background: rgba(10, 10, 10, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
 
-/* Scroll animation */
-section { opacity:0; transform:translateY(20px); transition:0.8s ease-out; }
-section.visible { opacity:1; transform:translateY(0); }
+        .logo {
+            font-weight: 800;
+            font-size: 18px;
+            letter-spacing: -0.5px;
+        }
 
-/* Footer */
-footer { text-align:center; color:#6a9955; margin-top:40px; font-style:italic; }
-</style>
+        .logo span {
+            color: var(--accent);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 32px;
+        }
+
+        .nav-links a {
+            font-size: 14px;
+            color: var(--gray);
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--light);
+        }
+
+        .nav-cta {
+            background: var(--accent);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+
+        .nav-cta:hover {
+            background: var(--accent-light);
+            transform: translateY(-2px);
+        }
+
+        /* === HERO === */
+        .hero-wrapper {
+            position: relative;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+
+        #hero-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+
+        .hero {
+            position: relative;
+            z-index: 1;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 120px 40px 80px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .hero-content {
+            max-width: 800px;
+        }
+
+        .hero-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(210, 45, 45, 0.1);
+            border: 1px solid rgba(210, 45, 45, 0.3);
+            padding: 8px 16px;
+            border-radius: 100px;
+            font-size: 14px;
+            color: var(--accent);
+            margin-bottom: 24px;
+        }
+
+        .hero-label .dot {
+            width: 8px;
+            height: 8px;
+            background: var(--accent);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .hero h1 {
+            font-size: clamp(48px, 8vw, 80px);
+            font-weight: 800;
+            line-height: 1.05;
+            letter-spacing: -3px;
+            margin-bottom: 24px;
+        }
+
+        .hero h1 .highlight {
+            color: var(--accent);
+        }
+
+        .hero-subtitle {
+            font-size: 20px;
+            color: var(--gray);
+            max-width: 600px;
+            margin-bottom: 40px;
+            line-height: 1.7;
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 48px;
+            margin-bottom: 48px;
+        }
+
+        .stat {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .stat-value {
+            font-size: 48px;
+            font-weight: 800;
+            color: var(--light);
+            letter-spacing: -2px;
+        }
+
+        .stat-value span {
+            color: var(--accent);
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: var(--gray);
+            margin-top: 4px;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 16px;
+        }
+
+        .btn {
+            padding: 16px 32px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 16px;
+            transition: all 0.2s;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--accent-light);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 40px rgba(210, 45, 45, 0.3);
+        }
+
+        .btn-secondary {
+            background: rgba(255,255,255,0.05);
+            color: var(--light);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255,255,255,0.1);
+            border-color: rgba(255,255,255,0.2);
+        }
+
+        /* === SECTION COMMON === */
+        section {
+            padding: 120px 40px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 16px;
+        }
+
+        .section-title {
+            font-size: clamp(32px, 5vw, 48px);
+            font-weight: 800;
+            letter-spacing: -1.5px;
+            margin-bottom: 24px;
+        }
+
+        .section-subtitle {
+            font-size: 18px;
+            color: var(--gray);
+            max-width: 600px;
+            margin-bottom: 64px;
+        }
+
+        /* === CASE STUDY === */
+        #case-study {
+            background: var(--dark-2);
+            border-radius: 32px;
+            margin: 0 40px;
+            max-width: calc(1400px - 80px);
+        }
+
+        .case-study-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 64px;
+            flex-wrap: wrap;
+            gap: 32px;
+        }
+
+        .case-study-meta {
+            display: flex;
+            gap: 32px;
+        }
+
+        .meta-item {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .meta-label {
+            font-size: 12px;
+            color: var(--gray);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .meta-value {
+            font-weight: 600;
+        }
+
+        .case-study-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin-bottom: 64px;
+        }
+
+        .metric-card {
+            background: var(--dark-3);
+            border-radius: 16px;
+            padding: 32px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .metric-before-after {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 12px;
+        }
+
+        .metric-before {
+            font-size: 24px;
+            color: var(--gray);
+            text-decoration: line-through;
+        }
+
+        .metric-arrow {
+            color: var(--accent);
+            font-size: 20px;
+        }
+
+        .metric-after {
+            font-size: 32px;
+            font-weight: 800;
+            color: var(--accent);
+        }
+
+        .metric-label {
+            color: var(--gray);
+            font-size: 14px;
+        }
+
+        .case-study-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 64px;
+        }
+
+        .challenge, .solution {
+            padding: 32px;
+            background: var(--dark-3);
+            border-radius: 16px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .challenge h4, .solution h4 {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 16px;
+            color: var(--gray);
+        }
+
+        .challenge p, .solution p {
+            font-size: 16px;
+            line-height: 1.8;
+        }
+
+        .solution {
+            border-color: rgba(210, 45, 45, 0.3);
+        }
+
+        .solution h4 {
+            color: var(--accent);
+        }
+
+        .tech-used {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 24px;
+        }
+
+        .tech-tag {
+            background: rgba(210, 45, 45, 0.1);
+            color: var(--accent);
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* === SITE PREVIEWS === */
+        .site-previews {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+            margin-top: 48px;
+        }
+
+        .site-preview {
+            position: relative;
+            border-radius: 16px;
+            overflow: hidden;
+            background: var(--dark-3);
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: block;
+        }
+
+        .site-preview:hover {
+            border-color: var(--accent);
+            transform: translateY(-4px);
+            box-shadow: 0 20px 60px rgba(210, 45, 45, 0.15);
+        }
+
+        .site-preview-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            object-position: top;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .site-preview-placeholder {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, var(--dark-2) 0%, var(--dark-3) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .site-preview-placeholder::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 30px;
+            background: var(--dark);
+            display: flex;
+            align-items: center;
+        }
+
+        .site-preview-placeholder::after {
+            content: '● ● ●';
+            position: absolute;
+            top: 8px;
+            left: 12px;
+            font-size: 10px;
+            letter-spacing: 4px;
+            color: var(--gray);
+        }
+
+        .site-preview-placeholder .mock-content {
+            margin-top: 20px;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .site-preview-placeholder .mock-logo {
+            font-size: 32px;
+            font-weight: 800;
+            color: var(--accent);
+            margin-bottom: 8px;
+        }
+
+        .site-preview-placeholder .mock-tagline {
+            font-size: 12px;
+            color: var(--gray);
+        }
+
+        .site-preview-info {
+            padding: 20px;
+        }
+
+        .site-preview-title {
+            font-weight: 700;
+            font-size: 16px;
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .site-preview-title .external-icon {
+            font-size: 12px;
+            color: var(--gray);
+            transition: color 0.2s;
+        }
+
+        .site-preview:hover .external-icon {
+            color: var(--accent);
+        }
+
+        .site-preview-url {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            color: var(--gray);
+        }
+
+        .site-preview.featured {
+            grid-column: span 2;
+        }
+
+        .site-preview.featured .site-preview-placeholder {
+            height: 280px;
+        }
+
+        @media (max-width: 768px) {
+            .site-previews {
+                grid-template-columns: 1fr;
+            }
+            
+            .site-preview.featured {
+                grid-column: span 1;
+            }
+        }
+
+        /* === PHILOSOPHY === */
+        .philosophy-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+
+        .philosophy-card {
+            background: var(--dark-2);
+            border-radius: 20px;
+            padding: 40px;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: all 0.3s ease;
+        }
+
+        .philosophy-card:hover {
+            border-color: rgba(210, 45, 45, 0.3);
+            transform: translateY(-4px);
+        }
+
+        .philosophy-icon {
+            font-size: 40px;
+            margin-bottom: 24px;
+        }
+
+        .philosophy-card h3 {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .philosophy-card p {
+            color: var(--gray);
+            font-size: 15px;
+            line-height: 1.7;
+        }
+
+        /* === SHIP LOG === */
+        .ship-log {
+            position: relative;
+        }
+
+        .ship-log::before {
+            content: '';
+            position: absolute;
+            left: 8px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, var(--accent), transparent);
+        }
+
+        .ship-item {
+            display: flex;
+            gap: 32px;
+            margin-bottom: 48px;
+            position: relative;
+        }
+
+        .ship-dot {
+            width: 18px;
+            height: 18px;
+            background: var(--dark);
+            border: 3px solid var(--accent);
+            border-radius: 50%;
+            flex-shrink: 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .ship-item:first-child .ship-dot {
+            background: var(--accent);
+            box-shadow: 0 0 20px rgba(210, 45, 45, 0.5);
+        }
+
+        .ship-content {
+            flex: 1;
+            padding-bottom: 32px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .ship-item:last-child .ship-content {
+            border-bottom: none;
+        }
+
+        .ship-date {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            color: var(--accent);
+            margin-bottom: 8px;
+        }
+
+        .ship-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .ship-company {
+            color: var(--gray);
+            font-size: 14px;
+            margin-bottom: 12px;
+        }
+
+        .ship-description {
+            color: var(--gray);
+            font-size: 15px;
+            line-height: 1.7;
+        }
+
+        .ship-impact {
+            display: inline-block;
+            background: rgba(210, 45, 45, 0.1);
+            color: var(--accent);
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            margin-top: 12px;
+        }
+
+        /* === CONTACT === */
+        #contact {
+            text-align: center;
+            padding-bottom: 160px;
+        }
+
+        #contact .section-subtitle {
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .contact-options {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            flex-wrap: wrap;
+        }
+
+        .contact-card {
+            background: var(--dark-2);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 32px 48px;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            min-width: 200px;
+        }
+
+        .contact-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-4px);
+            box-shadow: 0 20px 60px rgba(210, 45, 45, 0.15);
+        }
+
+        .contact-icon {
+            font-size: 32px;
+        }
+
+        .contact-label {
+            font-size: 14px;
+            color: var(--gray);
+        }
+
+        .contact-value {
+            font-weight: 600;
+        }
+
+        /* === FOOTER === */
+        footer {
+            text-align: center;
+            padding: 40px;
+            color: var(--gray);
+            font-size: 14px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+        /* === SCROLL ANIMATIONS === */
+        .fade-in {
+                opacity: 0;
+                transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            }
+
+        .fade-in.visible {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+        /* === RESPONSIVE === */
+        @media (max-width: 1024px) {
+            .case-study-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .case-study-content {
+                grid-template-columns: 1fr;
+            }
+
+            .philosophy-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            nav {
+                padding: 16px 20px;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .hero {
+                padding: 100px 20px 60px;
+            }
+
+            .hero-stats {
+                flex-wrap: wrap;
+                gap: 32px;
+            }
+
+            .hero-cta {
+                flex-direction: column;
+            }
+
+            section {
+                padding: 80px 20px;
+            }
+
+            #case-study {
+                margin: 0 20px;
+                border-radius: 24px;
+            }
+
+            .case-study-header {
+                flex-direction: column;
+            }
+
+            .ship-item {
+                gap: 20px;
+            }
+        }
+    </style>
 </head>
 <body>
+    <!-- Navigation -->
+    <nav>
+        <div class="logo">swann le vigouroux<span>.</span></div>
+        <div class="nav-links">
+            <a href="#case-study">Case Study</a>
+            <a href="#journey">Journey</a>
+            </div>
+        <a href="mailto:le.vigouroux.swann@gmail.com" class="nav-cta">Let's Talk</a>
+    </nav>
 
-<!-- Tagline en haut, avant la fenêtre IDE -->
-<div class="tagline">// Transforming ideas into code, code into impact.</div>
-
-<div class="ide">
-  <div class="top-bar">
-    <div class="buttons">
-      <div class="button close"></div>
-      <div class="button minimize"></div>
-      <div class="button maximize"></div>
+    <!-- Hero -->
+    <div class="hero-wrapper">
+        <canvas id="hero-canvas"></canvas>
+    <section class="hero">
+        <div class="hero-content">
+                <div class="hero-label">
+                    <span class="dot"></span>
+                    CTO · VP Engineering · Engineering Manager
+            </div>
+                <h1>Code. Product.<br><span class="highlight">People.</span></h1>
+                <p class="hero-subtitle">
+                    Hands-on engineering leader with 10 years scaling teams and 16+ years shipping products. I write code, shape product vision, and grow the humans who build it all.
+                </p>
+                <div class="hero-stats">
+                    <div class="stat">
+                        <div class="stat-value">10<span>y</span></div>
+                        <div class="stat-label">Leadership</div>
+        </div>
+                    <div class="stat">
+                        <div class="stat-value">8→15<span>+</span></div>
+                        <div class="stat-label">Team Scaled</div>
+        </div>
+                    <div class="stat">
+                        <div class="stat-value">85<span>%</span></div>
+                        <div class="stat-label">AI Impact</div>
+            </div>
+            </div>
+                <div class="hero-cta">
+                    <a href="mailto:le.vigouroux.swann@gmail.com" class="btn btn-primary">Get in Touch</a>
+                    <a href="#case-study" class="btn btn-secondary">See My Work</a>
+            </div>
+        </div>
+    </section>
     </div>
-    <div class="title">swann_cto.js</div>
-  </div>
 
-  <pre><code>
-<span class="comment">// Swann Le Vigouroux - CTO @ Comet</span>
-<span class="keyword">const</span> swann = {
-  <span class="variable">role</span>: <span class="string">"CTO @ Comet"</span>,
-  <span class="variable">strengths</span>: [
-    <span class="string">"Management"</span>,
-    <span class="string">"Innovation"</span>,
-    <span class="string">"Structure & Cohesion"</span>,
-    <span class="string">"Alignment"</span>,
-    <span class="string">"Creativity"</span>,
-  ],
-  <span class="variable">mission</span>: <span class="string">"Transform challenges into durable innovation and align teams, product, and tech vision."</span>
-};
+    <!-- Case Study -->
+    <section id="case-study" class="fade-in">
+        <div class="case-study-header">
+            <div>
+                <div class="section-label">Case Study</div>
+                <h2 class="section-title">Nova AI Platform</h2>
+                <p class="section-subtitle" style="margin-bottom: 0;">
+                    How I led the development of a GenAI matching engine that transformed our core business.
+                </p>
+            </div>
+            <div class="case-study-meta">
+                <div class="meta-item">
+                    <span class="meta-label">Company</span>
+                    <span class="meta-value">Comet</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Role</span>
+                    <span class="meta-value">CTO</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Year</span>
+                    <span class="meta-value">2025</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Live</span>
+                    <span class="meta-value">
+                        <a href="https://www.comet.co/" target="_blank" style="color: var(--accent);">comet.co</a> · 
+                        <a href="https://app.comet.co/" target="_blank" style="color: var(--accent);">app</a>
+                    </span>
+                </div>
+            </div>
+            </div>
 
-<span class="comment">// Experience</span>
-<span class="keyword">class</span> Experience {
-  <span class="keyword">constructor</span>() {
-    <span class="variable">this.jobs</span> = [
-      { role: <span class="string">"CTO"</span>, company: <span class="string">"Comet"</span>, period: <span class="string">"Feb 2025 - Present"</span> },
-      { role: <span class="string">"Engineering Manager"</span>, company: <span class="string">"Comet"</span>, period: <span class="string">"Feb 2022 - Jan 2025"</span> },
-      { role: <span class="string">"Team Lead / Fullstack Dev"</span>, company: <span class="string">"Comet"</span>, period: <span class="string">"Sep 2020 - Feb 2022"</span> },
-      { role: <span class="string">"Lead Developer"</span>, company: <span class="string">"CMA CGM"</span>, period: <span class="string">"Feb 2017 - Oct 2018"</span> },
-      { role: <span class="string">"Creative Technologist / Lead Web Dev"</span>, company: <span class="string">"UNION Advertising"</span>, period: <span class="string">"2012 - 2015"</span> },
-      { role: <span class="string">"Software Engineer"</span>, company: <span class="string">"Anyware Video"</span>, period: <span class="string">"2009 - 2012"</span> }
-    ];
-  }
-}
+        <div class="case-study-grid">
+            <div class="metric-card">
+                <div class="metric-before-after">
+                    <span class="metric-before">78 min</span>
+                    <span class="metric-arrow">→</span>
+                    <span class="metric-after">12 min</span>
+                </div>
+                <div class="metric-label">Portfolio creation time</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-before-after">
+                    <span class="metric-before">1 hour</span>
+                    <span class="metric-arrow">→</span>
+                    <span class="metric-after">5 min</span>
+                </div>
+                <div class="metric-label">Candidate matching</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-before-after">
+                    <span class="metric-before">Legacy</span>
+                    <span class="metric-arrow">→</span>
+                    <span class="metric-after">-90%</span>
+                </div>
+                <div class="metric-label">Infrastructure cost (projected)</div>
+            </div>
+        </div>
 
-<span class="comment">// Skills</span>
-<span class="keyword">const</span> skills = [<span class="string">"Management"</span>, <span class="string">"Innovation"</span>, <span class="string">"Structure & Cohesion"</span>, <span class="string">"Alignment"</span>, <span class="string">"Creativity"</span>, <span class="string">"High Energy"</span>, <span class="string">"TypeScript / Node.js / React"</span>, <span class="string">"AWS / IA Generative"</span>, <span class="string">"Agile / Scrum"</span>];
+        <div class="case-study-content">
+            <div class="challenge">
+                <h4>The Challenge</h4>
+                <p>
+                    Our team was spending 78 minutes per portfolio—manually extracting skills, formatting documents, and matching candidates. This wasn't scalable. We needed to 10x our throughput without 10x the headcount.
+                </p>
+            </div>
+            <div class="solution">
+                <h4>The Solution</h4>
+                <p>
+                    Built a proprietary GenAI matching engine using extreme data compression techniques. Led the team through rapid prototyping cycles—shipping to production weekly and iterating based on real user data.
+                </p>
+                <div class="tech-used">
+                    <span class="tech-tag">AWS Bedrock</span>
+                    <span class="tech-tag">TypeScript</span>
+                    <span class="tech-tag">Node.js</span>
+                    <span class="tech-tag">React</span>
+                    <span class="tech-tag">Terraform</span>
+        </div>
+                </div>
+                    </div>
+                    
+        <!-- Site Previews -->
+        <div class="site-previews">
+            <a href="https://www.comet.co/" target="_blank" class="site-preview featured">
+                <div class="site-preview-placeholder">
+                    <div class="mock-content">
+                        <div class="mock-logo">⚡ COMET</div>
+                        <div class="mock-tagline">SaaS Platform · Nova AI Engine · Freelance Matching</div>
+                        <div style="margin-top: 16px; display: flex; gap: 8px; justify-content: center; flex-wrap: wrap;">
+                            <span class="tech-tag" style="font-size: 11px;">French Tech 120</span>
+                            <span class="tech-tag" style="font-size: 11px;">15 000+ freelances</span>
+                            <span class="tech-tag" style="font-size: 11px;">60+ clients</span>
+                            <span class="tech-tag" style="font-size: 11px;">GenAI Matching</span>
+                    </div>
+                </div>
+            </div>
+                <div class="site-preview-info">
+                    <div class="site-preview-title">
+                        Comet — SaaS Platform & Nova AI
+                        <span class="external-icon">↗</span>
+                </div>
+                    <div class="site-preview-url">comet.co</div>
+                    </div>
+            </a>
 
-skills.forEach(<span class="function">console.log</span>);
+            <a href="https://www.shoppersdrugmart.ca/" target="_blank" class="site-preview featured">
+                <div class="site-preview-placeholder">
+                    <div class="mock-content">
+                        <div class="mock-logo" style="font-size: 20px; color: #e31837;">💊 SHOPPERS</div>
+                        <div class="mock-tagline">Canada's leading pharmacy</div>
+                    </div>
+                </div>
+                <div class="site-preview-info">
+                    <div class="site-preview-title">
+                        Shoppers Drug Mart — E-commerce
+                        <span class="external-icon">↗</span>
+            </div>
+                    <div class="site-preview-url">shoppersdrugmart.ca</div>
+                </div>
+            </a>
 
-<span class="comment">// Education</span>
-<span class="keyword">const</span> education = { degree: <span class="string">"Master Informatique"</span>, school: <span class="string">"Aix-Marseille Université"</span>, period: <span class="string">"2007 - 2009"</span> };
+            <a href="https://www.cma-cgm.com/" target="_blank" class="site-preview featured">
+                <div class="site-preview-placeholder">
+                    <div class="mock-content">
+                        <div class="mock-logo" style="font-size: 20px;">🚢 CMA CGM</div>
+                        <div class="mock-tagline">Global shipping & logistics leader</div>
+                        <div style="margin-top: 12px; display: flex; gap: 8px; justify-content: center;">
+                            <span class="tech-tag" style="font-size: 11px;">Vue.js Pioneer</span>
+                            <span class="tech-tag" style="font-size: 11px;">Booking Platform</span>
+                    </div>
+                    </div>
+                </div>
+                <div class="site-preview-info">
+                    <div class="site-preview-title">
+                        CMA CGM — Global Booking Platform
+                        <span class="external-icon">↗</span>
+            </div>
+                    <div class="site-preview-url">cma-cgm.com</div>
+        </div>
+            </a>
+        </div>
+    </section>
 
-<span class="comment">// Languages</span>
-<span class="keyword">const</span> languages = [<span class="string">"French - Native"</span>, <span class="string">"English - Full Professional"</span>];
+    <!-- Ship Log -->
+    <section id="journey" class="fade-in">
+        <div class="section-label">Ship Log</div>
+        <h2 class="section-title">What I've Built</h2>
+        <p class="section-subtitle">
+            A timeline of teams scaled and products shipped.
+        </p>
 
-  </code></pre>
-</div>
+        <div class="ship-log">
+            <div class="ship-item">
+                <div class="ship-dot"></div>
+                <div class="ship-content">
+                    <div class="ship-date">Jan 2025 — Present</div>
+                    <div class="ship-title">Chief Technology Officer (Hands-on)</div>
+                    <div class="ship-company">Comet · Paris / Remote · <a href="https://www.comet.co/" target="_blank" style="color: var(--accent);">comet.co</a> · <a href="https://app.comet.co/" target="_blank" style="color: var(--accent);">app</a></div>
+                    <p class="ship-description">
+                        Leading 10 engineers (8 devs, 1 data engineer, 1 QA). Shipped Nova AI platform, driving 85% reduction in portfolio creation time. Implementing strategic legacy-to-SaaS migration.
+                    </p>
+                    <span class="ship-impact">10 engineers · AI Platform · -85% time</span>
+                    </div>
+                </div>
 
-<footer>
-  <span class="comment">// Swann Le Vigouroux - CTO @ Comet</span>
-</footer>
+            <div class="ship-item">
+                <div class="ship-dot"></div>
+                <div class="ship-content">
+                    <div class="ship-date">Feb 2022 — Jan 2025</div>
+                    <div class="ship-title">Engineering Manager (Hands-on)</div>
+                    <div class="ship-company">Comet</div>
+                    <p class="ship-description">
+                        Scaled engineering from 8 to 15+ engineers across cross-functional squads. Built predictable delivery pipeline, implemented Notion↔GitLab sync for product autonomy.
+                    </p>
+                    <span class="ship-impact">8→15+ engineers · Process Excellence</span>
+                    </div>
+                </div>
 
-<script>
-const sections = document.querySelectorAll('pre');
-const observer = new IntersectionObserver(entries=>{
-  entries.forEach(entry=>{
-    if(entry.isIntersecting){ entry.target.style.opacity='1'; entry.target.style.transform='translateY(0)'; }
-  });
-}, {threshold:0.1});
-sections.forEach(sec => observer.observe(sec));
-</script>
+            <div class="ship-item">
+                <div class="ship-dot"></div>
+                <div class="ship-content">
+                    <div class="ship-date">Nov 2018 — Feb 2022</div>
+                    <div class="ship-title">Team Lead & Fullstack Developer</div>
+                    <div class="ship-company">Comet</div>
+                    <p class="ship-description">
+                        Led team of 5 engineers. Drove agile transformation across the company. Led complete platform rebuild: TypeScript, Node.js, React, AWS Serverless.
+                    </p>
+                    <span class="ship-impact">5 engineers · Agile Transformation</span>
+                    </div>
+                </div>
 
+            <div class="ship-item">
+                <div class="ship-dot"></div>
+                <div class="ship-content">
+                    <div class="ship-date">Feb 2016 — Oct 2018</div>
+                    <div class="ship-title">Lead Developer</div>
+                    <div class="ship-company">CMA CGM · Marseille</div>
+                    <p class="ship-description">
+                        Led team of 5 developers. Pioneered Vue.js and Git adoption in traditional corporate environment. Core developer on global booking platform.
+                    </p>
+                    <span class="ship-impact">5 developers · Vue.js Pioneer</span>
+                </div>
+            </div>
+
+            <div class="ship-item">
+                <div class="ship-dot"></div>
+                <div class="ship-content">
+                    <div class="ship-date">2012 — 2016</div>
+                    <div class="ship-title">Creative Technologist & Lead Developer</div>
+                    <div class="ship-company">UNION Advertising + Freelance · Toronto 🇨🇦</div>
+                    <p class="ship-description">
+                        Built interactive brand experiences (WebGL, Three.js, Arduino). Led team of 3 on <a href="https://www.shoppersdrugmart.ca/" target="_blank" style="color: var(--accent);">shoppersdrugmart.ca</a>. Developed mobile apps and social platforms as freelancer.
+                    </p>
+                    <span class="ship-impact">4 years Toronto · 3 developers</span>
+                </div>
+            </div>
+
+            <div class="ship-item">
+                <div class="ship-dot"></div>
+                <div class="ship-content">
+                    <div class="ship-date">Oct 2009 — Jul 2012</div>
+                    <div class="ship-title">Software Engineer</div>
+                    <div class="ship-company">Anyware Video · Marseille</div>
+                    <p class="ship-description">
+                        Real-time broadcast development in C++ and .Net. Client deployments for TF1, AB Productions, LCP, and Gameone. Built low-latency broadcast technology.
+                    </p>
+                    <span class="ship-impact">C++ · Broadcast · TF1</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" class="fade-in">
+        <div class="section-label">Let's Connect</div>
+        <h2 class="section-title">Ready to Build Together?</h2>
+        <p class="section-subtitle">
+            Whether you're scaling a team, shipping a product, or just want to chat about engineering leadership—I'd love to hear from you.
+        </p>
+
+        <div class="contact-options">
+            <a href="mailto:le.vigouroux.swann@gmail.com" class="contact-card">
+                <div class="contact-icon">✉️</div>
+                <div class="contact-label">Email</div>
+                <div class="contact-value">Let's Talk</div>
+            </a>
+            <a href="https://linkedin.com/in/swannlv" target="_blank" class="contact-card">
+                <div class="contact-icon">💼</div>
+                <div class="contact-label">LinkedIn</div>
+                <div class="contact-value">/in/swannlv</div>
+            </a>
+            <a href="https://github.com/swannlv" target="_blank" class="contact-card">
+                <div class="contact-icon">⌨️</div>
+                <div class="contact-label">GitHub</div>
+                <div class="contact-value">swannlv</div>
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2025 Swann Le Vigouroux · Aix-en-Provence / Remote</p>
+        <p style="margin-top: 8px; font-size: 13px;">
+            French (Native) · English (Fluent — 3 years Toronto) · PSM I Certified
+        </p>
+    </footer>
+
+    <script>
+        // === THREE.JS HERO ANIMATION ===
+        (function() {
+            const canvas = document.getElementById('hero-canvas');
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+            
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            renderer.setClearColor(0x000000, 0);
+
+            // Mouse tracking
+            const mouse = { x: 0, y: 0 };
+            const targetMouse = { x: 0, y: 0 };
+
+            // Create floating geometric shapes
+            const shapes = [];
+            const shapeCount = 15;
+            
+            const geometries = [
+                new THREE.OctahedronGeometry(0.5),
+                new THREE.TetrahedronGeometry(0.5),
+                new THREE.IcosahedronGeometry(0.4),
+                new THREE.BoxGeometry(0.5, 0.5, 0.5),
+                new THREE.TorusGeometry(0.3, 0.1, 8, 16)
+            ];
+
+            for (let i = 0; i < shapeCount; i++) {
+                const geometry = geometries[Math.floor(Math.random() * geometries.length)];
+                const material = new THREE.MeshPhongMaterial({
+                    color: i % 3 === 0 ? 0xd22d2d : 0x333333,
+                    wireframe: Math.random() > 0.5,
+                    transparent: true,
+                    opacity: Math.random() * 0.5 + 0.3,
+                    shininess: 100
+                });
+                
+                const mesh = new THREE.Mesh(geometry, material);
+                mesh.position.x = (Math.random() - 0.5) * 20;
+                mesh.position.y = (Math.random() - 0.5) * 15;
+                mesh.position.z = (Math.random() - 0.5) * 10 - 5;
+                mesh.rotation.x = Math.random() * Math.PI;
+                mesh.rotation.y = Math.random() * Math.PI;
+                
+                mesh.userData = {
+                    rotationSpeed: {
+                        x: (Math.random() - 0.5) * 0.02,
+                        y: (Math.random() - 0.5) * 0.02
+                    },
+                    floatSpeed: Math.random() * 0.5 + 0.5,
+                    floatOffset: Math.random() * Math.PI * 2,
+                    originalY: mesh.position.y
+                };
+                
+                shapes.push(mesh);
+                scene.add(mesh);
+            }
+
+            // Particle system
+            const particleCount = 200;
+            const particleGeometry = new THREE.BufferGeometry();
+            const positions = new Float32Array(particleCount * 3);
+            const velocities = [];
+
+            for (let i = 0; i < particleCount * 3; i += 3) {
+                positions[i] = (Math.random() - 0.5) * 30;
+                positions[i + 1] = (Math.random() - 0.5) * 20;
+                positions[i + 2] = (Math.random() - 0.5) * 15 - 5;
+                velocities.push({
+                    x: (Math.random() - 0.5) * 0.01,
+                    y: (Math.random() - 0.5) * 0.01,
+                    z: (Math.random() - 0.5) * 0.01
+                });
+            }
+
+            particleGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+            
+            const particleMaterial = new THREE.PointsMaterial({
+                color: 0xd22d2d,
+                size: 0.05,
+                transparent: true,
+                opacity: 0.6,
+                blending: THREE.AdditiveBlending
+            });
+            
+            const particles = new THREE.Points(particleGeometry, particleMaterial);
+            scene.add(particles);
+
+            // Lights
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.3);
+            scene.add(ambientLight);
+
+            const pointLight1 = new THREE.PointLight(0xd22d2d, 1, 50);
+            pointLight1.position.set(10, 10, 10);
+            scene.add(pointLight1);
+
+            const pointLight2 = new THREE.PointLight(0x4a9eff, 0.5, 50);
+            pointLight2.position.set(-10, -10, 5);
+            scene.add(pointLight2);
+
+            camera.position.z = 8;
+
+            // Mouse move handler
+            document.addEventListener('mousemove', (e) => {
+                targetMouse.x = (e.clientX / window.innerWidth) * 2 - 1;
+                targetMouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
+            });
+
+            // Animation loop
+            let time = 0;
+            function animate() {
+                requestAnimationFrame(animate);
+                time += 0.01;
+
+                // Smooth mouse following
+                mouse.x += (targetMouse.x - mouse.x) * 0.05;
+                mouse.y += (targetMouse.y - mouse.y) * 0.05;
+
+                // Animate shapes
+                shapes.forEach((shape, i) => {
+                    shape.rotation.x += shape.userData.rotationSpeed.x;
+                    shape.rotation.y += shape.userData.rotationSpeed.y;
+                    
+                    // Float animation
+                    shape.position.y = shape.userData.originalY + 
+                        Math.sin(time * shape.userData.floatSpeed + shape.userData.floatOffset) * 0.5;
+                    
+                    // React to mouse
+                    shape.position.x += mouse.x * 0.02;
+                    shape.position.y += mouse.y * 0.02;
+                });
+
+                // Animate particles
+                const positions = particles.geometry.attributes.position.array;
+                for (let i = 0; i < particleCount * 3; i += 3) {
+                    const idx = i / 3;
+                    positions[i] += velocities[idx].x + mouse.x * 0.005;
+                    positions[i + 1] += velocities[idx].y + mouse.y * 0.005;
+                    positions[i + 2] += velocities[idx].z;
+
+                    // Wrap around
+                    if (positions[i] > 15) positions[i] = -15;
+                    if (positions[i] < -15) positions[i] = 15;
+                    if (positions[i + 1] > 10) positions[i + 1] = -10;
+                    if (positions[i + 1] < -10) positions[i + 1] = 10;
+                }
+                particles.geometry.attributes.position.needsUpdate = true;
+
+                // Rotate entire scene slightly based on mouse
+                scene.rotation.y = mouse.x * 0.1;
+                scene.rotation.x = mouse.y * 0.05;
+
+                renderer.render(scene, camera);
+            }
+
+            animate();
+
+            // Resize handler
+            window.addEventListener('resize', () => {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            });
+        })();
+
+        // === SCROLL ANIMATIONS ===
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Smooth scroll for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+    </script>
 </body>
 </html>
