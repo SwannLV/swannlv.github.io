@@ -129,20 +129,62 @@
             margin: 0 auto;
         }
 
+        .hero-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 60px;
+            width: 100%;
+        }
+
         .hero-content {
-            max-width: 800px;
+            max-width: 700px;
+            flex: 1;
+        }
+
+        .hero-photo-container {
+            flex-shrink: 0;
+        }
+
+        .hero-photo {
+            width: 280px;
+            height: 280px;
+            border-radius: 20px;
+            object-fit: cover;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+        }
+
+        @media (max-width: 900px) {
+            .hero-inner {
+                flex-direction: column-reverse;
+                text-align: center;
+            }
+
+            .hero-photo {
+                width: 180px;
+                height: 180px;
+            }
+
+            .hero-cta {
+                justify-content: center;
+            }
+
+            .hero-stats {
+                justify-content: center;
+            }
         }
 
         .hero-label {
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            background: rgba(210, 45, 45, 0.1);
-            border: 1px solid rgba(210, 45, 45, 0.3);
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.15);
             padding: 8px 16px;
             border-radius: 100px;
             font-size: 14px;
-            color: var(--accent);
+            color: var(--light);
             margin-bottom: 24px;
         }
 
@@ -791,8 +833,8 @@
     <nav>
         <div class="logo">swann le vigouroux<span>.</span></div>
         <div class="nav-links">
-            <a href="#case-study">Case Study</a>
             <a href="#journey">Journey</a>
+            <a href="#case-study">Case Study</a>
             </div>
         <a href="mailto:le.vigouroux.swann@gmail.com" class="nav-cta">Let's Talk</a>
     </nav>
@@ -801,6 +843,7 @@
     <div class="hero-wrapper">
         <canvas id="hero-canvas"></canvas>
     <section class="hero">
+        <div class="hero-inner">
         <div class="hero-content">
                 <div class="hero-label">
                     <span class="dot"></span>
@@ -816,7 +859,7 @@
                         <div class="stat-label">Leadership</div>
         </div>
                     <div class="stat">
-                        <div class="stat-value">8→15<span>+</span></div>
+                        <div class="stat-value">8→15</div>
                         <div class="stat-label">Team Scaled</div>
         </div>
                     <div class="stat">
@@ -827,154 +870,15 @@
                 <div class="hero-cta">
                     <a href="mailto:le.vigouroux.swann@gmail.com" class="btn btn-primary">Get in Touch</a>
                     <a href="#case-study" class="btn btn-secondary">See My Work</a>
+                    <a href="https://swannlv.github.io/swann-le-vigouroux.pdf" target="_blank" class="btn btn-secondary">📄 Resume (PDF)</a>
+            </div>
+        </div>
+        <div class="hero-photo-container">
+            <img src="https://swannlv.github.io/profil.jpg" alt="Swann Le Vigouroux" class="hero-photo">
             </div>
         </div>
     </section>
     </div>
-
-    <!-- Case Study -->
-    <section id="case-study" class="fade-in">
-        <div class="case-study-header">
-            <div>
-                <div class="section-label">Case Study</div>
-                <h2 class="section-title">Nova AI Platform</h2>
-                <p class="section-subtitle" style="margin-bottom: 0;">
-                    How I led the development of a GenAI matching engine that transformed our core business.
-                </p>
-            </div>
-            <div class="case-study-meta">
-                <div class="meta-item">
-                    <span class="meta-label">Company</span>
-                    <span class="meta-value">Comet</span>
-                </div>
-                <div class="meta-item">
-                    <span class="meta-label">Role</span>
-                    <span class="meta-value">CTO</span>
-                </div>
-                <div class="meta-item">
-                    <span class="meta-label">Year</span>
-                    <span class="meta-value">2025</span>
-                </div>
-                <div class="meta-item">
-                    <span class="meta-label">Live</span>
-                    <span class="meta-value">
-                        <a href="https://www.comet.co/" target="_blank" style="color: var(--accent);">comet.co</a> · 
-                        <a href="https://app.comet.co/" target="_blank" style="color: var(--accent);">app</a>
-                    </span>
-                </div>
-            </div>
-            </div>
-
-        <div class="case-study-grid">
-            <div class="metric-card">
-                <div class="metric-before-after">
-                    <span class="metric-before">78 min</span>
-                    <span class="metric-arrow">→</span>
-                    <span class="metric-after">12 min</span>
-                </div>
-                <div class="metric-label">Portfolio creation time</div>
-            </div>
-            <div class="metric-card">
-                <div class="metric-before-after">
-                    <span class="metric-before">1 hour</span>
-                    <span class="metric-arrow">→</span>
-                    <span class="metric-after">5 min</span>
-                </div>
-                <div class="metric-label">Candidate matching</div>
-            </div>
-            <div class="metric-card">
-                <div class="metric-before-after">
-                    <span class="metric-before">Legacy</span>
-                    <span class="metric-arrow">→</span>
-                    <span class="metric-after">-90%</span>
-                </div>
-                <div class="metric-label">Infrastructure cost (projected)</div>
-            </div>
-        </div>
-
-        <div class="case-study-content">
-            <div class="challenge">
-                <h4>The Challenge</h4>
-                <p>
-                    Our team was spending 78 minutes per portfolio—manually extracting skills, formatting documents, and matching candidates. This wasn't scalable. We needed to 10x our throughput without 10x the headcount.
-                </p>
-            </div>
-            <div class="solution">
-                <h4>The Solution</h4>
-                <p>
-                    Built a proprietary GenAI matching engine using extreme data compression techniques. Led the team through rapid prototyping cycles—shipping to production weekly and iterating based on real user data.
-                </p>
-                <div class="tech-used">
-                    <span class="tech-tag">AWS Bedrock</span>
-                    <span class="tech-tag">TypeScript</span>
-                    <span class="tech-tag">Node.js</span>
-                    <span class="tech-tag">React</span>
-                    <span class="tech-tag">Terraform</span>
-        </div>
-                </div>
-                    </div>
-                    
-        <!-- Site Previews -->
-        <div class="site-previews">
-            <a href="https://www.comet.co/" target="_blank" class="site-preview featured">
-                <div class="site-preview-placeholder">
-                    <div class="mock-content">
-                        <div class="mock-logo">⚡ COMET</div>
-                        <div class="mock-tagline">SaaS Platform · Nova AI Engine · Freelance Matching</div>
-                        <div style="margin-top: 16px; display: flex; gap: 8px; justify-content: center; flex-wrap: wrap;">
-                            <span class="tech-tag" style="font-size: 11px;">French Tech 120</span>
-                            <span class="tech-tag" style="font-size: 11px;">15 000+ freelances</span>
-                            <span class="tech-tag" style="font-size: 11px;">60+ clients</span>
-                            <span class="tech-tag" style="font-size: 11px;">GenAI Matching</span>
-                    </div>
-                </div>
-            </div>
-                <div class="site-preview-info">
-                    <div class="site-preview-title">
-                        Comet — SaaS Platform & Nova AI
-                        <span class="external-icon">↗</span>
-                </div>
-                    <div class="site-preview-url">comet.co</div>
-                    </div>
-            </a>
-
-            <a href="https://www.shoppersdrugmart.ca/" target="_blank" class="site-preview featured">
-                <div class="site-preview-placeholder">
-                    <div class="mock-content">
-                        <div class="mock-logo" style="font-size: 20px; color: #e31837;">💊 SHOPPERS</div>
-                        <div class="mock-tagline">Canada's leading pharmacy</div>
-                    </div>
-                </div>
-                <div class="site-preview-info">
-                    <div class="site-preview-title">
-                        Shoppers Drug Mart — E-commerce
-                        <span class="external-icon">↗</span>
-            </div>
-                    <div class="site-preview-url">shoppersdrugmart.ca</div>
-                </div>
-            </a>
-
-            <a href="https://www.cma-cgm.com/" target="_blank" class="site-preview featured">
-                <div class="site-preview-placeholder">
-                    <div class="mock-content">
-                        <div class="mock-logo" style="font-size: 20px;">🚢 CMA CGM</div>
-                        <div class="mock-tagline">Global shipping & logistics leader</div>
-                        <div style="margin-top: 12px; display: flex; gap: 8px; justify-content: center;">
-                            <span class="tech-tag" style="font-size: 11px;">Vue.js Pioneer</span>
-                            <span class="tech-tag" style="font-size: 11px;">Booking Platform</span>
-                    </div>
-                    </div>
-                </div>
-                <div class="site-preview-info">
-                    <div class="site-preview-title">
-                        CMA CGM — Global Booking Platform
-                        <span class="external-icon">↗</span>
-            </div>
-                    <div class="site-preview-url">cma-cgm.com</div>
-        </div>
-            </a>
-        </div>
-    </section>
 
     <!-- Ship Log -->
     <section id="journey" class="fade-in">
@@ -992,12 +896,12 @@
                     <div class="ship-title">Chief Technology Officer (Hands-on)</div>
                     <div class="ship-company">Comet · Paris / Remote · <a href="https://www.comet.co/" target="_blank" style="color: var(--accent);">comet.co</a> · <a href="https://app.comet.co/" target="_blank" style="color: var(--accent);">app</a></div>
                     <p class="ship-description">
-                        Leading 10 engineers (8 devs, 1 data engineer, 1 QA). Shipped Nova AI platform, driving 85% reduction in portfolio creation time. Implementing strategic legacy-to-SaaS migration.
+                        Leading 9 engineers (7 devs, 1 data engineer, 1 QA). Shipped Nova AI platform, driving 85% reduction in portfolio creation time. Implementing strategic legacy-to-SaaS migration.
                     </p>
-                    <span class="ship-impact">10 engineers · AI Platform · -85% time</span>
-                    </div>
+                    <span class="ship-impact">9 engineers · AI Platform · -85% time</span>
+            </div>
                 </div>
-
+                
             <div class="ship-item">
                 <div class="ship-dot"></div>
                 <div class="ship-content">
@@ -1005,12 +909,12 @@
                     <div class="ship-title">Engineering Manager (Hands-on)</div>
                     <div class="ship-company">Comet</div>
                     <p class="ship-description">
-                        Scaled engineering from 8 to 15+ engineers across cross-functional squads. Built predictable delivery pipeline, implemented Notion↔GitLab sync for product autonomy.
+                        Scaled engineering from 8 to 15 engineers across cross-functional squads. Built predictable delivery pipeline, implemented Notion↔GitLab sync for product autonomy.
                     </p>
-                    <span class="ship-impact">8→15+ engineers · Process Excellence</span>
-                    </div>
+                    <span class="ship-impact">8→15 engineers · Process Excellence</span>
                 </div>
-
+                </div>
+                
             <div class="ship-item">
                 <div class="ship-dot"></div>
                 <div class="ship-content">
@@ -1021,8 +925,8 @@
                         Led team of 5 engineers. Drove agile transformation across the company. Led complete platform rebuild: TypeScript, Node.js, React, AWS Serverless.
                     </p>
                     <span class="ship-impact">5 engineers · Agile Transformation</span>
-                    </div>
                 </div>
+            </div>
 
             <div class="ship-item">
                 <div class="ship-dot"></div>
@@ -1034,8 +938,8 @@
                         Led team of 5 developers. Pioneered Vue.js and Git adoption in traditional corporate environment. Core developer on global booking platform.
                     </p>
                     <span class="ship-impact">5 developers · Vue.js Pioneer</span>
-                </div>
             </div>
+        </div>
 
             <div class="ship-item">
                 <div class="ship-dot"></div>
@@ -1065,6 +969,150 @@
         </div>
     </section>
 
+    <!-- Case Study -->
+    <section id="case-study" class="fade-in">
+        <div class="case-study-header">
+            <div>
+                <div class="section-label">Case Study</div>
+                <h2 class="section-title">Nova AI Platform</h2>
+                <p class="section-subtitle" style="margin-bottom: 0;">
+                    How I led the development of a GenAI matching engine that transformed our core business.
+            </p>
+        </div>
+            <div class="case-study-meta">
+                <div class="meta-item">
+                    <span class="meta-label">Company</span>
+                    <span class="meta-value">Comet</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Role</span>
+                    <span class="meta-value">CTO</span>
+                    </div>
+                <div class="meta-item">
+                    <span class="meta-label">Year</span>
+                    <span class="meta-value">2025</span>
+                    </div>
+                <div class="meta-item">
+                    <span class="meta-label">Live</span>
+                    <span class="meta-value">
+                        <a href="https://www.comet.co/" target="_blank" style="color: var(--accent);">comet.co</a> · 
+                        <a href="https://app.comet.co/" target="_blank" style="color: var(--accent);">app</a>
+                    </span>
+                </div>
+            </div>
+                </div>
+                
+        <div class="case-study-grid">
+            <div class="metric-card">
+                <div class="metric-before-after">
+                    <span class="metric-before">78 min</span>
+                    <span class="metric-arrow">→</span>
+                    <span class="metric-after">12 min</span>
+                    </div>
+                <div class="metric-label">Portfolio creation time</div>
+                    </div>
+            <div class="metric-card">
+                <div class="metric-before-after">
+                    <span class="metric-before">1 hour</span>
+                    <span class="metric-arrow">→</span>
+                    <span class="metric-after">5 min</span>
+                </div>
+                <div class="metric-label">Candidate matching</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-before-after">
+                    <span class="metric-before">Legacy</span>
+                    <span class="metric-arrow">→</span>
+                    <span class="metric-after">-90%</span>
+                </div>
+                <div class="metric-label">Infrastructure cost (projected)</div>
+            </div>
+                    </div>
+                    
+        <div class="case-study-content">
+            <div class="challenge">
+                <h4>The Challenge</h4>
+                <p>
+                    Our team was spending 78 minutes per portfolio—manually extracting skills, formatting documents, and matching candidates. This wasn't scalable. We needed to 10x our throughput without 10x the headcount.
+                </p>
+                    </div>
+            <div class="solution">
+                <h4>The Solution</h4>
+                <p>
+                    Built a proprietary GenAI matching engine using extreme data compression techniques. Led the team through rapid prototyping cycles—shipping to production weekly and iterating based on real user data.
+                </p>
+                <div class="tech-used">
+                    <span class="tech-tag">AWS Bedrock</span>
+                    <span class="tech-tag">TypeScript</span>
+                    <span class="tech-tag">Node.js</span>
+                    <span class="tech-tag">React</span>
+                    <span class="tech-tag">Terraform</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Site Previews -->
+        <div class="site-previews">
+            <a href="https://www.comet.co/" target="_blank" class="site-preview featured">
+                <div class="site-preview-placeholder">
+                    <div class="mock-content">
+                        <div class="mock-logo">⚡ COMET</div>
+                        <div class="mock-tagline">SaaS Platform · Nova AI Engine · Freelance Matching</div>
+                        <div style="margin-top: 16px; display: flex; gap: 8px; justify-content: center; flex-wrap: wrap;">
+                            <span class="tech-tag" style="font-size: 11px;">French Tech 120</span>
+                            <span class="tech-tag" style="font-size: 11px;">15 000+ freelances</span>
+                            <span class="tech-tag" style="font-size: 11px;">60+ clients</span>
+                            <span class="tech-tag" style="font-size: 11px;">GenAI Matching</span>
+                    </div>
+                </div>
+                    </div>
+                <div class="site-preview-info">
+                    <div class="site-preview-title">
+                        Comet — SaaS Platform & Nova AI
+                        <span class="external-icon">↗</span>
+                </div>
+                    <div class="site-preview-url">comet.co</div>
+                    </div>
+            </a>
+
+            <a href="https://www.shoppersdrugmart.ca/" target="_blank" class="site-preview featured">
+                <div class="site-preview-placeholder">
+                    <div class="mock-content">
+                        <div class="mock-logo" style="font-size: 20px; color: #e31837;">💊 SHOPPERS</div>
+                        <div class="mock-tagline">Canada's leading pharmacy</div>
+                </div>
+            </div>
+                <div class="site-preview-info">
+                    <div class="site-preview-title">
+                        Shoppers Drug Mart — E-commerce
+                        <span class="external-icon">↗</span>
+        </div>
+                    <div class="site-preview-url">shoppersdrugmart.ca</div>
+                </div>
+            </a>
+
+            <a href="https://www.cma-cgm.com/" target="_blank" class="site-preview featured">
+                <div class="site-preview-placeholder">
+                    <div class="mock-content">
+                        <div class="mock-logo" style="font-size: 20px;">🚢 CMA CGM</div>
+                        <div class="mock-tagline">Global shipping & logistics leader</div>
+                        <div style="margin-top: 12px; display: flex; gap: 8px; justify-content: center;">
+                            <span class="tech-tag" style="font-size: 11px;">Vue.js Pioneer</span>
+                            <span class="tech-tag" style="font-size: 11px;">Booking Platform</span>
+                </div>
+            </div>
+                </div>
+                <div class="site-preview-info">
+                    <div class="site-preview-title">
+                        CMA CGM — Global Booking Platform
+                        <span class="external-icon">↗</span>
+            </div>
+                    <div class="site-preview-url">cma-cgm.com</div>
+        </div>
+            </a>
+        </div>
+    </section>
+
     <!-- Contact -->
     <section id="contact" class="fade-in">
         <div class="section-label">Let's Connect</div>
@@ -1089,12 +1137,12 @@
                 <div class="contact-label">GitHub</div>
                 <div class="contact-value">swannlv</div>
             </a>
-        </div>
+            </div>
     </section>
 
     <!-- Footer -->
     <footer>
-        <p>© 2025 Swann Le Vigouroux · Aix-en-Provence / Remote</p>
+        <p>© 2026 Swann Le Vigouroux · Aix-en-Provence / Remote</p>
         <p style="margin-top: 8px; font-size: 13px;">
             French (Native) · English (Fluent — 3 years Toronto) · PSM I Certified
         </p>
@@ -1285,3 +1333,4 @@
     </script>
 </body>
 </html>
+
