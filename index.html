@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Swann Le Vigouroux — CTO</title>
-    <meta name="description" content="Hands-on CTO with 10 years in engineering leadership. I scale teams and ship AI products.">
+    <meta name="description" content="Hands-on CTO with 10 years in engineering leadership and 16+ years building products. Track record of scaling tech teams (8→15 engineers) and shipping AI-powered products to production.">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <style>
@@ -184,40 +184,64 @@
             }
         }
 
-        .hero-label {
-            display: inline-flex;
-            align-items: center;
-            gap: 0;
-            margin-bottom: 24px;
+        .hero-headline {
+            font-size: clamp(32px, 5vw, 48px);
+            font-weight: 800;
+            margin-bottom: 20px;
+            line-height: 1.2;
         }
 
-        .hero-label span {
-            padding: 10px 18px;
-            font-size: 13px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            background: rgba(255, 255, 255, 0.03);
+        .hero-role {
+            color: var(--accent);
+        }
+
+        .hero-company {
             color: var(--light);
-            cursor: default;
-            pointer-events: none;
+            text-decoration: none;
+            border-bottom: 2px solid var(--accent);
+            transition: all 0.2s ease;
         }
 
-        .hero-label span:first-child {
-            border-radius: 8px 0 0 8px;
-            background: var(--accent);
-            border-color: var(--accent);
-            color: white;
+        .hero-company:hover {
+            color: var(--accent);
         }
 
-        .hero-label span:not(:first-child):not(:last-child) {
-            border-left: none;
+        .hero-badge {
+            display: inline-block;
+            background: rgba(210, 45, 45, 0.15);
+            border: 1px solid rgba(210, 45, 45, 0.4);
+            color: var(--accent);
+            font-size: 12px;
+            font-weight: 600;
+            padding: 4px 10px;
+            border-radius: 4px;
+            margin-left: 12px;
+            vertical-align: middle;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
-        .hero-label span:last-child {
-            border-radius: 0 8px 8px 0;
-            border-left: none;
+        .hero-previous {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            color: var(--gray);
+            margin-bottom: 32px;
+        }
+
+        .hero-previous a {
+            color: var(--light);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .hero-previous a:hover {
+            color: var(--accent);
+        }
+
+        .hero-previous .sep {
+            color: var(--gray-dark);
         }
 
         .hero h1 {
@@ -234,10 +258,10 @@
 
         .hero-subtitle {
             font-size: 20px;
-            color: var(--gray);
-            max-width: 600px;
-            margin-bottom: 40px;
-            line-height: 1.7;
+            color: var(--light);
+            max-width: 500px;
+            margin-bottom: 16px;
+            line-height: 1.6;
         }
 
         .hero-stats {
@@ -730,12 +754,12 @@
     <section class="hero">
         <div class="hero-inner">
         <div class="hero-content">
-                <div class="hero-label">
-                    <span>CTO</span><span>VP Engineering</span><span>Engineering Manager</span>
+                <div class="hero-headline">
+                    <span class="hero-role">CTO</span> @ <a href="https://www.comet.co/" target="_blank" class="hero-company">Comet</a>
             </div>
-                <h1>Code. Product. <span class="highlight">People.</span></h1>
                 <p class="hero-subtitle">
-                    Hands-on engineering leader with 10 years scaling teams and 16+ years shipping products. I write code, shape product vision, and grow the humans who build it all.
+                    Creative mind. Team builder. AI-powered.<br>
+                    Everything I do serves the product.
                 </p>
                 <div class="hero-stats">
                     <div class="stat">
@@ -743,19 +767,18 @@
                         <div class="stat-label">Leadership</div>
         </div>
                     <div class="stat">
-                        <div class="stat-value">8→15</div>
-                        <div class="stat-label">Team Scaled</div>
-        </div>
+                        <div class="stat-value">15</div>
+                        <div class="stat-label">Engineers</div>
+            </div>
                     <div class="stat">
-                        <div class="stat-value">85<span>%</span></div>
-                        <div class="stat-label">AI Impact</div>
+                        <div class="stat-value">16<span>y</span></div>
+                        <div class="stat-label">in tech</div>
             </div>
-            </div>
+                </div>
                 <div class="hero-cta">
                     <a href="mailto:le.vigouroux.swann@gmail.com" class="btn btn-primary">Get in Touch</a>
                     <a href="#projects" class="btn btn-secondary">See My Work</a>
-                    <a href="https://swannlv.github.io/swann-le-vigouroux.pdf" target="_blank" class="btn btn-secondary">📄 Resume (PDF)</a>
-            </div>
+                </div>
         </div>
         <div class="hero-photo-container">
             <img src="https://swannlv.github.io/profil.jpg" alt="Swann Le Vigouroux" class="hero-photo">
@@ -1018,8 +1041,8 @@
             const objects = [];
             
             // Wireframe material
-            const wireMaterialRed = new THREE.LineBasicMaterial({ color: 0xd22d2d, transparent: true, opacity: 0.6 });
-            const wireMaterialWhite = new THREE.LineBasicMaterial({ color: 0xaaaaaa, transparent: true, opacity: 0.5 });
+            const wireMaterialRed = new THREE.LineBasicMaterial({ color: 0xd22d2d, transparent: true, opacity: 0.25 });
+            const wireMaterialWhite = new THREE.LineBasicMaterial({ color: 0x666666, transparent: true, opacity: 0.15 });
             
             // Rotating cubes (edges only)
             const boxGeometry = new THREE.BoxGeometry(1.5, 1.5, 1.5);
@@ -1037,16 +1060,16 @@
             
             // Large rotating ring
             const ringGeometry = new THREE.TorusGeometry(2, 0.02, 16, 100);
-            const ringMaterial = new THREE.MeshBasicMaterial({ color: 0xd22d2d, transparent: true, opacity: 0.5 });
+            const ringMaterial = new THREE.MeshBasicMaterial({ color: 0xd22d2d, transparent: true, opacity: 0.45 });
             const ring1 = new THREE.Mesh(ringGeometry, ringMaterial);
-            ring1.position.set(3, 0, -5);
+            ring1.position.set(1.3, 0, -5);
             ring1.rotation.x = Math.PI / 3;
             scene.add(ring1);
             objects.push({ mesh: ring1, rotationSpeed: { x: 0.001, y: 0.004, z: 0 } });
             
             const ring2 = new THREE.Mesh(ringGeometry.clone(), ringMaterial.clone());
-            ring2.material.opacity = 0.3;
-            ring2.position.set(3, 0, -5);
+            ring2.material.opacity = 0.35;
+            ring2.position.set(1.3, 0, -5);
             ring2.rotation.x = -Math.PI / 4;
             ring2.scale.setScalar(1.3);
             scene.add(ring2);
@@ -1092,7 +1115,7 @@
             
             for (let i = 0; i < 20; i++) {
                 const dot = new THREE.Mesh(dotGeometry, dotMaterial.clone());
-                dot.material.opacity = 0.3 + Math.random() * 0.5;
+                dot.material.opacity = 0.1 + Math.random() * 0.2;
                 dot.material.transparent = true;
                 dot.position.set(
                     (Math.random() - 0.5) * 15,
