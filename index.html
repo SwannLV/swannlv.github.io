@@ -709,7 +709,7 @@
             <a href="#projects">Projects</a>
             <a href="#contact">Contact</a>
             </div>
-        <a href="mailto:le.vigouroux.swann@gmail.com" class="nav-cta">Let's Talk</a>
+        <a href="https://swannlv.github.io/swann-le-vigouroux.pdf" target="_blank" class="nav-cta">Resume (PDF)</a>
     </nav>
 
     <!-- Hero -->
@@ -755,9 +755,9 @@
 
     <!-- Ship Log -->
     <section id="journey" class="fade-in">
-        <div class="section-label">Ship Log</div>
-        <h2 class="section-title">What I've Built</h2>
-        <p class="section-subtitle">
+        <div class="section-label" style="text-align: center;">Ship Log</div>
+        <h2 class="section-title" style="text-align: center;">What I've Built</h2>
+        <p class="section-subtitle" style="text-align: center;">
             A timeline of teams scaled and products shipped.
         </p>
 
@@ -773,8 +773,8 @@
                     </p>
                     <span class="ship-impact">9 engineers · AI Platform · -85% time</span>
             </div>
-            </div>
-
+                </div>
+                
             <div class="ship-item">
                 <div class="ship-dot"></div>
                 <div class="ship-content">
@@ -799,8 +799,8 @@
                     </p>
                     <span class="ship-impact">5 engineers · Agile Transformation</span>
                 </div>
-                </div>
-                
+            </div>
+
             <div class="ship-item">
                 <div class="ship-dot"></div>
                 <div class="ship-content">
@@ -812,7 +812,7 @@
                     </p>
                     <span class="ship-impact">5 developers · Vue.js Pioneer</span>
             </div>
-                </div>
+        </div>
                 
             <div class="ship-item">
                 <div class="ship-dot"></div>
@@ -862,7 +862,7 @@
                 <div class="case-card-metrics">
                     <span class="case-metric"><strong>8→15</strong> engineers</span>
                     <span class="case-metric"><strong>7</strong> years</span>
-                </div>
+                    </div>
                 <div class="case-card-tags">
                     <span class="tech-tag">TypeScript</span>
                     <span class="tech-tag">Node.js</span>
@@ -878,7 +878,7 @@
                 <div class="case-card-header">
                     <span class="case-card-company">⚡ Comet</span>
                     <span class="case-card-role">CTO · 2025</span>
-                </div>
+                    </div>
                 <h3 class="case-card-title">Nova AI Platform</h3>
                 <p class="case-card-desc">GenAI matching engine — portfolio creation from 78min to 12min, candidate matching from 1h to 5min.</p>
                 <div class="case-card-metrics">
@@ -889,7 +889,7 @@
                     <span class="tech-tag">AWS Bedrock</span>
                     <span class="tech-tag">GenAI</span>
                     <span class="tech-tag">Terraform</span>
-                </div>
+            </div>
                 <div class="case-card-link">comet.co <span class="external-icon">↗</span></div>
             </a>
 
@@ -905,7 +905,7 @@
                     <span class="tech-tag">JavaScript</span>
                     <span class="tech-tag">E-commerce</span>
                     <span class="tech-tag">Performance</span>
-            </div>
+                    </div>
                 <div class="case-card-link">shoppersdrugmart.ca <span class="external-icon">↗</span></div>
             </a>
 
@@ -914,21 +914,21 @@
                 <div class="case-card-header">
                     <span class="case-card-company">🚢 CMA CGM</span>
                     <span class="case-card-role">Lead Dev · 2016-2018</span>
-                </div>
+                    </div>
                 <h3 class="case-card-title">Global Booking Platform</h3>
                 <p class="case-card-desc">Pioneered Vue.js adoption at one of the world's largest shipping companies. Built booking system serving global logistics operations.</p>
                 <div class="case-card-metrics">
                     <span class="case-metric"><strong>5</strong> devs led</span>
                     <span class="case-metric"><strong>Vue.js</strong> pioneer</span>
-            </div>
+                </div>
                 <div class="case-card-tags">
                     <span class="tech-tag">Vue.js</span>
                     <span class="tech-tag">C#.Net</span>
                     <span class="tech-tag">Logistics</span>
-                </div>
+            </div>
                 <div class="case-card-link">cma-cgm.com <span class="external-icon">↗</span></div>
             </a>
-        </div>
+                </div>
     </section>
 
     <!-- Contact -->
@@ -955,6 +955,10 @@
                 <div class="contact-label">GitHub</div>
                 <div class="contact-value">swannlv</div>
             </a>
+        </div>
+
+        <div style="text-align: center; margin-top: 40px;">
+            <a href="https://swannlv.github.io/swann-le-vigouroux.pdf" target="_blank" class="btn btn-primary">📄 Download Full Resume</a>
         </div>
     </section>
 
@@ -989,8 +993,8 @@
                 constructor() {
                     this.x = Math.random() * width;
                     this.y = Math.random() * height;
-                    this.vx = (Math.random() - 0.5) * 0.5;
-                    this.vy = (Math.random() - 0.5) * 0.5;
+                    this.vx = (Math.random() - 0.5) * 0.15;
+                    this.vy = (Math.random() - 0.5) * 0.15;
                     this.radius = Math.random() * 2 + 1;
                     this.baseRadius = this.radius;
                 }
@@ -1028,8 +1032,8 @@
                     this.vy *= 0.99;
                     
                     // Random movement
-                    this.vx += (Math.random() - 0.5) * 0.1;
-                    this.vy += (Math.random() - 0.5) * 0.1;
+                    this.vx += (Math.random() - 0.5) * 0.02;
+                    this.vy += (Math.random() - 0.5) * 0.02;
                 }
                 
                 draw() {
