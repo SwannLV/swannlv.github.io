@@ -6,6 +6,7 @@
     <title>Swann Le Vigouroux — CTO</title>
     <meta name="description" content="Hands-on CTO with 10 years in engineering leadership. I scale teams and ship AI products.">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <style>
         :root {
             --accent: #d22d2d;
@@ -119,10 +120,11 @@
             position: absolute;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
+            width: 100% !important;
+            height: 100% !important;
             z-index: 0;
             pointer-events: none;
+            display: block;
         }
 
         .hero {
@@ -185,27 +187,45 @@
         .hero-label {
             display: inline-flex;
             align-items: center;
-            gap: 8px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            padding: 8px 16px;
-            border-radius: 100px;
-            font-size: 14px;
-            color: var(--light);
+            gap: 0;
             margin-bottom: 24px;
         }
 
-        .hero-label .dot {
-            width: 8px;
-            height: 8px;
-            background: var(--accent);
-            border-radius: 50%;
-            animation: pulse 2s infinite;
+        .hero-label span {
+            padding: 10px 18px;
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.03);
+            color: var(--light);
+            transition: all 0.3s ease;
         }
 
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
+        .hero-label span:first-child {
+            border-radius: 8px 0 0 8px;
+            background: var(--accent);
+            border-color: var(--accent);
+            color: white;
+        }
+
+        .hero-label span:not(:first-child):not(:last-child) {
+            border-left: none;
+        }
+
+        .hero-label span:last-child {
+            border-radius: 0 8px 8px 0;
+            border-left: none;
+        }
+
+        .hero-label span:hover {
+            background: rgba(210, 45, 45, 0.2);
+            border-color: var(--accent);
+        }
+
+        .hero-label span:first-child:hover {
+            background: var(--accent-light);
         }
 
         .hero h1 {
@@ -719,10 +739,9 @@
         <div class="hero-inner">
         <div class="hero-content">
                 <div class="hero-label">
-                    <span class="dot"></span>
-                    CTO · VP Engineering · Engineering Manager
+                    <span>CTO</span><span>VP Engineering</span><span>Engineering Manager</span>
             </div>
-                <h1>Code. Product.<br><span class="highlight">People.</span></h1>
+                <h1>Code. Product. <span class="highlight">People.</span></h1>
                 <p class="hero-subtitle">
                     Hands-on engineering leader with 10 years scaling teams and 16+ years shipping products. I write code, shape product vision, and grow the humans who build it all.
                 </p>
@@ -971,156 +990,181 @@
     </footer>
 
     <script>
-        // === PARTICLE NETWORK ANIMATION ===
+        // === THREE.JS HERO ANIMATION ===
         (function() {
             const canvas = document.getElementById('hero-canvas');
-            const ctx = canvas.getContext('2d');
+            const container = canvas.parentElement;
+            const scene = new THREE.Scene();
             
-            let width, height;
-            let particles = [];
-            let mouse = { x: null, y: null, radius: 150 };
-            
-            const particleCount = 80;
-            const connectionDistance = 120;
-            const accentColor = { r: 210, g: 45, b: 45 };
-            
-            function resize() {
-                width = canvas.width = window.innerWidth;
-                height = canvas.height = window.innerHeight;
+            function getSize() {
+                return {
+                    width: container.offsetWidth,
+                    height: container.offsetHeight
+                };
             }
             
-            class Particle {
-                constructor() {
-                    this.x = Math.random() * width;
-                    this.y = Math.random() * height;
-                    this.vx = (Math.random() - 0.5) * 0.15;
-                    this.vy = (Math.random() - 0.5) * 0.15;
-                    this.radius = Math.random() * 2 + 1;
-                    this.baseRadius = this.radius;
-                }
-                
-                update() {
-                    // Mouse interaction
-                    if (mouse.x !== null) {
-                        const dx = mouse.x - this.x;
-                        const dy = mouse.y - this.y;
-                        const dist = Math.sqrt(dx * dx + dy * dy);
-                        
-                        if (dist < mouse.radius) {
-                            const force = (mouse.radius - dist) / mouse.radius;
-                            this.vx -= dx * force * 0.01;
-                            this.vy -= dy * force * 0.01;
-                            this.radius = this.baseRadius + force * 2;
-            } else {
-                            this.radius += (this.baseRadius - this.radius) * 0.1;
-                        }
-                    }
-                    
-                    this.x += this.vx;
-                    this.y += this.vy;
-                    
-                    // Bounce off edges
-                    if (this.x < 0 || this.x > width) this.vx *= -1;
-                    if (this.y < 0 || this.y > height) this.vy *= -1;
-                    
-                    // Keep in bounds
-                    this.x = Math.max(0, Math.min(width, this.x));
-                    this.y = Math.max(0, Math.min(height, this.y));
-                    
-                    // Damping
-                    this.vx *= 0.99;
-                    this.vy *= 0.99;
-                    
-                    // Random movement
-                    this.vx += (Math.random() - 0.5) * 0.02;
-                    this.vy += (Math.random() - 0.5) * 0.02;
-                }
-                
-                draw() {
-                    ctx.beginPath();
-                    ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-                    ctx.fillStyle = `rgba(${accentColor.r}, ${accentColor.g}, ${accentColor.b}, 0.8)`;
-                    ctx.fill();
-                }
+            const size = getSize();
+            const camera = new THREE.PerspectiveCamera(60, size.width / size.height, 0.1, 1000);
+            const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+            
+            renderer.setSize(size.width, size.height);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            
+            // Subtle ambient light
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
+            scene.add(ambientLight);
+            
+            const pointLight1 = new THREE.PointLight(0xd22d2d, 1.5, 50);
+            pointLight1.position.set(10, 10, 10);
+            scene.add(pointLight1);
+            
+            const pointLight2 = new THREE.PointLight(0xffffff, 0.8, 50);
+            pointLight2.position.set(-10, -5, 10);
+            scene.add(pointLight2);
+            
+            // Create floating geometric shapes
+            const objects = [];
+            
+            // Wireframe material
+            const wireMaterialRed = new THREE.LineBasicMaterial({ color: 0xd22d2d, transparent: true, opacity: 0.6 });
+            const wireMaterialWhite = new THREE.LineBasicMaterial({ color: 0xaaaaaa, transparent: true, opacity: 0.5 });
+            
+            // Rotating cubes (edges only)
+            const boxGeometry = new THREE.BoxGeometry(1.5, 1.5, 1.5);
+            const edgesGeometry1 = new THREE.EdgesGeometry(boxGeometry);
+            const cube1 = new THREE.LineSegments(edgesGeometry1, wireMaterialRed);
+            cube1.position.set(4, 1, -3);
+            scene.add(cube1);
+            objects.push({ mesh: cube1, rotationSpeed: { x: 0.002, y: 0.003, z: 0.001 } });
+            
+            const cube2 = new THREE.LineSegments(edgesGeometry1.clone(), wireMaterialWhite);
+            cube2.position.set(-3, -1, -4);
+            cube2.scale.setScalar(0.8);
+            scene.add(cube2);
+            objects.push({ mesh: cube2, rotationSpeed: { x: 0.003, y: 0.002, z: 0.002 } });
+            
+            // Large rotating ring
+            const ringGeometry = new THREE.TorusGeometry(2, 0.02, 16, 100);
+            const ringMaterial = new THREE.MeshBasicMaterial({ color: 0xd22d2d, transparent: true, opacity: 0.5 });
+            const ring1 = new THREE.Mesh(ringGeometry, ringMaterial);
+            ring1.position.set(3, 0, -5);
+            ring1.rotation.x = Math.PI / 3;
+            scene.add(ring1);
+            objects.push({ mesh: ring1, rotationSpeed: { x: 0.001, y: 0.004, z: 0 } });
+            
+            const ring2 = new THREE.Mesh(ringGeometry.clone(), ringMaterial.clone());
+            ring2.material.opacity = 0.3;
+            ring2.position.set(3, 0, -5);
+            ring2.rotation.x = -Math.PI / 4;
+            ring2.scale.setScalar(1.3);
+            scene.add(ring2);
+            objects.push({ mesh: ring2, rotationSpeed: { x: -0.002, y: 0.003, z: 0.001 } });
+            
+            // Floating crosses/plus signs
+            function createCross(size, material) {
+                const group = new THREE.Group();
+                const barGeom = new THREE.BoxGeometry(size, size * 0.1, size * 0.1);
+                const edges = new THREE.EdgesGeometry(barGeom);
+                const bar1 = new THREE.LineSegments(edges, material);
+                const bar2 = new THREE.LineSegments(edges.clone(), material);
+                bar2.rotation.z = Math.PI / 2;
+                group.add(bar1, bar2);
+                return group;
             }
             
-            function init() {
-                resize();
-                particles = [];
-                for (let i = 0; i < particleCount; i++) {
-                    particles.push(new Particle());
-                }
+            for (let i = 0; i < 4; i++) {
+                const cross = createCross(0.6 + Math.random() * 0.4, i % 2 === 0 ? wireMaterialRed.clone() : wireMaterialWhite.clone());
+                cross.position.set(
+                    (Math.random() - 0.5) * 12,
+                    (Math.random() - 0.5) * 6,
+                    -5 - Math.random() * 5
+                );
+                scene.add(cross);
+                objects.push({
+                    mesh: cross,
+                    rotationSpeed: {
+                        x: (Math.random() - 0.5) * 0.005,
+                        y: (Math.random() - 0.5) * 0.005,
+                        z: (Math.random() - 0.5) * 0.01
+                    },
+                    floatOffset: Math.random() * Math.PI * 2,
+                    floatSpeed: 0.3 + Math.random() * 0.3,
+                    floatAmplitude: 0.1 + Math.random() * 0.15,
+                    initialY: cross.position.y
+                });
             }
             
-            function drawConnections() {
-                for (let i = 0; i < particles.length; i++) {
-                    for (let j = i + 1; j < particles.length; j++) {
-                        const dx = particles[i].x - particles[j].x;
-                        const dy = particles[i].y - particles[j].y;
-                        const dist = Math.sqrt(dx * dx + dy * dy);
-                        
-                        if (dist < connectionDistance) {
-                            const opacity = (1 - dist / connectionDistance) * 0.3;
-                            ctx.beginPath();
-                            ctx.moveTo(particles[i].x, particles[i].y);
-                            ctx.lineTo(particles[j].x, particles[j].y);
-                            ctx.strokeStyle = `rgba(${accentColor.r}, ${accentColor.g}, ${accentColor.b}, ${opacity})`;
-                            ctx.lineWidth = 1;
-                            ctx.stroke();
-                        }
-                    }
-                }
-                
-                // Draw connections to mouse
-                if (mouse.x !== null) {
-                    particles.forEach(p => {
-                        const dx = mouse.x - p.x;
-                        const dy = mouse.y - p.y;
-                        const dist = Math.sqrt(dx * dx + dy * dy);
-                        
-                        if (dist < mouse.radius) {
-                            const opacity = (1 - dist / mouse.radius) * 0.5;
-                            ctx.beginPath();
-                            ctx.moveTo(p.x, p.y);
-                            ctx.lineTo(mouse.x, mouse.y);
-                            ctx.strokeStyle = `rgba(${accentColor.r}, ${accentColor.g}, ${accentColor.b}, ${opacity})`;
-                            ctx.lineWidth = 1;
-                            ctx.stroke();
-                        }
-                    });
-                }
+            // Small dots/points scattered
+            const dotGeometry = new THREE.SphereGeometry(0.03, 8, 8);
+            const dotMaterial = new THREE.MeshBasicMaterial({ color: 0xd22d2d });
+            
+            for (let i = 0; i < 20; i++) {
+                const dot = new THREE.Mesh(dotGeometry, dotMaterial.clone());
+                dot.material.opacity = 0.3 + Math.random() * 0.5;
+                dot.material.transparent = true;
+                dot.position.set(
+                    (Math.random() - 0.5) * 15,
+                    (Math.random() - 0.5) * 10,
+                    -3 - Math.random() * 8
+                );
+                scene.add(dot);
+                objects.push({
+                    mesh: dot,
+                    rotationSpeed: { x: 0, y: 0, z: 0 },
+                    floatOffset: Math.random() * Math.PI * 2,
+                    floatSpeed: 0.5 + Math.random() * 0.5,
+                    floatAmplitude: 0.1 + Math.random() * 0.2,
+                    initialY: dot.position.y
+                });
             }
             
+            camera.position.z = 8;
+            
+            // Mouse tracking
+            let mouseX = 0, mouseY = 0;
+            let targetX = 0, targetY = 0;
+            
+            document.addEventListener('mousemove', (e) => {
+                mouseX = (e.clientX / window.innerWidth) * 2 - 1;
+                mouseY = -(e.clientY / window.innerHeight) * 2 + 1;
+            });
+            
+            // Animation
+            let time = 0;
             function animate() {
-                ctx.clearRect(0, 0, width, height);
+                requestAnimationFrame(animate);
+                time += 0.01;
                 
-                particles.forEach(p => {
-                    p.update();
-                    p.draw();
+                // Smooth camera follow
+                targetX += (mouseX * 0.8 - targetX) * 0.03;
+                targetY += (mouseY * 0.4 - targetY) * 0.03;
+                camera.position.x = targetX;
+                camera.position.y = targetY;
+                camera.lookAt(0, 0, -3);
+                
+                // Animate objects
+                objects.forEach((obj) => {
+                    obj.mesh.rotation.x += obj.rotationSpeed.x;
+                    obj.mesh.rotation.y += obj.rotationSpeed.y;
+                    obj.mesh.rotation.z += obj.rotationSpeed.z;
+                    
+                    // Floating animation
+                    if (obj.floatOffset !== undefined) {
+                        obj.mesh.position.y = obj.initialY + Math.sin(time * obj.floatSpeed + obj.floatOffset) * obj.floatAmplitude;
+                    }
                 });
                 
-                drawConnections();
-                
-                requestAnimationFrame(animate);
+                renderer.render(scene, camera);
             }
             
-            // Event listeners
+            // Handle resize
             window.addEventListener('resize', () => {
-                resize();
+                const newSize = getSize();
+                camera.aspect = newSize.width / newSize.height;
+                camera.updateProjectionMatrix();
+                renderer.setSize(newSize.width, newSize.height);
             });
             
-            canvas.addEventListener('mousemove', (e) => {
-                const rect = canvas.getBoundingClientRect();
-                mouse.x = e.clientX - rect.left;
-                mouse.y = e.clientY - rect.top;
-            });
-            
-            canvas.addEventListener('mouseleave', () => {
-                mouse.x = null;
-                mouse.y = null;
-            });
-            
-            init();
             animate();
         })();
 
