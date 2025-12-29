@@ -156,12 +156,12 @@
         }
 
         .hero-photo {
-            width: 280px;
-            height: 280px;
-            border-radius: 20px;
+            width: 340px;
+            height: 340px;
+            border-radius: 24px;
             object-fit: cover;
-            border: 2px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+            border: 3px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
         }
 
         @media (max-width: 900px) {
@@ -761,23 +761,9 @@
                     Creative mind. Team builder. AI-powered.<br>
                     Everything I do serves the product.
                 </p>
-                <div class="hero-stats">
-                    <div class="stat">
-                        <div class="stat-value">10<span>y</span></div>
-                        <div class="stat-label">Leadership</div>
-        </div>
-                    <div class="stat">
-                        <div class="stat-value">15</div>
-                        <div class="stat-label">Engineers</div>
-            </div>
-                    <div class="stat">
-                        <div class="stat-value">16<span>y</span></div>
-                        <div class="stat-label">in tech</div>
-            </div>
-                </div>
                 <div class="hero-cta">
                     <a href="mailto:le.vigouroux.swann@gmail.com" class="btn btn-primary">Get in Touch</a>
-                    <a href="#projects" class="btn btn-secondary">See My Work</a>
+                    <a href="#journey" class="btn btn-secondary">Journey</a>
                 </div>
         </div>
         <div class="hero-photo-container">
@@ -1040,9 +1026,9 @@
             // Create floating geometric shapes
             const objects = [];
             
-            // Wireframe material
-            const wireMaterialRed = new THREE.LineBasicMaterial({ color: 0xd22d2d, transparent: true, opacity: 0.25 });
-            const wireMaterialWhite = new THREE.LineBasicMaterial({ color: 0x666666, transparent: true, opacity: 0.15 });
+            // Wireframe material - subtle background
+            const wireMaterialRed = new THREE.LineBasicMaterial({ color: 0xd22d2d, transparent: true, opacity: 0.12 });
+            const wireMaterialWhite = new THREE.LineBasicMaterial({ color: 0x666666, transparent: true, opacity: 0.08 });
             
             // Rotating cubes (edges only)
             const boxGeometry = new THREE.BoxGeometry(1.5, 1.5, 1.5);
@@ -1060,7 +1046,7 @@
             
             // Large rotating ring
             const ringGeometry = new THREE.TorusGeometry(2, 0.02, 16, 100);
-            const ringMaterial = new THREE.MeshBasicMaterial({ color: 0xd22d2d, transparent: true, opacity: 0.45 });
+            const ringMaterial = new THREE.MeshBasicMaterial({ color: 0xd22d2d, transparent: true, opacity: 0.5 });
             const ring1 = new THREE.Mesh(ringGeometry, ringMaterial);
             ring1.position.set(1.3, 0, -5);
             ring1.rotation.x = Math.PI / 3;
@@ -1068,7 +1054,7 @@
             objects.push({ mesh: ring1, rotationSpeed: { x: 0.001, y: 0.004, z: 0 } });
             
             const ring2 = new THREE.Mesh(ringGeometry.clone(), ringMaterial.clone());
-            ring2.material.opacity = 0.35;
+            ring2.material.opacity = 0.4;
             ring2.position.set(1.3, 0, -5);
             ring2.rotation.x = -Math.PI / 4;
             ring2.scale.setScalar(1.3);
@@ -1115,7 +1101,7 @@
             
             for (let i = 0; i < 20; i++) {
                 const dot = new THREE.Mesh(dotGeometry, dotMaterial.clone());
-                dot.material.opacity = 0.1 + Math.random() * 0.2;
+                dot.material.opacity = 0.05 + Math.random() * 0.1;
                 dot.material.transparent = true;
                 dot.position.set(
                     (Math.random() - 0.5) * 15,
