@@ -1814,37 +1814,66 @@ This is why I strongly recommend the services of Swann Le Vigouroux.</div>
             let startX = 0;
             let endX = 0;
             let isDragging = false;
+            let canDrag = true;
+            let isSwipingAction = false;
 
             // Touch events
             track.addEventListener('touchstart', (e) => {
+                // Prevent drag ONLY on buttons (keep links draggable for project cards)
+                const target = e.target;
+                if (target.tagName === 'BUTTON' || target.closest('button')) {
+                    canDrag = false;
+                    return;
+                }
+                canDrag = true;
+                isSwipingAction = false;
                 startX = e.touches[0].clientX;
+                endX = startX; // Initialize endX
                 isDragging = true;
             }, { passive: true });
 
             track.addEventListener('touchmove', (e) => {
-                if (!isDragging) return;
+                if (!isDragging || !canDrag) return;
                 endX = e.touches[0].clientX;
             }, { passive: true });
 
             track.addEventListener('touchend', () => {
-                if (!isDragging) return;
+                if (!isDragging || !canDrag) {
+                    isDragging = false;
+                    canDrag = true;
+                    return;
+                }
                 handleSwipeEnd();
             }, { passive: true });
 
             // Mouse events for desktop testing
             track.addEventListener('mousedown', (e) => {
+                // Prevent drag ONLY on buttons
+                const target = e.target;
+                if (target.tagName === 'BUTTON' || target.closest('button')) {
+                    canDrag = false;
+                    return;
+                }
+                canDrag = true;
+                isSwipingAction = false;
                 startX = e.clientX;
+                endX = startX; // Initialize endX
                 isDragging = true;
                 track.style.cursor = 'grabbing';
             });
 
             track.addEventListener('mousemove', (e) => {
-                if (!isDragging) return;
+                if (!isDragging || !canDrag) return;
                 endX = e.clientX;
             });
 
             track.addEventListener('mouseup', () => {
-                if (!isDragging) return;
+                if (!isDragging || !canDrag) {
+                    isDragging = false;
+                    canDrag = true;
+                    track.style.cursor = 'grab';
+                    return;
+                }
                 track.style.cursor = 'grab';
                 handleSwipeEnd();
             });
@@ -1853,8 +1882,18 @@ This is why I strongly recommend the services of Swann Le Vigouroux.</div>
                 if (isDragging) {
                     track.style.cursor = 'grab';
                     isDragging = false;
+                    canDrag = true;
                 }
             });
+
+            // Prevent link click if a swipe occurred
+            track.addEventListener('click', (e) => {
+                if (isSwipingAction) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    isSwipingAction = false;
+                }
+            }, { capture: true });
 
             function handleSwipeEnd() {
                 isDragging = false;
@@ -1863,6 +1902,7 @@ This is why I strongly recommend the services of Swann Le Vigouroux.</div>
                 const diff = startX - endX;
 
                 if (Math.abs(diff) > swipeThreshold) {
+                    isSwipingAction = true; // Flag that a swipe happened
                     if (diff > 0) {
                         moveNext();
                     } else {
@@ -1872,6 +1912,7 @@ This is why I strongly recommend the services of Swann Le Vigouroux.</div>
 
                 startX = 0;
                 endX = 0;
+                canDrag = true;
             }
 
             // Set cursor style
