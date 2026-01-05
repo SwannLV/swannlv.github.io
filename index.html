@@ -1809,6 +1809,73 @@ This is why I strongly recommend the services of Swann Le Vigouroux.</div>
                     track.style.transform = `translateX(-${currentIndex * newMoveDistance}px)`;
                 }, 250);
             });
+
+            // Touch/Swipe and Mouse drag support
+            let startX = 0;
+            let endX = 0;
+            let isDragging = false;
+
+            // Touch events
+            track.addEventListener('touchstart', (e) => {
+                startX = e.touches[0].clientX;
+                isDragging = true;
+            }, { passive: true });
+
+            track.addEventListener('touchmove', (e) => {
+                if (!isDragging) return;
+                endX = e.touches[0].clientX;
+            }, { passive: true });
+
+            track.addEventListener('touchend', () => {
+                if (!isDragging) return;
+                handleSwipeEnd();
+            }, { passive: true });
+
+            // Mouse events for desktop testing
+            track.addEventListener('mousedown', (e) => {
+                startX = e.clientX;
+                isDragging = true;
+                track.style.cursor = 'grabbing';
+            });
+
+            track.addEventListener('mousemove', (e) => {
+                if (!isDragging) return;
+                endX = e.clientX;
+            });
+
+            track.addEventListener('mouseup', () => {
+                if (!isDragging) return;
+                track.style.cursor = 'grab';
+                handleSwipeEnd();
+            });
+
+            track.addEventListener('mouseleave', () => {
+                if (isDragging) {
+                    track.style.cursor = 'grab';
+                    isDragging = false;
+                }
+            });
+
+            function handleSwipeEnd() {
+                isDragging = false;
+                
+                const swipeThreshold = 50;
+                const diff = startX - endX;
+
+                if (Math.abs(diff) > swipeThreshold) {
+                    if (diff > 0) {
+                        moveNext();
+                    } else {
+                        movePrev();
+                    }
+                }
+
+                startX = 0;
+                endX = 0;
+            }
+
+            // Set cursor style
+            track.style.cursor = 'grab';
         }
 
         // Initialize both carousels
