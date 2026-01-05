@@ -629,16 +629,26 @@
             margin-top: 12px;
         }
 
-        /* === RECOMMENDATIONS === */
+        /* === RECOMMENDATIONS CAROUSEL === */
         #recommendations {
             text-align: center;
+            overflow: hidden;
         }
 
-        .recommendations-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 12px;
-            margin-top: 40px;
+        .carousel-wrapper {
+            position: relative;
+            margin: 40px 0 20px 0;
+        }
+
+        .carousel-container {
+            overflow: hidden;
+            width: 100%;
+        }
+
+        .carousel-track {
+            display: flex;
+            gap: 20px;
+            transition: transform 0.5s ease;
         }
 
         .recommendation-card {
@@ -650,6 +660,9 @@
             transition: all 0.3s ease;
             display: flex;
             flex-direction: column;
+            min-width: 320px;
+            max-width: 320px;
+            flex-shrink: 0;
         }
 
         .recommendation-card:hover {
@@ -766,14 +779,6 @@
             opacity: 0;
         }
 
-        .recommendation-date {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 11px;
-            color: var(--gray-dark);
-            margin-top: 12px;
-            margin-bottom: 8px;
-        }
-
         .recommendation-toggle {
             background: transparent;
             border: none;
@@ -796,37 +801,86 @@
             display: none;
         }
 
-        @media (min-width: 1200px) {
-            .recommendations-grid {
-                grid-template-columns: repeat(4, 1fr);
-            }
+        .translation-note {
+            font-size: 11px;
+            color: var(--gray-dark);
+            font-style: italic;
+            margin-top: 12px;
         }
 
-        @media (min-width: 900px) and (max-width: 1199px) {
-            .recommendations-grid {
-                grid-template-columns: repeat(3, 1fr);
-            }
+        .carousel-controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 16px;
+            margin-top: 32px;
         }
 
-        @media (min-width: 600px) and (max-width: 899px) {
-            .recommendations-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
+        .carousel-btn {
+            background: var(--dark-2);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: var(--light);
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
         }
 
-        .recommendation-card.hidden {
-            display: none;
+        .carousel-btn:hover {
+            background: var(--accent);
+            border-color: var(--accent);
+            transform: scale(1.1);
         }
 
+        .carousel-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .carousel-btn:disabled:hover {
+            background: var(--dark-2);
+            border-color: rgba(255,255,255,0.1);
+            transform: scale(1);
+        }
+
+        /* === PROJECTS CAROUSEL === */
+        .projects-carousel-wrapper {
+            position: relative;
+            margin: 40px 0 20px 0;
+        }
+
+        .projects-carousel-container {
+            overflow: hidden;
+            width: 100%;
+        }
+
+        .projects-carousel-track {
+            display: flex;
+            gap: 20px;
+            transition: transform 0.5s ease;
+        }
+
+        .case-card {
+            min-width: 400px;
+            max-width: 400px;
+            flex-shrink: 0;
+        }
 
         @media (max-width: 768px) {
-            .recommendations-grid {
-                grid-template-columns: 1fr;
-                gap: 16px;
+            .recommendation-card {
+                min-width: 280px;
+                max-width: 280px;
+                padding: 24px;
             }
 
-            .recommendation-card {
-                padding: 24px;
+            .case-card {
+                min-width: 300px;
+                max-width: 300px;
             }
         }
 
@@ -986,7 +1040,7 @@
             <a href="#approach">My Approach</a>
             <a href="#journey">Journey</a>
             <a href="#projects">Projects</a>
-            <a href="#recommendations">Recommendations</a>
+            <a href="#recommendations">Testimonials</a>
             <a href="#contact">Contact</a>
             </div>
         <a href="https://swannlv.github.io/swann-le-vigouroux.pdf" target="_blank" class="nav-cta">Resume (PDF)</a>
@@ -1136,85 +1190,93 @@
             A selection of projects where I led teams to deliver measurable business results.
         </p>
 
-        <div class="case-cards">
-            <!-- Comet SaaS Platform -->
-            <a href="https://app.comet.co/" target="_blank" class="case-card">
-                <div class="case-card-header">
-                    <span class="case-card-company">⚡ Comet</span>
-                    <span class="case-card-role">Lead → EM · 2018-2025</span>
-                </div>
-                <h3 class="case-card-title">Full SaaS Platform</h3>
-                <p class="case-card-desc">Built the entire SaaS platform with the team. Freelance & client apps, matching engine, billing, analytics.</p>
-                <div class="case-card-metrics">
-                    <span class="case-metric"><strong>8→15</strong> engineers</span>
-                    <span class="case-metric"><strong>7</strong> years</span>
-                    </div>
-                <div class="case-card-tags">
-                    <span class="tech-tag">TypeScript</span>
-                    <span class="tech-tag">Node.js</span>
-                    <span class="tech-tag">React</span>
-                    <span class="tech-tag">Vue.js</span>
-                    <span class="tech-tag">AWS</span>
-                </div>
-                <div class="case-card-link">app.comet.co <span class="external-icon">↗</span></div>
-            </a>
+        <div class="projects-carousel-wrapper">
+            <div class="projects-carousel-container">
+                <div class="projects-carousel-track" id="projectsCarouselTrack">
+                    <!-- Comet SaaS Platform -->
+                    <a href="https://app.comet.co/" target="_blank" class="case-card">
+                        <div class="case-card-header">
+                            <span class="case-card-company">⚡ Comet</span>
+                            <span class="case-card-role">Lead → EM · 2018-2025</span>
+                        </div>
+                        <h3 class="case-card-title">Full SaaS Platform</h3>
+                        <p class="case-card-desc">Built the entire SaaS platform with the team. Freelance & client apps, matching engine, billing, analytics.</p>
+                        <div class="case-card-metrics">
+                            <span class="case-metric"><strong>8→15</strong> engineers</span>
+                            <span class="case-metric"><strong>7</strong> years</span>
+                        </div>
+                        <div class="case-card-tags">
+                            <span class="tech-tag">TypeScript</span>
+                            <span class="tech-tag">Node.js</span>
+                            <span class="tech-tag">React</span>
+                            <span class="tech-tag">Vue.js</span>
+                            <span class="tech-tag">AWS</span>
+                        </div>
+                        <div class="case-card-link">app.comet.co <span class="external-icon">↗</span></div>
+                    </a>
 
-            <!-- Nova AI -->
-            <a href="https://www.comet.co/" target="_blank" class="case-card">
-                <div class="case-card-header">
-                    <span class="case-card-company">⚡ Comet</span>
-                    <span class="case-card-role">CTO · 2025</span>
-                    </div>
-                <h3 class="case-card-title">Nova AI Platform</h3>
-                <p class="case-card-desc">GenAI matching engine — portfolio creation from 78min to 12min, candidate matching from 1h to 5min.</p>
-                <div class="case-card-metrics">
-                    <span class="case-metric"><strong>-85%</strong> time</span>
-                    <span class="case-metric"><strong>-90%</strong> cost</span>
+                    <!-- Nova AI -->
+                    <a href="https://www.comet.co/" target="_blank" class="case-card">
+                        <div class="case-card-header">
+                            <span class="case-card-company">⚡ Comet</span>
+                            <span class="case-card-role">CTO · 2025</span>
+                        </div>
+                        <h3 class="case-card-title">Nova AI Platform</h3>
+                        <p class="case-card-desc">GenAI matching engine — portfolio creation from 78min to 12min, candidate matching from 1h to 5min.</p>
+                        <div class="case-card-metrics">
+                            <span class="case-metric"><strong>-85%</strong> time</span>
+                            <span class="case-metric"><strong>-90%</strong> cost</span>
+                        </div>
+                        <div class="case-card-tags">
+                            <span class="tech-tag">AWS Bedrock</span>
+                            <span class="tech-tag">GenAI</span>
+                            <span class="tech-tag">Terraform</span>
+                        </div>
+                        <div class="case-card-link">comet.co <span class="external-icon">↗</span></div>
+                    </a>
+
+                    <!-- Shoppers Drug Mart -->
+                    <a href="https://www.shoppersdrugmart.ca/" target="_blank" class="case-card">
+                        <div class="case-card-header">
+                            <span class="case-card-company">💊 Shoppers Drug Mart</span>
+                            <span class="case-card-role">Lead Dev · 2014</span>
+                        </div>
+                        <h3 class="case-card-title">E-commerce Platform</h3>
+                        <p class="case-card-desc">Led squad for Canada's largest pharmacy chain. High-traffic e-commerce with complex product catalog.</p>
+                        <div class="case-card-tags">
+                            <span class="tech-tag">JavaScript</span>
+                            <span class="tech-tag">E-commerce</span>
+                            <span class="tech-tag">Performance</span>
+                        </div>
+                        <div class="case-card-link">shoppersdrugmart.ca <span class="external-icon">↗</span></div>
+                    </a>
+
+                    <!-- CMA CGM -->
+                    <a href="https://www.cma-cgm.com/" target="_blank" class="case-card">
+                        <div class="case-card-header">
+                            <span class="case-card-company">🚢 CMA CGM</span>
+                            <span class="case-card-role">Lead Dev · 2016-2018</span>
+                        </div>
+                        <h3 class="case-card-title">Global Booking Platform</h3>
+                        <p class="case-card-desc">Pioneered Vue.js adoption at one of the world's largest shipping companies. Built booking system serving global logistics operations.</p>
+                        <div class="case-card-metrics">
+                            <span class="case-metric"><strong>5</strong> devs led</span>
+                            <span class="case-metric"><strong>Vue.js</strong> pioneer</span>
+                        </div>
+                        <div class="case-card-tags">
+                            <span class="tech-tag">Vue.js</span>
+                            <span class="tech-tag">C#.Net</span>
+                            <span class="tech-tag">Logistics</span>
+                        </div>
+                        <div class="case-card-link">cma-cgm.com <span class="external-icon">↗</span></div>
+                    </a>
                 </div>
-                <div class="case-card-tags">
-                    <span class="tech-tag">AWS Bedrock</span>
-                    <span class="tech-tag">GenAI</span>
-                    <span class="tech-tag">Terraform</span>
             </div>
-                <div class="case-card-link">comet.co <span class="external-icon">↗</span></div>
-            </a>
-
-            <!-- Shoppers Drug Mart -->
-            <a href="https://www.shoppersdrugmart.ca/" target="_blank" class="case-card">
-                <div class="case-card-header">
-                    <span class="case-card-company">💊 Shoppers Drug Mart</span>
-                    <span class="case-card-role">Lead Dev · 2014</span>
-                </div>
-                <h3 class="case-card-title">E-commerce Platform</h3>
-                <p class="case-card-desc">Led squad for Canada's largest pharmacy chain. High-traffic e-commerce with complex product catalog.</p>
-                <div class="case-card-tags">
-                    <span class="tech-tag">JavaScript</span>
-                    <span class="tech-tag">E-commerce</span>
-                    <span class="tech-tag">Performance</span>
-                    </div>
-                <div class="case-card-link">shoppersdrugmart.ca <span class="external-icon">↗</span></div>
-            </a>
-
-            <!-- CMA CGM -->
-            <a href="https://www.cma-cgm.com/" target="_blank" class="case-card">
-                <div class="case-card-header">
-                    <span class="case-card-company">🚢 CMA CGM</span>
-                    <span class="case-card-role">Lead Dev · 2016-2018</span>
-                    </div>
-                <h3 class="case-card-title">Global Booking Platform</h3>
-                <p class="case-card-desc">Pioneered Vue.js adoption at one of the world's largest shipping companies. Built booking system serving global logistics operations.</p>
-                <div class="case-card-metrics">
-                    <span class="case-metric"><strong>5</strong> devs led</span>
-                    <span class="case-metric"><strong>Vue.js</strong> pioneer</span>
-                </div>
-                <div class="case-card-tags">
-                    <span class="tech-tag">Vue.js</span>
-                    <span class="tech-tag">C#.Net</span>
-                    <span class="tech-tag">Logistics</span>
+            <div class="carousel-controls">
+                <button class="carousel-btn" id="projectsPrev" aria-label="Previous">←</button>
+                <button class="carousel-btn" id="projectsNext" aria-label="Next">→</button>
             </div>
-                <div class="case-card-link">cma-cgm.com <span class="external-icon">↗</span></div>
-            </a>
-                </div>
+        </div>
     </section>
 
     <!-- Recommendations -->
@@ -1225,193 +1287,190 @@
             Testimonials from colleagues, team members, and clients I've worked with.
         </p>
 
-        <div class="recommendations-grid">
-            <!-- Shannone Controu -->
-            <div class="recommendation-card">
-                <div class="recommendation-header">
-                    <img src="https://media.licdn.com/dms/image/v2/C5603AQF75aa2sYtgyA/profile-displayphoto-shrink_100_100/profile-displayphoto-shrink_100_100/0/1591021250965?e=1769040000&v=beta&t=rtj7XKfGtqM8oJQb6VXav5OVboUQWr1YCHt9_enPrtM" alt="Shannone Controu" class="recommendation-avatar">
-                    <div class="recommendation-info">
-                        <div class="recommendation-name">
-                            Shannone Controu
-                            <a href="https://www.linkedin.com/in/shannone-controu" target="_blank" class="recommendation-linkedin">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+        <div class="carousel-wrapper">
+            <div class="carousel-container">
+                <div class="carousel-track" id="recommendationsCarouselTrack">
+                    <!-- Shannone Controu -->
+                    <div class="recommendation-card">
+                        <div class="recommendation-header">
+                            <img src="https://media.licdn.com/dms/image/v2/C5603AQF75aa2sYtgyA/profile-displayphoto-shrink_100_100/profile-displayphoto-shrink_100_100/0/1591021250965?e=1769040000&v=beta&t=rtj7XKfGtqM8oJQb6VXav5OVboUQWr1YCHt9_enPrtM" alt="Shannone Controu" class="recommendation-avatar">
+                            <div class="recommendation-info">
+                                <div class="recommendation-name">
+                                    Shannone Controu
+                                    <a href="https://www.linkedin.com/in/shannone-controu" target="_blank" class="recommendation-linkedin">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                                        </svg>
+                                    </a>
+                                </div>
+                                <div class="recommendation-role">Fullstack Developer @Comet</div>
+                            </div>
+                        </div>
+                        <div class="recommendation-text">I had the chance to work with Swann for four years, and this collaboration was extremely impactful. Throughout this period, I always felt listened to, valued, and supported, which makes a real difference on a daily basis.
+
+Swann's technical expertise, vision, and ability to make sound decisions provide a solid and reassuring framework. But what I appreciated most was the quality of every exchange: open, respectful, and stimulating discussions where viewpoints are genuinely taken into account.
+
+His deeply human way of working, attentive to team balance, creates a healthy and engaging environment. I am convinced that Swann will continue to have a positive and lasting impact on the teams and projects he supports.</div>
+                        <div class="translation-note">— translated from French</div>
+                        <button class="recommendation-toggle" onclick="toggleRecommendation(this)">Read more</button>
+                    </div>
+
+                    <!-- Jérémy Levy -->
+                    <div class="recommendation-card">
+                        <div class="recommendation-header">
+                            <img src="https://media.licdn.com/dms/image/v2/D4D03AQGtpv228RQ9hw/profile-displayphoto-shrink_100_100/profile-displayphoto-shrink_100_100/0/1673042946086?e=1769040000&v=beta&t=vYIy6xte7jnG9Nhl6rhhtTkfbB7AvDoyX8RmcvdcMd0" alt="Jérémy Levy" class="recommendation-avatar">
+                            <div class="recommendation-info">
+                                <div class="recommendation-name">
+                                    Jérémy Levy
+                                    <a href="https://www.linkedin.com/in/jeremy-levy18" target="_blank" class="recommendation-linkedin">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                                        </svg>
+                                    </a>
+                                </div>
+                                <div class="recommendation-role">Tech Lead @ Comet | Next40/120</div>
+                            </div>
+                        </div>
+                        <div class="recommendation-text">I have rarely, if ever, worked with a manager and CTO who is so attentive, caring, and deeply human.
+
+The trust given, the quality of exchanges, the relevance of advice, and the energy transmitted on a daily basis make a real difference, both on a human and professional level.
+
+His impact on teams and projects is real, lasting, and immediately noticeable. I have no doubt that Swann will continue to help grow the teams and projects he encounters in his future experiences.</div>
+                        <div class="translation-note">— translated from French</div>
+                        <button class="recommendation-toggle" onclick="toggleRecommendation(this)">Read more</button>
+                    </div>
+
+                    <!-- Nicolas Benhamou -->
+                    <div class="recommendation-card">
+                        <div class="recommendation-header">
+                            <img src="https://media.licdn.com/dms/image/v2/C4D03AQHD18Osh35zmQ/profile-displayphoto-shrink_100_100/profile-displayphoto-shrink_100_100/0/1547151375988?e=1769040000&v=beta&t=LxtMEfdaLJ5i8KL-rDdBtmaTesby8ITvXDIuqZDwlX4" alt="Nicolas Benhamou" class="recommendation-avatar">
+                            <div class="recommendation-info">
+                                <div class="recommendation-name">
+                                    Nicolas Benhamou
+                                    <a href="https://www.linkedin.com/in/nicolasbenhamou" target="_blank" class="recommendation-linkedin">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                                        </svg>
+                                    </a>
+                                </div>
+                                <div class="recommendation-role">Solutions Architect @ Mistral AI</div>
+                            </div>
+                        </div>
+                        <div class="recommendation-text">I worked with Swann for many years. He is a skilled software engineer, especially with web technologies, with a strong leading capacity.
+
+As an innovative person, Swann continuously improves our projects and makes his whole team grow. Thanks to him, our frontend apps are modern and efficient and our dev teams can count on an amazing colleague.</div>
+                        <button class="recommendation-toggle" onclick="toggleRecommendation(this)">Read more</button>
+                    </div>
+
+                    <!-- Mouna Ben Chamekh -->
+                    <div class="recommendation-card">
+                        <div class="recommendation-header">
+                            <img src="https://media.licdn.com/dms/image/v2/C5603AQHC4pjEy8BNmQ/profile-displayphoto-shrink_100_100/profile-displayphoto-shrink_100_100/0/1517030095254?e=1769040000&v=beta&t=TJ4tMTOl0spRveYqBdhCP3mNmevMifL8w84psb3P8hs" alt="Mouna Ben Chamekh" class="recommendation-avatar">
+                            <div class="recommendation-info">
+                                <div class="recommendation-name">
+                                    Mouna Ben Chamekh
+                                    <a href="https://www.linkedin.com/in/mouna-ben-chamekh-037434127" target="_blank" class="recommendation-linkedin">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                                        </svg>
+                                    </a>
+                                </div>
+                                <div class="recommendation-role">Senior Data Engineer</div>
+                            </div>
+                        </div>
+                        <div class="recommendation-text">I had the opportunity to work with Swann at Comet for over two years.
+
+He is a competent, creative person full of ideas. Caring, always in good spirits and attentive, he knows how to unite and motivate his teams. His management allowed us to reinvent ourselves and give the best of ourselves.
+
+It was a pleasure working with Swann; hoping to see you again soon!</div>
+                        <div class="translation-note">— translated from French</div>
+                        <button class="recommendation-toggle" onclick="toggleRecommendation(this)">Read more</button>
+                    </div>
+
+                    <!-- Anthony LE ROY -->
+                    <div class="recommendation-card">
+                        <div class="recommendation-header">
+                            <img src="https://media.licdn.com/dms/image/v2/D4E03AQFKnoCDq1lzeQ/profile-displayphoto-shrink_100_100/profile-displayphoto-shrink_100_100/0/1695118524341?e=1769040000&v=beta&t=vh8Tvdl4uRKOiI8_u9a6BwZxMUJchMHw6HhU3JOeNpA" alt="Anthony LE ROY" class="recommendation-avatar">
+                            <div class="recommendation-info">
+                                <div class="recommendation-name">
+                                    Anthony LE ROY
+                                    <a href="https://www.linkedin.com/in/anthony-le-roy-617353149" target="_blank" class="recommendation-linkedin">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                                        </svg>
+                                    </a>
+                                </div>
+                                <div class="recommendation-role">Software Engineer | AWS Certified</div>
+                            </div>
+                        </div>
+                        <div class="recommendation-text">I highly recommend Swann, with whom I had the pleasure of working for 2 years when he was my manager.
+
+Swann is a competent, involved person with excellent interpersonal skills.
+
+He places great importance on human interactions, the well-being of his team, and knows how to establish a climate of trust that promotes commitment and motivation.</div>
+                        <div class="translation-note">— translated from French</div>
+                        <button class="recommendation-toggle" onclick="toggleRecommendation(this)">Read more</button>
+                    </div>
+
+                    <!-- Mehdi Tagaizine -->
+                    <div class="recommendation-card">
+                        <div class="recommendation-header">
+                            <img src="https://media.licdn.com/dms/image/v2/D4D03AQE3TqOzOl7r6w/profile-displayphoto-shrink_100_100/profile-displayphoto-shrink_100_100/0/1725834864066?e=1769040000&v=beta&t=aCjpLk8pSnWX2qCp6rYppwK2SByPDFHZ3hxjwepWVP4" alt="Mehdi Tagaizine" class="recommendation-avatar">
+                            <div class="recommendation-info">
+                                <div class="recommendation-name">
+                                    Mehdi Tagaizine
+                                    <a href="https://www.linkedin.com/in/mehdi-tagaizine" target="_blank" class="recommendation-linkedin">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                                        </svg>
+                                    </a>
+                                </div>
+                                <div class="recommendation-role">Product Owner & Freelance Developer</div>
+                            </div>
+                        </div>
+                        <div class="recommendation-text">We worked together for 5 years at Comet! He's someone who gives his all and expects the same from the rest of the team by pushing them to reinvent themselves and step out of their comfort zone.
+
+I particularly remember our debates: a real pleasure to exchange, to confront our viewpoints, to challenge R&D and technical ideas. We didn't always agree, but these discussions always allowed us to come up with better solutions.
+
+Working with Swann means being challenged and progressing quickly! I hope we'll work together again sometime :)</div>
+                        <div class="translation-note">— translated from French</div>
+                        <button class="recommendation-toggle" onclick="toggleRecommendation(this)">Read more</button>
+                    </div>
+
+                    <!-- Eric Oudart -->
+                    <div class="recommendation-card">
+                        <div class="recommendation-header">
+                            <img src="https://media.licdn.com/dms/image/v2/C5603AQEohM5T-7TSzw/profile-displayphoto-shrink_100_100/profile-displayphoto-shrink_100_100/0/1517352184991?e=1769040000&v=beta&t=YnhWdX6ZrfgbgVHwXxP_bKYPNti-VcVr145zf19uXkM" alt="Eric Oudart" class="recommendation-avatar">
+                            <div class="recommendation-info">
+                                <div class="recommendation-name">
+                                    Eric Oudart
+                                    <a href="https://www.linkedin.com/in/eric-oudart-av" target="_blank" class="recommendation-linkedin">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
                                 </svg>
                             </a>
                         </div>
-                        <div class="recommendation-role">Fullstack développeuse @Comet</div>
+                        <div class="recommendation-role">Operations Director</div>
                     </div>
                 </div>
-                <div class="recommendation-text">J'ai eu la chance de travailler avec Swann pendant quatre ans, et cette collaboration a été extrêmement marquante. Tout au long de cette période, je me suis toujours sentie écoutée, considérée et soutenue, ce qui fait une vraie différence au quotidien.
+                <div class="recommendation-text">I would like to express my sincere gratitude and thank Swann Le Vigouroux for his collaboration with the technical team at Cognacq Jay Image, as a Software Engineer at the company Anyware Vidéo.
 
-L'expertise technique de Swann, sa vision et sa capacité à prendre des décisions justes apportent un cadre solide et rassurant. Mais ce que j'ai le plus apprécié, c'est la qualité de chaque échange : des discussions ouvertes, respectueuses et stimulantes, où les points de vue sont réellement pris en compte.
+From 2010 to 2012, Swann actively participated in the development of dynamic graphics systems and broadcast control systems for Cognacq Jay Image. On this occasion, he demonstrated skills, reactivity, and professionalism. He has always been a reliable and responsible person, both in his work and in his relationships with the Cognacq Jay teams.
 
-Sa manière de travailler, profondément humaine et attentive à l'équilibre des équipes, crée un environnement sain et engageant. Je suis convaincue que Swann continuera à avoir un impact positif et durable sur les équipes et les projets qu'il accompagnera.</div>
-                <button class="recommendation-toggle" onclick="toggleRecommendation(this)">Voir plus</button>
-            </div>
-
-            <!-- Jérémy Levy -->
-            <div class="recommendation-card">
-                <div class="recommendation-header">
-                    <img src="https://media.licdn.com/dms/image/v2/D4D03AQGtpv228RQ9hw/profile-displayphoto-shrink_100_100/profile-displayphoto-shrink_100_100/0/1673042946086?e=1769040000&v=beta&t=vYIy6xte7jnG9Nhl6rhhtTkfbB7AvDoyX8RmcvdcMd0" alt="Jérémy Levy" class="recommendation-avatar">
-                    <div class="recommendation-info">
-                        <div class="recommendation-name">
-                            Jérémy Levy
-                            <a href="https://www.linkedin.com/in/jeremy-levy18" target="_blank" class="recommendation-linkedin">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-                                </svg>
-                            </a>
-                        </div>
-                        <div class="recommendation-role">Tech Lead @ Comet | Next40/120</div>
+This is why I strongly recommend the services of Swann Le Vigouroux.</div>
+                        <div class="translation-note">— translated from French</div>
+                        <button class="recommendation-toggle" onclick="toggleRecommendation(this)">Read more</button>
                     </div>
                 </div>
-                <div class="recommendation-text">J'ai rarement, pour ne pas dire jamais, travaillé avec un manager et CTO aussi à l'écoute, bienveillant et profondément humain.
-
-La confiance accordée, la qualité des échanges, la pertinence des conseils et l'énergie transmise au quotidien font une vraie différence, tant sur le plan humain que professionnel.
-
-Son impact sur les équipes et les projets est réel, durable et immédiatement perceptible. Je n'ai aucun doute que Swann continuera à faire grandir les équipes et les projets qu'il croisera dans ses prochaines expériences.</div>
-                <button class="recommendation-toggle" onclick="toggleRecommendation(this)">Voir plus</button>
             </div>
-
-            <!-- Mehdi Tagaizine -->
-            <div class="recommendation-card">
-                <div class="recommendation-header">
-                    <img src="https://media.licdn.com/dms/image/v2/D4D03AQE3TqOzOl7r6w/profile-displayphoto-shrink_100_100/profile-displayphoto-shrink_100_100/0/1725834864066?e=1769040000&v=beta&t=aCjpLk8pSnWX2qCp6rYppwK2SByPDFHZ3hxjwepWVP4" alt="Mehdi Tagaizine" class="recommendation-avatar">
-                    <div class="recommendation-info">
-                        <div class="recommendation-name">
-                            Mehdi Tagaizine
-                            <a href="https://www.linkedin.com/in/mehdi-tagaizine" target="_blank" class="recommendation-linkedin">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-                                </svg>
-                            </a>
-                        </div>
-                        <div class="recommendation-role">Product owner & Développeur Freelance</div>
-                    </div>
-                </div>
-                <div class="recommendation-text">On a travaillé ensemble pendant 5 ans chez Comet !
-C'est quelqu'un qui donne le max, et qui attend la même chose du reste de l'équipe en les poussant à se réinventer et à sortir de leur zone de confort.
-Je retiens particulièrement nos débats : un vrai kiff d'échanger, de confronter nos points de vue, de challenger des idées R&D et techniques. On n'étaient pas toujours d'accord, mais ces discussions permettaient toujours de faire émerger de meilleurs solutions.
-Travailler avec Swann, c'est être challengé et progresser vite !
-J'espère qu'on retravaillera ensemble à l'occaz :)</div>
-                <button class="recommendation-toggle" onclick="toggleRecommendation(this)">Voir plus</button>
+            <div class="carousel-controls">
+                <button class="carousel-btn" id="recommendationsPrev" aria-label="Previous">←</button>
+                <button class="carousel-btn" id="recommendationsNext" aria-label="Next">→</button>
             </div>
+        </div>
 
-            <!-- Mouna Ben Chamekh -->
-            <div class="recommendation-card">
-                <div class="recommendation-header">
-                    <img src="https://media.licdn.com/dms/image/v2/C5603AQHC4pjEy8BNmQ/profile-displayphoto-shrink_100_100/profile-displayphoto-shrink_100_100/0/1517030095254?e=1769040000&v=beta&t=TJ4tMTOl0spRveYqBdhCP3mNmevMifL8w84psb3P8hs" alt="Mouna Ben Chamekh" class="recommendation-avatar">
-                    <div class="recommendation-info">
-                        <div class="recommendation-name">
-                            Mouna Ben Chamekh
-                            <a href="https://www.linkedin.com/in/mouna-ben-chamekh-037434127" target="_blank" class="recommendation-linkedin">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-                                </svg>
-                            </a>
-                        </div>
-                        <div class="recommendation-role">Senior Data Engineer</div>
-                    </div>
-                </div>
-                <div class="recommendation-text">J'ai eu l'occasion de travailler avec Swann chez Comet pendant plus de deux ans.
-
-C'est une personne compétente, créative et pleine d'idées. 
-Bienveillant, toujours de bonne humeur et à l'écoute, il sait fédérer et motiver ses équipes. 
-Son management nous a permis de nous réinventer et de donner le meilleur de nous-mêmes.
-
-C'était un plaisir de travailler avec Swann, en espérant te recroiser bientôt!</div>
-                <button class="recommendation-toggle" onclick="toggleRecommendation(this)">Voir plus</button>
-            </div>
-
-            <!-- Nicolas Benhamou -->
-            <div class="recommendation-card">
-                <div class="recommendation-header">
-                    <img src="https://media.licdn.com/dms/image/v2/C4D03AQHD18Osh35zmQ/profile-displayphoto-shrink_100_100/profile-displayphoto-shrink_100_100/0/1547151375988?e=1769040000&v=beta&t=LxtMEfdaLJ5i8KL-rDdBtmaTesby8ITvXDIuqZDwlX4" alt="Nicolas Benhamou" class="recommendation-avatar">
-                    <div class="recommendation-info">
-                        <div class="recommendation-name">
-                            Nicolas Benhamou
-                            <a href="https://www.linkedin.com/in/nicolasbenhamou" target="_blank" class="recommendation-linkedin">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-                                </svg>
-                            </a>
-                        </div>
-                        <div class="recommendation-role">Solutions Architect chez Mistral AI</div>
-                    </div>
-                </div>
-                <div class="recommendation-text">I work with Swann for many years. He is a skilled software engineer, especially with web technologies, with a strong leading capacity.
-As an innovative person, Swann continiously improves our projects and makes its whole team grow. Thanks to him, our frontends apps are modern and efficient and our dev teams can count on an amazing colleague.</div>
-                <button class="recommendation-toggle" onclick="toggleRecommendation(this)">Voir plus</button>
-            </div>
-
-            <!-- Anthony LE ROY -->
-            <div class="recommendation-card">
-                <div class="recommendation-header">
-                    <img src="https://media.licdn.com/dms/image/v2/D4E03AQFKnoCDq1lzeQ/profile-displayphoto-shrink_100_100/profile-displayphoto-shrink_100_100/0/1695118524341?e=1769040000&v=beta&t=vh8Tvdl4uRKOiI8_u9a6BwZxMUJchMHw6HhU3JOeNpA" alt="Anthony LE ROY" class="recommendation-avatar">
-                    <div class="recommendation-info">
-                        <div class="recommendation-name">
-                            Anthony LE ROY
-                            <a href="https://www.linkedin.com/in/anthony-le-roy-617353149" target="_blank" class="recommendation-linkedin">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-                                </svg>
-                            </a>
-                        </div>
-                        <div class="recommendation-role">Software Engineer | AWS Certified</div>
-                    </div>
-                </div>
-                <div class="recommendation-text">Je recommande vivement Swann, avec qui j'ai eu le plaisir de travailler durant 2 ans lorsqu'il était mon manager.
-
-Swann est une personne compétente, impliquée et dotée d'un excellent sens du relationnel.
-
-Il accorde une grande importance aux échanges humains, au bien-être de son équipe et sait instaurer un climat de confiance qui favorise l'engagement et la motivation.</div>
-                <button class="recommendation-toggle" onclick="toggleRecommendation(this)">Voir plus</button>
-            </div>
-
-            <!-- Prigent ROUDAUT -->
-            <div class="recommendation-card">
-                <div class="recommendation-header">
-                    <img src="https://media.licdn.com/dms/image/v2/C4E03AQFpsTZADOb4Qg/profile-displayphoto-shrink_100_100/profile-displayphoto-shrink_100_100/0/1617286738882?e=1769040000&v=beta&t=wHajYufSzWS8FCoqzbU95vpfGwVF-DbEHe_vMYJvUSY" alt="Prigent ROUDAUT" class="recommendation-avatar">
-                    <div class="recommendation-info">
-                        <div class="recommendation-name">
-                            Prigent ROUDAUT
-                            <a href="https://www.linkedin.com/in/prigentroudaut" target="_blank" class="recommendation-linkedin">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-                                </svg>
-                            </a>
-                        </div>
-                        <div class="recommendation-role">Lead Architect | Expert iOS, Android & Cross-Platform</div>
-                    </div>
-                </div>
-                <div class="recommendation-text">Il est très agréable de travailler avec Swann. Il est très créatif et artistique ce qui est un atout additionné aux compétences de programmeur</div>
-            </div>
-
-            <!-- Eric Oudart -->
-            <div class="recommendation-card">
-                <div class="recommendation-header">
-                    <img src="https://media.licdn.com/dms/image/v2/C5603AQEohM5T-7TSzw/profile-displayphoto-shrink_100_100/profile-displayphoto-shrink_100_100/0/1517352184991?e=1769040000&v=beta&t=YnhWdX6ZrfgbgVHwXxP_bKYPNti-VcVr145zf19uXkM" alt="Eric Oudart" class="recommendation-avatar">
-                    <div class="recommendation-info">
-                        <div class="recommendation-name">
-                            Eric Oudart
-                            <a href="https://www.linkedin.com/in/eric-oudart-av" target="_blank" class="recommendation-linkedin">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-                                </svg>
-                            </a>
-                        </div>
-                        <div class="recommendation-role">Directeur d'exploitation</div>
-                    </div>
-                </div>
-                <div class="recommendation-text">Je tiens à témoigner par la présente, de ma sincère reconnaissance et remercier ainsi Swann Levigouroux pour sa collaboration avec l'équipe technique de Cognacq Jay Image, en tant qu'Software Engineer au sein de la Socièté Anyware Vidéo.
-De 2010 à 2012, Swann a participé activement au développement des systèmes d'habillage dynamique, des régies de diffusion de Cognacq Jay Image.
-À cette occasion, il a fait preuve de compétences, de réactivité et de professionnalisme. 
-Il a toujours été une personne fiable et responsable, tant dans son travail que dans ses rapports avec les équipes Cognacq Jay.
-
-C'est pourquoi Je recommande fortement les services de Swann Le Vigouroux.</div>
-                <button class="recommendation-toggle" onclick="toggleRecommendation(this)">Voir plus</button>
-            </div>
+        <div style="text-align: center; margin-top: 24px;">
+            <a href="https://www.linkedin.com/in/swannlv/details/recommendations/" target="_blank" class="btn btn-secondary">View More on LinkedIn</a>
         </div>
     </section>
 
@@ -1670,6 +1729,90 @@ C'est pourquoi Je recommande fortement les services de Swann Le Vigouroux.</div>
             });
         });
 
+        // === CAROUSEL FUNCTIONALITY ===
+        function initCarousel(trackId, prevBtnId, nextBtnId) {
+            const track = document.getElementById(trackId);
+            if (!track) return;
+
+            const container = track.parentElement;
+            const cards = Array.from(track.children);
+            
+            if (cards.length === 0) return;
+
+            // Clone cards for infinite scroll
+            const cloneCount = Math.max(3, cards.length);
+            for (let i = 0; i < cloneCount; i++) {
+                const clone = cards[i % cards.length].cloneNode(true);
+                track.appendChild(clone);
+            }
+            for (let i = 0; i < cloneCount; i++) {
+                const clone = cards[i % cards.length].cloneNode(true);
+                track.insertBefore(clone, track.firstChild);
+            }
+
+            let currentIndex = cloneCount;
+            const cardWidth = cards[0].offsetWidth;
+            const gap = 20;
+            const moveDistance = cardWidth + gap;
+
+            track.style.transform = `translateX(-${currentIndex * moveDistance}px)`;
+
+            const prevBtn = document.getElementById(prevBtnId);
+            const nextBtn = document.getElementById(nextBtnId);
+
+            function updateCarousel(smooth = true) {
+                if (smooth) {
+                    track.style.transition = 'transform 0.5s ease';
+                } else {
+                    track.style.transition = 'none';
+                }
+                track.style.transform = `translateX(-${currentIndex * moveDistance}px)`;
+            }
+
+            function moveNext() {
+                currentIndex++;
+                updateCarousel(true);
+
+                if (currentIndex >= cloneCount + cards.length) {
+                    setTimeout(() => {
+                        currentIndex = cloneCount;
+                        updateCarousel(false);
+                    }, 500);
+                }
+            }
+
+            function movePrev() {
+                currentIndex--;
+                updateCarousel(true);
+
+                if (currentIndex < cloneCount) {
+                    setTimeout(() => {
+                        currentIndex = cloneCount + cards.length - 1;
+                        updateCarousel(false);
+                    }, 500);
+                }
+            }
+
+            if (nextBtn) nextBtn.addEventListener('click', moveNext);
+            if (prevBtn) prevBtn.addEventListener('click', movePrev);
+
+            // Reinitialize carousel on window resize
+            let resizeTimeout;
+            window.addEventListener('resize', () => {
+                clearTimeout(resizeTimeout);
+                resizeTimeout = setTimeout(() => {
+                    const newCardWidth = cards[0].offsetWidth;
+                    const newMoveDistance = newCardWidth + gap;
+                    track.style.transition = 'none';
+                    track.style.transform = `translateX(-${currentIndex * newMoveDistance}px)`;
+                }, 250);
+            });
+        }
+
+        // Initialize both carousels
+        initCarousel('recommendationsCarouselTrack', 'recommendationsPrev', 'recommendationsNext');
+        initCarousel('projectsCarouselTrack', 'projectsPrev', 'projectsNext');
+
         // === RECOMMENDATIONS TOGGLE TEXT ===
         function toggleRecommendation(button) {
             const card = button.closest('.recommendation-card');
@@ -1678,10 +1821,10 @@ C'est pourquoi Je recommande fortement les services de Swann Le Vigouroux.</div>
             
             if (isExpanded) {
                 text.classList.remove('expanded');
-                button.textContent = 'Voir plus';
+                button.textContent = 'Read more';
             } else {
                 text.classList.add('expanded');
-                button.textContent = 'Voir moins';
+                button.textContent = 'Read less';
             }
         }
 
