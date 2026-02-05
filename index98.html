@@ -1,0 +1,1298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Swann Le Vigouroux — CTO</title>
+<link href="https://fonts.googleapis.com/css2?family=VT323&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --win-bg: #008080;
+  --win-gray: #c0c0c0;
+  --win-dark: #808080;
+  --win-light: #ffffff;
+  --win-shadow: #404040;
+  --win-blue: #000080;
+  --win-title: linear-gradient(90deg, #000080, #1084d0);
+  --win-btn-face: #c0c0c0;
+  --font-system: 'IBM Plex Mono', 'Courier New', monospace;
+  --font-display: 'VT323', monospace;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: url('https://upload.wikimedia.org/wikipedia/en/2/27/Bliss_%28Windows_XP%29.png') center center / cover fixed no-repeat;
+  background-color: var(--win-bg);
+  font-family: var(--font-system);
+  font-size: 13px;
+  color: #000;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ===== TASKBAR ===== */
+.taskbar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 36px;
+  background: var(--win-gray);
+  border-top: 2px solid var(--win-light);
+  display: flex;
+  align-items: center;
+  padding: 2px 4px;
+  z-index: 10000;
+  gap: 4px;
+}
+
+.start-btn {
+  background: var(--win-btn-face);
+  border: 2px outset var(--win-light);
+  padding: 2px 8px;
+  font-family: var(--font-system);
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  height: 28px;
+}
+.start-btn:active { border-style: inset; }
+.start-btn .win-logo {
+  width: 18px; height: 18px;
+  background: linear-gradient(135deg, #ff0000 25%, #00ff00 25%, #00ff00 50%, #0000ff 50%, #0000ff 75%, #ffff00 75%);
+}
+
+.taskbar-divider {
+  width: 2px;
+  height: 24px;
+  border-left: 1px solid var(--win-dark);
+  border-right: 1px solid var(--win-light);
+  margin: 0 2px;
+}
+
+.taskbar-items {
+  display: flex;
+  gap: 3px;
+  flex: 1;
+  overflow: hidden;
+}
+
+.taskbar-item {
+  background: var(--win-btn-face);
+  border: 2px outset var(--win-light);
+  padding: 2px 10px;
+  font-family: var(--font-system);
+  font-size: 11px;
+  cursor: pointer;
+  white-space: nowrap;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  max-width: 160px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.taskbar-item.active {
+  border-style: inset;
+  background: #b0b0b0;
+}
+.taskbar-item:hover { background: #d0d0d0; }
+
+.taskbar-clock {
+  border: 2px inset var(--win-light);
+  padding: 2px 10px;
+  font-family: var(--font-system);
+  font-size: 11px;
+  background: var(--win-btn-face);
+  height: 26px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 80px;
+  justify-content: center;
+}
+
+/* ===== DESKTOP ICONS ===== */
+.desktop {
+  padding: 20px;
+  padding-bottom: 56px;
+  min-height: 100vh;
+  position: relative;
+}
+
+.desktop-icons {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  position: fixed;
+  top: 16px;
+  left: 16px;
+  z-index: 5;
+}
+
+.desktop-icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  padding: 6px;
+  width: 80px;
+  text-align: center;
+  border: 1px solid transparent;
+}
+.desktop-icon:hover {
+  background: rgba(255,255,255,0.1);
+  border: 1px dotted #fff;
+}
+.desktop-icon:active { background: rgba(255,255,255,0.2); }
+
+.desktop-icon .icon-img {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+}
+.desktop-icon span {
+  color: #fff;
+  font-size: 11px;
+  font-family: var(--font-system);
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+  line-height: 1.2;
+}
+
+/* ===== WINDOW ===== */
+.window {
+  background: var(--win-gray);
+  border: 2px outset var(--win-light);
+  box-shadow: 2px 2px 0 var(--win-shadow);
+  position: relative;
+  margin: 0 auto 20px;
+  max-width: 860px;
+  animation: windowOpen 0.15s ease-out;
+}
+
+@keyframes windowOpen {
+  0% { transform: scale(0.9); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.window-titlebar {
+  background: var(--win-title);
+  padding: 3px 4px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: default;
+  user-select: none;
+}
+
+.window-titlebar .title {
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  font-family: var(--font-system);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding-left: 3px;
+}
+
+.window-controls {
+  display: flex;
+  gap: 2px;
+}
+
+.win-ctrl-btn {
+  width: 18px;
+  height: 18px;
+  background: var(--win-btn-face);
+  border: 2px outset var(--win-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: 700;
+  font-family: var(--font-system);
+  cursor: pointer;
+  line-height: 1;
+  color: #000;
+}
+.win-ctrl-btn:active { border-style: inset; }
+
+.window-menubar {
+  background: var(--win-gray);
+  padding: 2px 4px;
+  border-bottom: 1px solid var(--win-dark);
+  display: flex;
+  gap: 2px;
+}
+
+.menu-item {
+  padding: 2px 8px;
+  font-size: 12px;
+  cursor: pointer;
+  font-family: var(--font-system);
+}
+.menu-item:hover { background: var(--win-blue); color: #fff; }
+.menu-item .underline { text-decoration: underline; }
+
+.window-toolbar {
+  background: var(--win-gray);
+  padding: 3px 4px;
+  border-bottom: 1px solid var(--win-dark);
+  display: flex;
+  gap: 3px;
+  flex-wrap: wrap;
+}
+
+.toolbar-btn {
+  background: var(--win-btn-face);
+  border: 2px outset var(--win-light);
+  padding: 2px 8px;
+  font-size: 11px;
+  font-family: var(--font-system);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.toolbar-btn:active { border-style: inset; }
+.toolbar-btn:hover { background: #d0d0d0; }
+
+.window-content {
+  padding: 16px;
+  background: #fff;
+  border: 2px inset var(--win-light);
+  margin: 4px;
+  min-height: 100px;
+}
+
+.window-statusbar {
+  background: var(--win-gray);
+  padding: 3px 6px;
+  font-size: 11px;
+  border-top: 2px inset var(--win-light);
+  display: flex;
+  gap: 8px;
+}
+
+.status-section {
+  border: 1px inset var(--win-gray);
+  padding: 1px 8px;
+  background: var(--win-btn-face);
+}
+
+/* ===== HERO WINDOW ===== */
+.windows-area {
+  margin-left: 100px;
+  padding: 16px;
+  padding-bottom: 56px;
+}
+
+@media (max-width: 700px) {
+  .windows-area { margin-left: 0; padding: 8px; }
+  .desktop-icons { display: none; }
+  .window { margin: 8px auto 12px; }
+}
+
+.hero-content {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+.hero-photo {
+  width: 120px;
+  height: 120px;
+  border: 2px inset var(--win-gray);
+  background: #c0c0c0;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+.hero-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  image-rendering: auto;
+}
+
+.hero-text h1 {
+  font-family: var(--font-display);
+  font-size: 36px;
+  color: var(--win-blue);
+  letter-spacing: 1px;
+  line-height: 1;
+  margin-bottom: 6px;
+}
+
+.hero-text .subtitle {
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.hero-text p {
+  font-size: 12px;
+  line-height: 1.6;
+  color: #222;
+  margin-bottom: 10px;
+}
+
+.hero-badges {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+
+.badge {
+  background: var(--win-btn-face);
+  border: 2px outset var(--win-light);
+  padding: 3px 10px;
+  font-size: 11px;
+  font-family: var(--font-system);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* ===== BUTTONS ===== */
+.win-btn {
+  background: var(--win-btn-face);
+  border: 2px outset var(--win-light);
+  padding: 5px 20px;
+  font-family: var(--font-system);
+  font-size: 12px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  text-decoration: none;
+  color: #000;
+}
+.win-btn:active { border-style: inset; }
+.win-btn:hover { background: #d0d0d0; }
+.win-btn.primary {
+  border: 3px outset var(--win-light);
+  font-weight: 700;
+}
+
+.btn-row {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+  flex-wrap: wrap;
+}
+
+/* ===== APPROACH SECTION ===== */
+.approach-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+@media (max-width: 600px) {
+  .approach-grid { grid-template-columns: 1fr; }
+  .hero-content { flex-direction: column; }
+  .hero-photo { width: 100px; height: 100px; }
+}
+
+.approach-card {
+  background: var(--win-btn-face);
+  border: 2px inset var(--win-light);
+  padding: 14px;
+}
+
+.approach-card h3 {
+  font-family: var(--font-display);
+  font-size: 22px;
+  color: var(--win-blue);
+  margin-bottom: 6px;
+}
+
+.approach-card p {
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+/* ===== TIMELINE / TREEVIEW ===== */
+.treeview {
+  font-family: var(--font-system);
+  font-size: 12px;
+  padding: 8px;
+  background: #fff;
+}
+
+.tree-node {
+  padding-left: 20px;
+  position: relative;
+  margin-bottom: 3px;
+}
+
+.tree-node::before {
+  content: '';
+  position: absolute;
+  left: 6px;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: var(--win-dark);
+}
+
+.tree-branch {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  padding: 6px 0;
+  position: relative;
+  cursor: pointer;
+}
+
+.tree-branch::before {
+  content: '';
+  position: absolute;
+  left: -14px;
+  top: 14px;
+  width: 12px;
+  height: 1px;
+  background: var(--win-dark);
+}
+
+.tree-icon {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+}
+
+.tree-label {
+  line-height: 1.5;
+}
+
+.tree-label strong {
+  color: var(--win-blue);
+  font-size: 13px;
+}
+
+.tree-label .tree-sub {
+  color: #555;
+  font-size: 11px;
+  display: block;
+}
+
+.tree-label .tree-desc {
+  color: #333;
+  font-size: 11px;
+  margin-top: 3px;
+  display: block;
+  line-height: 1.5;
+}
+
+.tree-tag {
+  display: inline-block;
+  background: var(--win-blue);
+  color: #fff;
+  padding: 1px 6px;
+  font-size: 10px;
+  margin-right: 4px;
+  margin-top: 4px;
+}
+
+/* ===== PROJECTS (TABS) ===== */
+.tab-header {
+  display: flex;
+  gap: 0;
+  margin-bottom: -2px;
+  position: relative;
+  z-index: 1;
+}
+
+.tab-btn {
+  background: var(--win-btn-face);
+  border: 2px outset var(--win-light);
+  border-bottom: 2px solid var(--win-dark);
+  padding: 4px 14px;
+  font-size: 11px;
+  font-family: var(--font-system);
+  cursor: pointer;
+  position: relative;
+}
+.tab-btn.active {
+  border-bottom: 2px solid #fff;
+  background: #fff;
+  z-index: 2;
+}
+
+.tab-panel {
+  display: none;
+  background: #fff;
+  border: 2px inset var(--win-light);
+  padding: 16px;
+}
+.tab-panel.active { display: block; }
+
+.project-detail h3 {
+  font-family: var(--font-display);
+  font-size: 24px;
+  color: var(--win-blue);
+  margin-bottom: 4px;
+}
+
+.project-detail .project-role {
+  font-size: 12px;
+  color: #666;
+  margin-bottom: 10px;
+}
+
+.project-detail p {
+  font-size: 12px;
+  line-height: 1.7;
+  margin-bottom: 10px;
+}
+
+.project-stats {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin: 12px 0;
+}
+
+.stat-box {
+  background: var(--win-btn-face);
+  border: 2px inset var(--win-light);
+  padding: 8px 14px;
+  text-align: center;
+  min-width: 100px;
+}
+
+.stat-box .stat-num {
+  font-family: var(--font-display);
+  font-size: 28px;
+  color: var(--win-blue);
+  display: block;
+}
+.stat-box .stat-label {
+  font-size: 10px;
+  color: #555;
+}
+
+.tech-tags {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+
+.tech-tag {
+  background: #e0e0e0;
+  border: 1px solid #999;
+  padding: 2px 8px;
+  font-size: 10px;
+  font-family: var(--font-system);
+}
+
+/* ===== TESTIMONIALS (NOTEPAD STYLE) ===== */
+.notepad-content {
+  font-family: var(--font-system);
+  font-size: 12px;
+  line-height: 1.8;
+  background: #fff;
+  background-image: repeating-linear-gradient(transparent, transparent 21px, #e8e8e8 21px, #e8e8e8 22px);
+  padding: 4px 8px;
+  white-space: pre-wrap;
+  min-height: 120px;
+}
+
+.testimonial-nav {
+  background: var(--win-gray);
+  padding: 6px;
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  border-top: 1px solid var(--win-dark);
+}
+
+.testimonial-info {
+  flex: 1;
+  text-align: center;
+  font-size: 11px;
+}
+
+.testimonial-author {
+  font-weight: 700;
+  color: var(--win-blue);
+}
+
+.testimonial-role {
+  color: #555;
+  font-size: 10px;
+}
+
+/* ===== CONTACT (DIALOG) ===== */
+.dialog-content {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  padding: 8px;
+}
+
+.dialog-icon {
+  font-size: 42px;
+  flex-shrink: 0;
+}
+
+.dialog-text {
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+.dialog-text p { margin-bottom: 10px; }
+
+.contact-links {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 12px 0;
+}
+
+.contact-link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 8px;
+  border: 1px solid transparent;
+  text-decoration: none;
+  color: #000;
+  font-size: 12px;
+}
+.contact-link:hover {
+  background: var(--win-blue);
+  color: #fff;
+  border: 1px dotted #fff;
+}
+
+.contact-link .link-icon { font-size: 16px; width: 20px; text-align: center; }
+
+/* ===== SCROLLBAR ===== */
+::-webkit-scrollbar { width: 16px; }
+::-webkit-scrollbar-track {
+  background: var(--win-gray);
+  border: 1px solid var(--win-dark);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--win-btn-face);
+  border: 2px outset var(--win-light);
+}
+::-webkit-scrollbar-button {
+  background: var(--win-btn-face);
+  border: 2px outset var(--win-light);
+  height: 16px;
+}
+
+/* ===== BOOT SCREEN ===== */
+.boot-screen {
+  position: fixed;
+  inset: 0;
+  background: #000;
+  z-index: 99999;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: var(--win-gray);
+  font-family: var(--font-display);
+  animation: bootFade 0.4s 2.8s forwards;
+}
+
+@keyframes bootFade {
+  to { opacity: 0; pointer-events: none; }
+}
+
+.boot-logo {
+  font-size: 48px;
+  color: #fff;
+  margin-bottom: 20px;
+  letter-spacing: 2px;
+}
+
+.boot-bar-container {
+  width: 300px;
+  height: 18px;
+  border: 2px inset var(--win-gray);
+  background: #000;
+  padding: 2px;
+}
+
+.boot-bar {
+  height: 100%;
+  background: var(--win-blue);
+  width: 0%;
+  animation: bootLoad 2.5s ease-in-out forwards;
+}
+
+@keyframes bootLoad {
+  0% { width: 0%; }
+  30% { width: 35%; }
+  60% { width: 65%; }
+  85% { width: 90%; }
+  100% { width: 100%; }
+}
+
+.boot-text {
+  margin-top: 12px;
+  font-size: 16px;
+  animation: bootBlink 0.6s infinite;
+}
+
+@keyframes bootBlink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+
+/* ===== MISC ===== */
+.section-spacer { height: 8px; }
+
+.marquee-bar {
+  background: var(--win-btn-face);
+  border: 2px inset var(--win-light);
+  padding: 4px 0;
+  overflow: hidden;
+  margin: 4px;
+}
+
+.marquee-text {
+  white-space: nowrap;
+  animation: marqueeScroll 20s linear infinite;
+  font-size: 11px;
+  color: var(--win-blue);
+  font-weight: 600;
+  padding-left: 100%;
+}
+
+@keyframes marqueeScroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-200%); }
+}
+
+/* Grouped window section header */
+.group-header {
+  background: var(--win-gray);
+  padding: 6px 8px;
+  border-bottom: 1px solid var(--win-dark);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.group-header h2 {
+  font-family: var(--font-display);
+  font-size: 20px;
+  color: var(--win-blue);
+}
+
+a { color: var(--win-blue); }
+</style>
+</head>
+<body>
+
+<!-- BOOT SCREEN -->
+<div class="boot-screen" id="boot">
+  <div class="boot-logo">⊞ SwannOS 98</div>
+  <div class="boot-bar-container">
+    <div class="boot-bar"></div>
+  </div>
+  <div class="boot-text">Loading portfolio...</div>
+</div>
+
+<!-- DESKTOP ICONS -->
+<div class="desktop-icons">
+  <a href="#hero" class="desktop-icon">
+    <div class="icon-img">👤</div>
+    <span>My Profile</span>
+  </a>
+  <a href="#approach" class="desktop-icon">
+    <div class="icon-img">💡</div>
+    <span>My Approach</span>
+  </a>
+  <a href="#journey" class="desktop-icon">
+    <div class="icon-img">📂</div>
+    <span>Ship Log</span>
+  </a>
+  <a href="#projects" class="desktop-icon">
+    <div class="icon-img">💾</div>
+    <span>Projects</span>
+  </a>
+  <a href="#testimonials" class="desktop-icon">
+    <div class="icon-img">📝</div>
+    <span>Testimonials</span>
+  </a>
+  <a href="#contact" class="desktop-icon">
+    <div class="icon-img">📧</div>
+    <span>Contact</span>
+  </a>
+  <a href="https://swannlv.github.io/swann-le-vigouroux.pdf" class="desktop-icon" target="_blank">
+    <div class="icon-img">📄</div>
+    <span>Resume.pdf</span>
+  </a>
+</div>
+
+<!-- WINDOWS AREA -->
+<div class="windows-area">
+
+  <!-- ===== HERO WINDOW ===== -->
+  <div class="window" id="hero">
+    <div class="window-titlebar">
+      <span class="title">👤 swann_le_vigouroux.exe — Profile</span>
+      <div class="window-controls">
+        <div class="win-ctrl-btn">_</div>
+        <div class="win-ctrl-btn">□</div>
+        <div class="win-ctrl-btn">✕</div>
+      </div>
+    </div>
+    <div class="marquee-bar">
+      <div class="marquee-text">★ CTO @ Comet — Creative mind. Team builder. AI-powered. Everything I do serves the product. ★ French (Native) · English (Fluent — 3 years Toronto) · PSM I Certified ★ Aix-en-Provence / Remote ★</div>
+    </div>
+    <div class="window-content">
+      <div class="hero-content">
+        <div class="hero-photo">
+          <img src="https://swannlv.github.io/profil.jpg" alt="Swann Le Vigouroux" onerror="this.parentElement.innerHTML='👤'">
+        </div>
+        <div class="hero-text">
+          <h1>Swann Le Vigouroux</h1>
+          <div class="subtitle">Chief Technology Officer @ <a href="https://www.comet.co/" target="_blank">Comet</a></div>
+          <p>Creative mind. Team builder. AI-powered.<br>Everything I do serves the product.</p>
+          <div class="hero-badges">
+            <div class="badge">🇫🇷 French (Native)</div>
+            <div class="badge">🇬🇧 English (Fluent)</div>
+            <div class="badge">📍 Aix-en-Provence</div>
+            <div class="badge">🏅 PSM I</div>
+          </div>
+          <div class="btn-row">
+            <a href="/cdn-cgi/l/email-protection#076b6229716e6068727568727f29747066696947606a666e6b2964686a" class="win-btn primary">✉️ Get in Touch</a>
+            <a href="https://linkedin.com/in/swannlv" class="win-btn" target="_blank">💼 LinkedIn</a>
+            <a href="https://swannlv.github.io/swann-le-vigouroux.pdf" class="win-btn" target="_blank">📄 Resume (PDF)</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="window-statusbar">
+      <span class="status-section">CTO · Hands-on</span>
+      <span class="status-section">9 engineers</span>
+      <span class="status-section">Since 2009</span>
+    </div>
+  </div>
+
+  <!-- ===== APPROACH WINDOW ===== -->
+  <div class="window" id="approach">
+    <div class="window-titlebar">
+      <span class="title">💡 approach.doc — How I Lead</span>
+      <div class="window-controls">
+        <div class="win-ctrl-btn">_</div>
+        <div class="win-ctrl-btn">□</div>
+        <div class="win-ctrl-btn">✕</div>
+      </div>
+    </div>
+    <div class="window-menubar">
+      <span class="menu-item"><span class="underline">F</span>ile</span>
+      <span class="menu-item"><span class="underline">E</span>dit</span>
+      <span class="menu-item"><span class="underline">V</span>iew</span>
+      <span class="menu-item"><span class="underline">H</span>elp</span>
+    </div>
+    <div class="window-content">
+      <p style="margin-bottom:14px;font-size:12px;color:#333;">Engineering leadership isn't just about code — it's about people and momentum.</p>
+      <div class="approach-grid">
+        <div class="approach-card">
+          <h3>🔥 Daily Spark</h3>
+          <p>A motivated team finds its daily spark — that small pleasure that makes everyone more productive, creative, and engaged. My job: create the conditions for each person to find theirs.</p>
+        </div>
+        <div class="approach-card">
+          <h3>⚡ 2-Way Product × Tech</h3>
+          <p>Fast iterations, commando mode. Devs aren't just executors — they propose, challenge, and co-create with product. Innovation flows both ways.</p>
+        </div>
+      </div>
+    </div>
+    <div class="window-statusbar">
+      <span class="status-section">Page 1 of 1</span>
+      <span class="status-section">100%</span>
+    </div>
+  </div>
+
+  <!-- ===== JOURNEY WINDOW (EXPLORER / TREEVIEW) ===== -->
+  <div class="window" id="journey">
+    <div class="window-titlebar">
+      <span class="title">📂 C:\Career\ShipLog — Explorer</span>
+      <div class="window-controls">
+        <div class="win-ctrl-btn">_</div>
+        <div class="win-ctrl-btn">□</div>
+        <div class="win-ctrl-btn">✕</div>
+      </div>
+    </div>
+    <div class="window-menubar">
+      <span class="menu-item"><span class="underline">F</span>ile</span>
+      <span class="menu-item"><span class="underline">E</span>dit</span>
+      <span class="menu-item"><span class="underline">V</span>iew</span>
+      <span class="menu-item"><span class="underline">T</span>ools</span>
+    </div>
+    <div class="window-toolbar">
+      <div class="toolbar-btn">⬆ Up</div>
+      <div class="toolbar-btn">📋 Copy</div>
+      <div class="toolbar-btn">📁 Properties</div>
+      <div class="toolbar-btn" style="flex:1;justify-content:flex-start;background:#fff;border-style:inset;">📂 C:\Career\ShipLog\</div>
+    </div>
+    <div class="window-content" style="padding:8px;">
+      <div class="treeview">
+
+        <div class="tree-node">
+          <div class="tree-branch">
+            <div class="tree-icon">📁</div>
+            <div class="tree-label">
+              <strong>Jan 2025 — Present · CTO (Hands-on)</strong>
+              <span class="tree-sub">Comet · Paris / Remote · <a href="https://www.comet.co/" target="_blank">comet.co</a></span>
+              <span class="tree-desc">Leading 9 engineers (7 devs, 1 data engineer, 1 QA). Shipped Nova AI platform, driving 85% reduction in portfolio creation time. Implementing strategic legacy-to-SaaS migration.</span>
+              <span><span class="tree-tag">9 engineers</span><span class="tree-tag">AI Platform</span><span class="tree-tag">-85% time</span></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="tree-node">
+          <div class="tree-branch">
+            <div class="tree-icon">📁</div>
+            <div class="tree-label">
+              <strong>Feb 2022 — Jan 2025 · Engineering Manager (Hands-on)</strong>
+              <span class="tree-sub">Comet</span>
+              <span class="tree-desc">Scaled engineering from 8 to 15 engineers across cross-functional squads. Built predictable delivery pipeline, implemented Notion↔GitLab sync for product autonomy.</span>
+              <span><span class="tree-tag">8→15 engineers</span><span class="tree-tag">Process Excellence</span></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="tree-node">
+          <div class="tree-branch">
+            <div class="tree-icon">📁</div>
+            <div class="tree-label">
+              <strong>Nov 2018 — Feb 2022 · Team Lead & Fullstack Dev</strong>
+              <span class="tree-sub">Comet</span>
+              <span class="tree-desc">Led team of 5 engineers. Drove agile transformation across the company. Led complete platform rebuild: TypeScript, Node.js, React, AWS Serverless.</span>
+              <span><span class="tree-tag">5 engineers</span><span class="tree-tag">Agile Transformation</span></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="tree-node">
+          <div class="tree-branch">
+            <div class="tree-icon">📁</div>
+            <div class="tree-label">
+              <strong>Feb 2016 — Oct 2018 · Lead Developer</strong>
+              <span class="tree-sub">CMA CGM · Marseille</span>
+              <span class="tree-desc">Led team of 5 developers. Pioneered Vue.js and Git adoption in traditional corporate environment. Core developer on global booking platform.</span>
+              <span><span class="tree-tag">5 devs</span><span class="tree-tag">Vue.js Pioneer</span></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="tree-node">
+          <div class="tree-branch">
+            <div class="tree-icon">📁</div>
+            <div class="tree-label">
+              <strong>2012 — 2016 · Creative Technologist & Lead Dev</strong>
+              <span class="tree-sub">UNION Advertising + Freelance · Toronto 🇨🇦</span>
+              <span class="tree-desc">Built interactive brand experiences (WebGL, Three.js, Arduino). Led team of 3 on shoppersdrugmart.ca. Developed mobile apps and social platforms as freelancer.</span>
+              <span><span class="tree-tag">4 years Toronto</span><span class="tree-tag">3 devs</span></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="tree-node">
+          <div class="tree-branch">
+            <div class="tree-icon">📁</div>
+            <div class="tree-label">
+              <strong>Oct 2009 — Jul 2012 · Software Engineer</strong>
+              <span class="tree-sub">Anyware Video · Marseille</span>
+              <span class="tree-desc">Real-time broadcast development in C++ and .Net. Client deployments for TF1, AB Productions, LCP, and Gameone. Built low-latency broadcast technology.</span>
+              <span><span class="tree-tag">C++</span><span class="tree-tag">Broadcast</span><span class="tree-tag">TF1</span></span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <div class="window-statusbar">
+      <span class="status-section">6 objects</span>
+      <span class="status-section">15+ years of experience</span>
+    </div>
+  </div>
+
+  <!-- ===== PROJECTS WINDOW (TABS) ===== -->
+  <div class="window" id="projects">
+    <div class="window-titlebar">
+      <span class="title">💾 projects.sys — System Properties</span>
+      <div class="window-controls">
+        <div class="win-ctrl-btn">_</div>
+        <div class="win-ctrl-btn">□</div>
+        <div class="win-ctrl-btn">✕</div>
+      </div>
+    </div>
+    <div style="padding:4px;">
+      <div class="tab-header">
+        <div class="tab-btn active" onclick="switchTab(0)">⚡ Comet SaaS</div>
+        <div class="tab-btn" onclick="switchTab(1)">🤖 Nova AI</div>
+        <div class="tab-btn" onclick="switchTab(2)">💊 Shoppers</div>
+        <div class="tab-btn" onclick="switchTab(3)">🚢 CMA CGM</div>
+      </div>
+
+      <div class="tab-panel active" id="tab-0">
+        <div class="project-detail">
+          <h3>Full SaaS Platform</h3>
+          <div class="project-role">Lead → Engineering Manager · 2018–2025 · <a href="https://app.comet.co/" target="_blank">app.comet.co ↗</a></div>
+          <p>Built the entire SaaS platform with the team. Freelance & client apps, matching engine, billing, analytics.</p>
+          <div class="project-stats">
+            <div class="stat-box"><span class="stat-num">8→15</span><span class="stat-label">engineers scaled</span></div>
+            <div class="stat-box"><span class="stat-num">7</span><span class="stat-label">years</span></div>
+          </div>
+          <div class="tech-tags">
+            <span class="tech-tag">TypeScript</span>
+            <span class="tech-tag">Node.js</span>
+            <span class="tech-tag">React</span>
+            <span class="tech-tag">Vue.js</span>
+            <span class="tech-tag">AWS</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-panel" id="tab-1">
+        <div class="project-detail">
+          <h3>Nova AI Platform</h3>
+          <div class="project-role">CTO · 2025 · <a href="https://www.comet.co/" target="_blank">comet.co ↗</a></div>
+          <p>GenAI matching engine — portfolio creation from 78min to 12min, candidate matching from 1h to 5min.</p>
+          <div class="project-stats">
+            <div class="stat-box"><span class="stat-num">-85%</span><span class="stat-label">time saved</span></div>
+            <div class="stat-box"><span class="stat-num">-90%</span><span class="stat-label">cost reduction</span></div>
+          </div>
+          <div class="tech-tags">
+            <span class="tech-tag">AWS Bedrock</span>
+            <span class="tech-tag">GenAI</span>
+            <span class="tech-tag">Terraform</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-panel" id="tab-2">
+        <div class="project-detail">
+          <h3>E-commerce Platform</h3>
+          <div class="project-role">Lead Dev · 2014 · <a href="https://www.shoppersdrugmart.ca/" target="_blank">shoppersdrugmart.ca ↗</a></div>
+          <p>Led squad for Canada's largest pharmacy chain. High-traffic e-commerce with complex product catalog.</p>
+          <div class="tech-tags">
+            <span class="tech-tag">JavaScript</span>
+            <span class="tech-tag">E-commerce</span>
+            <span class="tech-tag">Performance</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-panel" id="tab-3">
+        <div class="project-detail">
+          <h3>Global Booking Platform</h3>
+          <div class="project-role">Lead Dev · 2016–2018 · <a href="https://www.cma-cgm.com/" target="_blank">cma-cgm.com ↗</a></div>
+          <p>Pioneered Vue.js adoption at one of the world's largest shipping companies. Built booking system serving global logistics operations.</p>
+          <div class="project-stats">
+            <div class="stat-box"><span class="stat-num">5</span><span class="stat-label">devs led</span></div>
+          </div>
+          <div class="tech-tags">
+            <span class="tech-tag">Vue.js</span>
+            <span class="tech-tag">C#.Net</span>
+            <span class="tech-tag">Logistics</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== TESTIMONIALS (NOTEPAD WINDOW) ===== -->
+  <div class="window" id="testimonials">
+    <div class="window-titlebar">
+      <span class="title">📝 testimonials.txt — Notepad</span>
+      <div class="window-controls">
+        <div class="win-ctrl-btn">_</div>
+        <div class="win-ctrl-btn">□</div>
+        <div class="win-ctrl-btn">✕</div>
+      </div>
+    </div>
+    <div class="window-menubar">
+      <span class="menu-item"><span class="underline">F</span>ile</span>
+      <span class="menu-item"><span class="underline">E</span>dit</span>
+      <span class="menu-item"><span class="underline">S</span>earch</span>
+      <span class="menu-item"><span class="underline">H</span>elp</span>
+    </div>
+    <div class="window-content" style="padding:0;">
+      <div class="notepad-content" id="testimonial-text">
+"I had the chance to work with Swann for four years, and this collaboration was extremely impactful. Throughout this period, I always felt listened to, valued, and supported, which makes a real difference on a daily basis. Swann's technical expertise, vision, and ability to make sound decisions provide a solid and reassuring framework. His deeply human way of working, attentive to team balance, creates a healthy and engaging environment."
+      </div>
+    </div>
+    <div class="testimonial-nav">
+      <div class="toolbar-btn" onclick="changeTestimonial(-1)">◀ Prev</div>
+      <div class="testimonial-info">
+        <div class="testimonial-author" id="test-author">Shannone Controu</div>
+        <div class="testimonial-role" id="test-role">Fullstack Developer @Comet</div>
+      </div>
+      <div class="toolbar-btn" onclick="changeTestimonial(1)">Next ▶</div>
+    </div>
+    <div class="window-statusbar">
+      <span class="status-section" id="test-counter">1 of 7</span>
+      <span class="status-section"><a href="https://www.linkedin.com/in/swannlv/details/recommendations/" target="_blank">View all on LinkedIn ↗</a></span>
+    </div>
+  </div>
+
+  <!-- ===== CONTACT WINDOW (DIALOG) ===== -->
+  <div class="window" id="contact">
+    <div class="window-titlebar">
+      <span class="title">📧 contact.exe — Let's Talk</span>
+      <div class="window-controls">
+        <div class="win-ctrl-btn">_</div>
+        <div class="win-ctrl-btn">□</div>
+        <div class="win-ctrl-btn">✕</div>
+      </div>
+    </div>
+    <div class="window-content">
+      <div class="dialog-content">
+        <div class="dialog-icon">💬</div>
+        <div class="dialog-text">
+          <p><strong>Whether you're scaling a team, shipping a product, or just want to chat about engineering leadership</strong> — I'd love to hear from you.</p>
+          <div class="contact-links">
+            <a href="/cdn-cgi/l/email-protection#7d1118530b141a12080f120805530e0a1c13133d1a101c1411531e1210" class="contact-link">
+              <span class="link-icon">✉️</span>
+              <span><span class="__cf_email__" data-cfemail="f69a93d8809f9199838499838ed88581979898b6919b979f9ad895999b">[email&#160;protected]</span></span>
+            </a>
+            <a href="https://linkedin.com/in/swannlv" target="_blank" class="contact-link">
+              <span class="link-icon">💼</span>
+              <span>linkedin.com/in/swannlv</span>
+            </a>
+            <a href="https://github.com/swannlv" target="_blank" class="contact-link">
+              <span class="link-icon">⌨️</span>
+              <span>github.com/swannlv</span>
+            </a>
+          </div>
+          <div class="btn-row">
+            <a href="/cdn-cgi/l/email-protection#503c357e2639373f25223f25287e2327313e3e10373d31393c7e333f3d" class="win-btn primary">OK — Let's Talk</a>
+            <a href="https://swannlv.github.io/swann-le-vigouroux.pdf" class="win-btn" target="_blank">📄 Download Resume</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="window-statusbar">
+      <span class="status-section">© 2026 Swann Le Vigouroux</span>
+      <span class="status-section">Aix-en-Provence / Remote</span>
+    </div>
+  </div>
+
+</div>
+
+<!-- TASKBAR -->
+<div class="taskbar">
+  <div class="start-btn" onclick="alert('SwannOS 98\nVersion 1.0\n\nCTO · Creative Mind · Team Builder')">
+    <div class="win-logo"></div>
+    Start
+  </div>
+  <div class="taskbar-divider"></div>
+  <div class="taskbar-items">
+    <a href="#hero" class="taskbar-item active">👤 Profile</a>
+    <a href="#approach" class="taskbar-item">💡 Approach</a>
+    <a href="#journey" class="taskbar-item">📂 Ship Log</a>
+    <a href="#projects" class="taskbar-item">💾 Projects</a>
+    <a href="#testimonials" class="taskbar-item">📝 Testimonials</a>
+    <a href="#contact" class="taskbar-item">📧 Contact</a>
+  </div>
+  <div class="taskbar-clock" id="clock">
+    <span>🔊</span>
+    <span id="clock-time"></span>
+  </div>
+</div>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+// Clock
+function updateClock() {
+  const now = new Date();
+  const h = now.getHours().toString().padStart(2, '0');
+  const m = now.getMinutes().toString().padStart(2, '0');
+  document.getElementById('clock-time').textContent = h + ':' + m;
+}
+updateClock();
+setInterval(updateClock, 30000);
+
+// Remove boot screen
+setTimeout(() => {
+  const boot = document.getElementById('boot');
+  if (boot) boot.remove();
+}, 3400);
+
+// Tabs
+function switchTab(index) {
+  document.querySelectorAll('.tab-btn').forEach((btn, i) => {
+    btn.classList.toggle('active', i === index);
+  });
+  document.querySelectorAll('.tab-panel').forEach((panel, i) => {
+    panel.classList.toggle('active', i === index);
+  });
+}
+
+// Testimonials
+const testimonials = [
+  {
+    text: '"I had the chance to work with Swann for four years, and this collaboration was extremely impactful. Throughout this period, I always felt listened to, valued, and supported, which makes a real difference on a daily basis. Swann\'s technical expertise, vision, and ability to make sound decisions provide a solid and reassuring framework. His deeply human way of working, attentive to team balance, creates a healthy and engaging environment."',
+    author: 'Shannone Controu',
+    role: 'Fullstack Developer @Comet'
+  },
+  {
+    text: '"I have rarely, if ever, worked with a manager and CTO who is so attentive, caring, and deeply human. The trust given, the quality of exchanges, the relevance of advice, and the energy transmitted on a daily basis make a real difference, both on a human and professional level. His impact on teams and projects is real, lasting, and immediately noticeable."',
+    author: 'Jérémy Levy',
+    role: 'Tech Lead @ Comet | Next40/120'
+  },
+  {
+    text: '"I worked with Swann for many years. He is a skilled software engineer, especially with web technologies, with a strong leading capacity. As an innovative person, Swann continuously improves our projects and makes his whole team grow. Thanks to him, our frontend apps are modern and efficient and our dev teams can count on an amazing colleague."',
+    author: 'Nicolas Benhamou',
+    role: 'Solutions Architect @ Mistral AI'
+  },
+  {
+    text: '"He is a competent, creative person full of ideas. Caring, always in good spirits and attentive, he knows how to unite and motivate his teams. His management allowed us to reinvent ourselves and give the best of ourselves. It was a pleasure working with Swann!"',
+    author: 'Mouna Ben Chamekh',
+    role: 'Senior Data Engineer'
+  },
+  {
+    text: '"Swann is a competent, involved person with excellent interpersonal skills. He places great importance on human interactions, the well-being of his team, and knows how to establish a climate of trust that promotes commitment and motivation."',
+    author: 'Anthony LE ROY',
+    role: 'Software Engineer | AWS Certified'
+  },
+  {
+    text: '"He\'s someone who gives his all and expects the same from the rest of the team by pushing them to reinvent themselves and step out of their comfort zone. I particularly remember our debates: a real pleasure to exchange, to confront our viewpoints, to challenge R&D and technical ideas. Working with Swann means being challenged and progressing quickly!"',
+    author: 'Mehdi Tagaizine',
+    role: 'Product Owner & Freelance Developer'
+  },
+  {
+    text: '"Swann actively participated in the development of dynamic graphics systems and broadcast control systems. He demonstrated skills, reactivity, and professionalism. He has always been a reliable and responsible person, both in his work and in his relationships with the teams. I strongly recommend his services."',
+    author: 'Eric Oudart',
+    role: 'Operations Director'
+  }
+];
+
+let currentTestimonial = 0;
+
+function changeTestimonial(dir) {
+  currentTestimonial = (currentTestimonial + dir + testimonials.length) % testimonials.length;
+  const t = testimonials[currentTestimonial];
+  document.getElementById('testimonial-text').textContent = t.text;
+  document.getElementById('test-author').textContent = t.author;
+  document.getElementById('test-role').textContent = t.role;
+  document.getElementById('test-counter').textCon

@@ -1,0 +1,1464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Swann Le Vigouroux — CTO</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Syne:wght@400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════════════
+   CSS VARIABLES & RESET
+   ═══════════════════════════════════════════════════ */
+:root {
+  --bg: #08080a;
+  --bg-elevated: #111115;
+  --bg-card: #16161a;
+  --text: #f0ede6;
+  --text-muted: #8a8a95;
+  --accent: #c8ff00;
+  --accent-dim: #c8ff0022;
+  --accent2: #ff6b35;
+  --border: #2a2a32;
+  --serif: 'Instrument Serif', Georgia, serif;
+  --sans: 'Syne', sans-serif;
+  --mono: 'JetBrains Mono', monospace;
+  --grain: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+}
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  scrollbar-width: thin;
+  scrollbar-color: var(--accent) var(--bg);
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  overflow-x: hidden;
+  cursor: default;
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--bg);
+}
+
+a { color: inherit; text-decoration: none; }
+img { max-width: 100%; display: block; }
+
+/* ═══════════════════════════════════════════════════
+   GRAIN OVERLAY
+   ═══════════════════════════════════════════════════ */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: var(--grain);
+  background-size: 256px;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.5;
+}
+
+/* ═══════════════════════════════════════════════════
+   CUSTOM CURSOR DOT
+   ═══════════════════════════════════════════════════ */
+.cursor-dot {
+  position: fixed;
+  width: 8px;
+  height: 8px;
+  background: var(--accent);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 10000;
+  transition: transform 0.15s ease;
+  mix-blend-mode: difference;
+}
+.cursor-ring {
+  position: fixed;
+  width: 40px;
+  height: 40px;
+  border: 1.5px solid var(--accent);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 10000;
+  transition: transform 0.3s ease, width 0.3s ease, height 0.3s ease;
+  mix-blend-mode: difference;
+}
+.cursor-ring.hover {
+  width: 60px;
+  height: 60px;
+  border-color: var(--accent2);
+}
+
+/* ═══════════════════════════════════════════════════
+   NAVIGATION
+   ═══════════════════════════════════════════════════ */
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  padding: 1.5rem 3rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  backdrop-filter: blur(20px);
+  background: rgba(8, 8, 10, 0.7);
+  border-bottom: 1px solid var(--border);
+  transition: transform 0.4s ease;
+}
+nav.hidden { transform: translateY(-100%); }
+
+.nav-logo {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.nav-links { display: flex; gap: 2rem; align-items: center; }
+.nav-links a {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  transition: color 0.3s;
+  position: relative;
+}
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: var(--accent);
+  transition: width 0.3s;
+}
+.nav-links a:hover { color: var(--text); }
+.nav-links a:hover::after { width: 100%; }
+
+.nav-cta {
+  background: var(--accent) !important;
+  color: var(--bg) !important;
+  padding: 0.5rem 1.2rem;
+  border-radius: 2px;
+  font-weight: 600;
+}
+.nav-cta::after { display: none !important; }
+.nav-cta:hover { opacity: 0.9; }
+
+/* ═══════════════════════════════════════════════════
+   HERO
+   ═══════════════════════════════════════════════════ */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+  padding: 8rem 3rem 4rem;
+  overflow: hidden;
+}
+
+.hero-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(var(--border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border) 1px, transparent 1px);
+  background-size: 60px 60px;
+  opacity: 0.3;
+  mask-image: radial-gradient(ellipse 80% 60% at 50% 40%, black 30%, transparent 80%);
+}
+
+.hero-glow {
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  border-radius: 50%;
+  filter: blur(120px);
+  opacity: 0.15;
+  pointer-events: none;
+}
+.hero-glow-1 {
+  top: -200px;
+  right: -100px;
+  background: var(--accent);
+}
+.hero-glow-2 {
+  bottom: -200px;
+  left: -100px;
+  background: var(--accent2);
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.hero-tag {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 2rem;
+  opacity: 0;
+  animation: fadeUp 0.8s ease 0.2s forwards;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.hero-tag::before {
+  content: '';
+  width: 40px;
+  height: 1px;
+  background: var(--accent);
+}
+
+.hero-name {
+  font-family: var(--serif);
+  font-size: clamp(4rem, 10vw, 9rem);
+  line-height: 0.95;
+  font-weight: 400;
+  letter-spacing: -0.03em;
+  margin-bottom: 1.5rem;
+  opacity: 0;
+  animation: fadeUp 0.8s ease 0.4s forwards;
+}
+.hero-name em {
+  font-style: italic;
+  color: var(--accent);
+  display: inline-block;
+  transition: transform 0.3s ease;
+}
+.hero-name em:hover { transform: rotate(-3deg) scale(1.05); }
+
+.hero-role {
+  font-size: clamp(1.2rem, 2.5vw, 1.8rem);
+  font-weight: 300;
+  color: var(--text-muted);
+  margin-bottom: 2.5rem;
+  opacity: 0;
+  animation: fadeUp 0.8s ease 0.6s forwards;
+}
+.hero-role strong {
+  color: var(--text);
+  font-weight: 600;
+}
+
+.hero-tagline {
+  font-family: var(--serif);
+  font-size: clamp(1.1rem, 2vw, 1.4rem);
+  font-style: italic;
+  color: var(--text-muted);
+  max-width: 500px;
+  line-height: 1.5;
+  margin-bottom: 3rem;
+  opacity: 0;
+  animation: fadeUp 0.8s ease 0.8s forwards;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  opacity: 0;
+  animation: fadeUp 0.8s ease 1s forwards;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem 2rem;
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+.btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--accent);
+  transform: translateX(-101%);
+  transition: transform 0.4s ease;
+  z-index: -1;
+}
+.btn:hover { color: var(--bg); border-color: var(--accent); }
+.btn:hover::before { transform: translateX(0); }
+
+.btn-primary {
+  background: var(--accent);
+  color: var(--bg);
+  border-color: var(--accent);
+}
+.btn-primary::before { background: var(--bg); }
+.btn-primary:hover { color: var(--accent); }
+
+/* floating stats on right side of hero */
+.hero-stats {
+  position: absolute;
+  right: 3rem;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+  z-index: 2;
+  opacity: 0;
+  animation: fadeUp 0.8s ease 1.2s forwards;
+}
+.hero-stat {
+  text-align: right;
+}
+.hero-stat-number {
+  font-family: var(--serif);
+  font-size: 3rem;
+  color: var(--accent);
+  line-height: 1;
+}
+.hero-stat-label {
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-top: 0.25rem;
+}
+
+/* scroll indicator */
+.scroll-hint {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  opacity: 0;
+  animation: fadeUp 0.8s ease 1.4s forwards;
+}
+.scroll-hint span {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+.scroll-line {
+  width: 1px;
+  height: 40px;
+  background: linear-gradient(to bottom, var(--accent), transparent);
+  animation: scrollPulse 2s ease-in-out infinite;
+}
+
+/* ═══════════════════════════════════════════════════
+   SECTION STYLES
+   ═══════════════════════════════════════════════════ */
+section {
+  padding: 8rem 3rem;
+  position: relative;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.section-label {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.section-label::before {
+  content: '';
+  width: 30px;
+  height: 1px;
+  background: var(--accent);
+}
+
+.section-title {
+  font-family: var(--serif);
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: 400;
+  line-height: 1.1;
+  margin-bottom: 1rem;
+}
+.section-title em { font-style: italic; color: var(--accent); }
+
+.section-subtitle {
+  font-size: 1.05rem;
+  color: var(--text-muted);
+  max-width: 600px;
+  line-height: 1.6;
+  margin-bottom: 4rem;
+}
+
+/* reveal animation */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ═══════════════════════════════════════════════════
+   APPROACH SECTION — BENTO GRID
+   ═══════════════════════════════════════════════════ */
+.approach-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+
+.approach-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  padding: 2.5rem;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.4s ease;
+}
+.approach-card:hover {
+  border-color: var(--accent);
+  transform: translateY(-4px);
+}
+.approach-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--accent), var(--accent2));
+  opacity: 0;
+  transition: opacity 0.4s;
+}
+.approach-card:hover::before { opacity: 1; }
+
+.approach-icon {
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  display: block;
+}
+
+.approach-card h3 {
+  font-family: var(--sans);
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+}
+
+.approach-card p {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+/* ═══════════════════════════════════════════════════
+   TIMELINE
+   ═══════════════════════════════════════════════════ */
+.timeline {
+  position: relative;
+  padding-left: 3rem;
+}
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: linear-gradient(to bottom, var(--accent), var(--border) 20%, var(--border) 80%, transparent);
+}
+
+.timeline-item {
+  position: relative;
+  margin-bottom: 4rem;
+  padding-left: 2rem;
+}
+.timeline-item::before {
+  content: '';
+  position: absolute;
+  left: -3.35rem;
+  top: 0.5rem;
+  width: 10px;
+  height: 10px;
+  border: 2px solid var(--accent);
+  background: var(--bg);
+  border-radius: 50%;
+  transition: all 0.3s;
+}
+.timeline-item:hover::before {
+  background: var(--accent);
+  box-shadow: 0 0 20px var(--accent-dim);
+}
+
+.timeline-date {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  color: var(--accent);
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+
+.timeline-role {
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+}
+
+.timeline-company {
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-bottom: 1rem;
+}
+.timeline-company a {
+  color: var(--accent);
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.3s;
+}
+.timeline-company a:hover { border-bottom-color: var(--accent); }
+
+.timeline-desc {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+  max-width: 600px;
+}
+
+.timeline-tags {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+.timeline-tag {
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+  padding: 0.3rem 0.8rem;
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+/* ═══════════════════════════════════════════════════
+   PROJECTS
+   ═══════════════════════════════════════════════════ */
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+}
+
+.project-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  padding: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.4s ease;
+  position: relative;
+  overflow: hidden;
+  text-decoration: none;
+}
+.project-card::after {
+  content: '↗';
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  font-size: 1.5rem;
+  color: var(--text-muted);
+  transition: all 0.3s;
+}
+.project-card:hover::after {
+  color: var(--accent);
+  transform: translate(4px, -4px);
+}
+.project-card:hover {
+  border-color: var(--accent);
+  transform: translateY(-6px);
+  box-shadow: 0 20px 60px rgba(200, 255, 0, 0.05);
+}
+
+.project-eyebrow {
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 1rem;
+}
+
+.project-card h3 {
+  font-family: var(--serif);
+  font-size: 1.6rem;
+  font-weight: 400;
+  margin-bottom: 0.75rem;
+}
+
+.project-card p {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  line-height: 1.5;
+  margin-bottom: 1.5rem;
+  flex: 1;
+}
+
+.project-metrics {
+  display: flex;
+  gap: 2rem;
+  margin-bottom: 1.5rem;
+}
+.project-metric-value {
+  font-family: var(--serif);
+  font-size: 2rem;
+  color: var(--accent);
+  line-height: 1;
+}
+.project-metric-label {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-top: 0.25rem;
+}
+
+.project-tech {
+  display: flex;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+.project-tech span {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.06em;
+  padding: 0.25rem 0.6rem;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+}
+
+/* ═══════════════════════════════════════════════════
+   TESTIMONIALS — MARQUEE STYLE
+   ═══════════════════════════════════════════════════ */
+.testimonials-section {
+  max-width: 100%;
+  padding: 8rem 0;
+}
+.testimonials-section .section-label,
+.testimonials-section .section-title,
+.testimonials-section .section-subtitle {
+  padding: 0 3rem;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.testimonials-section .section-subtitle { margin-bottom: 4rem; }
+
+.testimonials-track-wrapper {
+  overflow: hidden;
+  position: relative;
+}
+.testimonials-track-wrapper::before,
+.testimonials-track-wrapper::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 120px;
+  z-index: 2;
+  pointer-events: none;
+}
+.testimonials-track-wrapper::before {
+  left: 0;
+  background: linear-gradient(90deg, var(--bg), transparent);
+}
+.testimonials-track-wrapper::after {
+  right: 0;
+  background: linear-gradient(-90deg, var(--bg), transparent);
+}
+
+.testimonials-track {
+  display: flex;
+  gap: 1.5rem;
+  animation: marquee 40s linear infinite;
+  width: max-content;
+}
+.testimonials-track:hover { animation-play-state: paused; }
+
+.testimonial-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  padding: 2rem;
+  width: 400px;
+  flex-shrink: 0;
+  transition: border-color 0.3s;
+}
+.testimonial-card:hover { border-color: var(--accent); }
+
+.testimonial-quote {
+  font-family: var(--serif);
+  font-size: 1rem;
+  font-style: italic;
+  line-height: 1.6;
+  color: var(--text-muted);
+  margin-bottom: 1.5rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.testimonial-author {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.testimonial-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid var(--border);
+}
+.testimonial-name {
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+.testimonial-role {
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  color: var(--text-muted);
+  letter-spacing: 0.05em;
+}
+
+/* ═══════════════════════════════════════════════════
+   CONTACT
+   ═══════════════════════════════════════════════════ */
+.contact-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+.contact-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  padding: 2.5rem;
+  text-align: center;
+  transition: all 0.4s ease;
+  display: block;
+}
+.contact-card:hover {
+  border-color: var(--accent);
+  transform: translateY(-4px);
+}
+.contact-card-icon {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+.contact-card-label {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 0.5rem;
+}
+.contact-card-value {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+/* ═══════════════════════════════════════════════════
+   BIG MARQUEE TEXT
+   ═══════════════════════════════════════════════════ */
+.marquee-divider {
+  overflow: hidden;
+  padding: 3rem 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  position: relative;
+}
+.marquee-text {
+  display: flex;
+  gap: 3rem;
+  animation: marqueeReverse 25s linear infinite;
+  width: max-content;
+  white-space: nowrap;
+}
+.marquee-text span {
+  font-family: var(--serif);
+  font-size: clamp(3rem, 6vw, 5rem);
+  font-style: italic;
+  color: var(--text);
+  opacity: 0.08;
+}
+.marquee-text span.highlight { opacity: 0.25; color: var(--accent); }
+
+/* ═══════════════════════════════════════════════════
+   FOOTER
+   ═══════════════════════════════════════════════════ */
+footer {
+  padding: 3rem;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.footer-left {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  letter-spacing: 0.1em;
+}
+.footer-right {
+  display: flex;
+  gap: 1.5rem;
+}
+.footer-right a {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  letter-spacing: 0.08em;
+  transition: color 0.3s;
+}
+.footer-right a:hover { color: var(--accent); }
+
+/* ═══════════════════════════════════════════════════
+   ANIMATIONS
+   ═══════════════════════════════════════════════════ */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes scrollPulse {
+  0%, 100% { opacity: 0.3; transform: scaleY(0.5); transform-origin: top; }
+  50% { opacity: 1; transform: scaleY(1); }
+}
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@keyframes marqueeReverse {
+  from { transform: translateX(-50%); }
+  to { transform: translateX(0); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+/* ═══════════════════════════════════════════════════
+   RESPONSIVE
+   ═══════════════════════════════════════════════════ */
+@media (max-width: 900px) {
+  nav { padding: 1rem 1.5rem; }
+  .nav-links { gap: 1rem; }
+  .nav-links a:not(.nav-cta) { display: none; }
+  
+  .hero { padding: 6rem 1.5rem 4rem; }
+  .hero-stats { display: none; }
+  
+  section { padding: 5rem 1.5rem; }
+  
+  .approach-grid { grid-template-columns: 1fr; }
+  .projects-grid { grid-template-columns: 1fr; }
+  .contact-grid { grid-template-columns: 1fr; }
+  
+  .cursor-dot, .cursor-ring { display: none; }
+}
+
+@media (max-width: 600px) {
+  .hero-name { font-size: 3rem; }
+  .hero-actions { flex-direction: column; }
+  .btn { width: 100%; justify-content: center; }
+  footer { flex-direction: column; gap: 1rem; text-align: center; }
+}
+
+/* ═══════════════════════════════════════════════════
+   PARTICLE CANVAS
+   ═══════════════════════════════════════════════════ */
+#particles {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.4;
+}
+</style>
+</head>
+<body>
+
+<!-- PARTICLES -->
+<canvas id="particles"></canvas>
+
+<!-- CUSTOM CURSOR -->
+<div class="cursor-dot" id="cursorDot"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+<nav id="mainNav">
+  <div class="nav-logo">swann.lv</div>
+  <div class="nav-links">
+    <a href="#approach">Approach</a>
+    <a href="#journey">Journey</a>
+    <a href="#projects">Projects</a>
+    <a href="#testimonials">Voices</a>
+    <a href="mailto:le.vigouroux.swann@gmail.com" class="nav-cta">Let's Talk</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-glow hero-glow-1"></div>
+  <div class="hero-glow hero-glow-2"></div>
+  
+  <div class="hero-content">
+    <div class="hero-tag">Chief Technology Officer</div>
+    <h1 class="hero-name">Swann<br>Le <em>Vigouroux</em></h1>
+    <p class="hero-role">CTO @ <strong>Comet</strong> — I manage humans <em>&</em> AIs.</p>
+    <p class="hero-tagline">Creative mind. Team builder. AI-powered. I lead engineers and orchestrate AI agents — everything serves the product.</p>
+    <div class="hero-actions">
+      <a href="mailto:le.vigouroux.swann@gmail.com" class="btn btn-primary">Get in Touch ↗</a>
+      <a href="https://swannlv.github.io/swann-le-vigouroux.pdf" class="btn">Download CV</a>
+      <a href="https://linkedin.com/in/swannlv" class="btn">LinkedIn</a>
+    </div>
+  </div>
+
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <div class="hero-stat-number">15+</div>
+      <div class="hero-stat-label">Years Experience</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-number">15</div>
+      <div class="hero-stat-label">Engineers Led</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-number">-85%</div>
+      <div class="hero-stat-label">Time Reduction</div>
+    </div>
+  </div>
+
+  <div class="scroll-hint">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- MARQUEE DIVIDER -->
+<div class="marquee-divider">
+  <div class="marquee-text">
+    <span>Humans Manager</span>
+    <span class="highlight">×</span>
+    <span>AIs Manager</span>
+    <span class="highlight">×</span>
+    <span>Product Vision</span>
+    <span class="highlight">×</span>
+    <span>AI Innovation</span>
+    <span class="highlight">×</span>
+    <span>Humans Manager</span>
+    <span class="highlight">×</span>
+    <span>AIs Manager</span>
+    <span class="highlight">×</span>
+    <span>Product Vision</span>
+    <span class="highlight">×</span>
+    <span>AI Innovation</span>
+    <span class="highlight">×</span>
+  </div>
+</div>
+
+<!-- APPROACH -->
+<section id="approach">
+  <div class="reveal">
+    <div class="section-label">My Approach</div>
+    <h2 class="section-title">How I <em>Lead</em></h2>
+    <p class="section-subtitle">Engineering leadership isn't just about code — it's about orchestrating humans and AIs together, creating momentum where both amplify each other.</p>
+  </div>
+  
+  <div class="approach-grid">
+    <div class="approach-card reveal">
+      <span class="approach-icon">🔥</span>
+      <h3>Daily Spark</h3>
+      <p>A motivated team finds its daily spark — that small pleasure that makes everyone more productive, creative, and engaged. My job: create the conditions for each person to find theirs.</p>
+    </div>
+    <div class="approach-card reveal">
+      <span class="approach-icon">⚡</span>
+      <h3>2-Way Product × Tech</h3>
+      <p>Fast iterations, commando mode. Devs aren't just executors — they propose, challenge, and co-create with product. Innovation flows both ways.</p>
+    </div>
+    <div class="approach-card reveal">
+      <span class="approach-icon">🤖</span>
+      <h3>Humans + AIs, One Team</h3>
+      <p>I manage engineers and AI agents with the same rigor. Define clear roles, set expectations, review outputs, iterate. The best teams now are hybrid — I build them that way.</p>
+    </div>
+    <div class="approach-card reveal">
+      <span class="approach-icon">🧠</span>
+      <h3>AI as a Force Multiplier</h3>
+      <p>From GenAI matching engines to AI-assisted code reviews — I embed AI where it creates real leverage. Not hype-driven, outcome-driven. Every AI agent earns its place on the team.</p>
+    </div>
+  </div>
+</section>
+
+<!-- JOURNEY -->
+<section id="journey">
+  <div class="reveal">
+    <div class="section-label">Ship Log</div>
+    <h2 class="section-title">What I've <em>Built</em></h2>
+    <p class="section-subtitle">A timeline of teams scaled, products shipped, and transformations driven.</p>
+  </div>
+  
+  <div class="timeline">
+    <div class="timeline-item reveal">
+      <div class="timeline-date">Jan 2025 — Present</div>
+      <div class="timeline-role">Chief Technology Officer</div>
+      <div class="timeline-company"><a href="https://www.comet.co/">Comet</a> · Paris / Remote</div>
+      <div class="timeline-desc">Leading 9 engineers. Shipped Nova AI platform, driving 85% reduction in portfolio creation time. Implementing strategic legacy-to-SaaS migration.</div>
+      <div class="timeline-tags">
+        <span class="timeline-tag">9 Engineers</span>
+        <span class="timeline-tag">AI Platform</span>
+        <span class="timeline-tag">-85% Time</span>
+      </div>
+    </div>
+
+    <div class="timeline-item reveal">
+      <div class="timeline-date">Feb 2022 — Jan 2025</div>
+      <div class="timeline-role">Engineering Manager (Hands-on)</div>
+      <div class="timeline-company"><a href="https://www.comet.co/">Comet</a></div>
+      <div class="timeline-desc">Scaled engineering from 8 to 15 engineers across cross-functional squads. Built predictable delivery pipeline, implemented Notion↔GitLab sync for product autonomy.</div>
+      <div class="timeline-tags">
+        <span class="timeline-tag">8→15 Engineers</span>
+        <span class="timeline-tag">Process Excellence</span>
+      </div>
+    </div>
+
+    <div class="timeline-item reveal">
+      <div class="timeline-date">Nov 2018 — Feb 2022</div>
+      <div class="timeline-role">Team Lead & Fullstack Developer</div>
+      <div class="timeline-company"><a href="https://www.comet.co/">Comet</a></div>
+      <div class="timeline-desc">Led team of 5 engineers. Drove agile transformation across the company. Led complete platform rebuild: TypeScript, Node.js, React, AWS Serverless.</div>
+      <div class="timeline-tags">
+        <span class="timeline-tag">5 Engineers</span>
+        <span class="timeline-tag">Agile Transformation</span>
+        <span class="timeline-tag">Platform Rebuild</span>
+      </div>
+    </div>
+
+    <div class="timeline-item reveal">
+      <div class="timeline-date">Feb 2016 — Oct 2018</div>
+      <div class="timeline-role">Lead Developer</div>
+      <div class="timeline-company"><a href="https://www.cma-cgm.com/">CMA CGM</a> · Marseille</div>
+      <div class="timeline-desc">Led team of 5 developers. Pioneered Vue.js and Git adoption in traditional corporate environment. Core developer on global booking platform.</div>
+      <div class="timeline-tags">
+        <span class="timeline-tag">5 Developers</span>
+        <span class="timeline-tag">Vue.js Pioneer</span>
+      </div>
+    </div>
+
+    <div class="timeline-item reveal">
+      <div class="timeline-date">2012 — 2016</div>
+      <div class="timeline-role">Creative Technologist & Lead Developer</div>
+      <div class="timeline-company">UNION Advertising + Freelance · Toronto 🇨🇦</div>
+      <div class="timeline-desc">Built interactive brand experiences (WebGL, Three.js, Arduino). Led team of 3 on shoppersdrugmart.ca. Developed mobile apps and social platforms.</div>
+      <div class="timeline-tags">
+        <span class="timeline-tag">4 Years Toronto</span>
+        <span class="timeline-tag">WebGL</span>
+        <span class="timeline-tag">Three.js</span>
+      </div>
+    </div>
+
+    <div class="timeline-item reveal">
+      <div class="timeline-date">Oct 2009 — Jul 2012</div>
+      <div class="timeline-role">Software Engineer</div>
+      <div class="timeline-company">Anyware Video · Marseille</div>
+      <div class="timeline-desc">Real-time broadcast development in C++ and .Net. Client deployments for TF1, AB Productions, LCP, and Gameone.</div>
+      <div class="timeline-tags">
+        <span class="timeline-tag">C++</span>
+        <span class="timeline-tag">Broadcast</span>
+        <span class="timeline-tag">TF1</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="reveal">
+    <div class="section-label">Projects</div>
+    <h2 class="section-title">Projects & <em>Impact</em></h2>
+    <p class="section-subtitle">Where I led teams to deliver measurable business results.</p>
+  </div>
+  
+  <div class="projects-grid">
+    <a href="https://app.comet.co/" target="_blank" class="project-card reveal">
+      <div class="project-eyebrow">Comet · Lead → EM · 2018–2025</div>
+      <h3>Full SaaS Platform</h3>
+      <p>Built the entire SaaS platform with the team. Freelance & client apps, matching engine, billing, analytics.</p>
+      <div class="project-metrics">
+        <div>
+          <div class="project-metric-value">8→15</div>
+          <div class="project-metric-label">Engineers</div>
+        </div>
+        <div>
+          <div class="project-metric-value">7</div>
+          <div class="project-metric-label">Years</div>
+        </div>
+      </div>
+      <div class="project-tech">
+        <span>TypeScript</span><span>Node.js</span><span>React</span><span>Vue.js</span><span>AWS</span>
+      </div>
+    </a>
+
+    <a href="https://www.comet.co/" target="_blank" class="project-card reveal">
+      <div class="project-eyebrow">Comet · CTO · 2025</div>
+      <h3>Nova AI Platform</h3>
+      <p>GenAI matching engine — portfolio creation from 78min to 12min, candidate matching from 1h to 5min.</p>
+      <div class="project-metrics">
+        <div>
+          <div class="project-metric-value">-85%</div>
+          <div class="project-metric-label">Time</div>
+        </div>
+        <div>
+          <div class="project-metric-value">-90%</div>
+          <div class="project-metric-label">Cost</div>
+        </div>
+      </div>
+      <div class="project-tech">
+        <span>AWS Bedrock</span><span>GenAI</span><span>Terraform</span>
+      </div>
+    </a>
+
+    <a href="https://www.shoppersdrugmart.ca/" target="_blank" class="project-card reveal">
+      <div class="project-eyebrow">Shoppers Drug Mart · Lead Dev · 2014</div>
+      <h3>E-commerce Platform</h3>
+      <p>Led squad for Canada's largest pharmacy chain. High-traffic e-commerce with complex product catalog.</p>
+      <div class="project-tech">
+        <span>JavaScript</span><span>E-commerce</span><span>Performance</span>
+      </div>
+    </a>
+
+    <a href="https://www.cma-cgm.com/" target="_blank" class="project-card reveal">
+      <div class="project-eyebrow">CMA CGM · Lead Dev · 2016–2018</div>
+      <h3>Global Booking Platform</h3>
+      <p>Pioneered Vue.js adoption at one of the world's largest shipping companies. Built booking system serving global logistics.</p>
+      <div class="project-metrics">
+        <div>
+          <div class="project-metric-value">5</div>
+          <div class="project-metric-label">Devs Led</div>
+        </div>
+      </div>
+      <div class="project-tech">
+        <span>Vue.js</span><span>C#.Net</span><span>Logistics</span>
+      </div>
+    </a>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials-section" id="testimonials">
+  <div class="reveal">
+    <div class="section-label">Voices</div>
+    <h2 class="section-title">What People <em>Say</em></h2>
+    <p class="section-subtitle">From the engineers, leads, and partners I've worked with.</p>
+  </div>
+  
+  <div class="testimonials-track-wrapper">
+    <div class="testimonials-track" id="testimonialTrack">
+      <!-- These will be duplicated by JS for infinite scroll -->
+      <div class="testimonial-card">
+        <div class="testimonial-quote">"I had the chance to work with Swann for four years, and this collaboration was extremely impactful. I always felt listened to, valued, and supported. His deeply human way of working creates a healthy and engaging environment."</div>
+        <div class="testimonial-author">
+          <img src="https://media.licdn.com/dms/image/v2/C5603AQF75aa2sYtgyA/profile-displayphoto-shrink_100_100/profile-displayphoto-shrink_100_100/0/1591021250965?e=1769040000&v=beta&t=rtj7XKfGtqM8oJQb6VXav5OVboUQWr1YCHt9_enPrtM" alt="" class="testimonial-avatar">
+          <div>
+            <div class="testimonial-name">Shannone Controu</div>
+            <div class="testimonial-role">Fullstack Developer @Comet</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonial-card">
+        <div class="testimonial-quote">"I have rarely, if ever, worked with a manager and CTO who is so attentive, caring, and deeply human. The trust given, the quality of exchanges, and the energy transmitted make a real difference."</div>
+        <div class="testimonial-author">
+          <img src="https://media.licdn.com/dms/image/v2/D4D03AQGtpv228RQ9hw/profile-displayphoto-shrink_100_100/profile-displayphoto-shrink_100_100/0/1673042946086?e=1769040000&v=beta&t=vYIy6xte7jnG9Nhl6rhhtTkfbB7AvDoyX8RmcvdcMd0" alt="" class="testimonial-avatar">
+          <div>
+            <div class="testimonial-name">Jérémy Levy</div>
+            <div class="testimonial-role">Tech Lead @ Comet</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonial-card">
+        <div class="testimonial-quote">"He is a skilled software engineer with a strong leading capacity. Swann continuously improves our projects and makes his whole team grow. Our frontend apps are modern and efficient."</div>
+        <div class="testimonial-author">
+          <img src="https://media.licdn.com/dms/image/v2/C4D03AQHD18Osh35zmQ/profile-displayphoto-shrink_100_100/profile-displayphoto-shrink_100_100/0/1547151375988?e=1769040000&v=beta&t=LxtMEfdaLJ5i8KL-rDdBtmaTesby8ITvXDIuqZDwlX4" alt="" class="testimonial-avatar">
+          <div>
+            <div class="testimonial-name">Nicolas Benhamou</div>
+            <div class="testimonial-role">Solutions Architect @ Mistral AI</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonial-card">
+        <div class="testimonial-quote">"He is a competent, creative person full of ideas. Caring, always in good spirits and attentive, he knows how to unite and motivate his teams. His management allowed us to reinvent ourselves."</div>
+        <div class="testimonial-author">
+          <img src="https://media.licdn.com/dms/image/v2/C5603AQHC4pjEy8BNmQ/profile-displayphoto-shrink_100_100/profile-displayphoto-shrink_100_100/0/1517030095254?e=1769040000&v=beta&t=TJ4tMTOl0spRveYqBdhCP3mNmevMifL8w84psb3P8hs" alt="" class="testimonial-avatar">
+          <div>
+            <div class="testimonial-name">Mouna Ben Chamekh</div>
+            <div class="testimonial-role">Senior Data Engineer</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonial-card">
+        <div class="testimonial-quote">"He places great importance on human interactions, the well-being of his team, and knows how to establish a climate of trust that promotes commitment and motivation."</div>
+        <div class="testimonial-author">
+          <img src="https://media.licdn.com/dms/image/v2/D4E03AQFKnoCDq1lzeQ/profile-displayphoto-shrink_100_100/profile-displayphoto-shrink_100_100/0/1695118524341?e=1769040000&v=beta&t=vh8Tvdl4uRKOiI8_u9a6BwZxMUJchMHw6HhU3JOeNpA" alt="" class="testimonial-avatar">
+          <div>
+            <div class="testimonial-name">Anthony LE ROY</div>
+            <div class="testimonial-role">Software Engineer | AWS Certified</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonial-card">
+        <div class="testimonial-quote">"Working with Swann means being challenged and progressing quickly! A real pleasure to exchange, confront viewpoints, and challenge R&D ideas. These discussions always led to better solutions."</div>
+        <div class="testimonial-author">
+          <img src="https://media.licdn.com/dms/image/v2/D4D03AQE3TqOzOl7r6w/profile-displayphoto-shrink_100_100/profile-displayphoto-shrink_100_100/0/1725834864066?e=1769040000&v=beta&t=aCjpLk8pSnWX2qCp6rYppwK2SByPDFHZ3hxjwepWVP4" alt="" class="testimonial-avatar">
+          <div>
+            <div class="testimonial-name">Mehdi Tagaizine</div>
+            <div class="testimonial-role">Product Owner & Freelance Dev</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonial-card">
+        <div class="testimonial-quote">"Swann demonstrated skills, reactivity, and professionalism. He has always been a reliable and responsible person. I strongly recommend the services of Swann Le Vigouroux."</div>
+        <div class="testimonial-author">
+          <img src="https://media.licdn.com/dms/image/v2/C5603AQEohM5T-7TSzw/profile-displayphoto-shrink_100_100/profile-displayphoto-shrink_100_100/0/1517352184991?e=1769040000&v=beta&t=YnhWdX6ZrfgbgVHwXxP_bKYPNti-VcVr145zf19uXkM" alt="" class="testimonial-avatar">
+          <div>
+            <div class="testimonial-name">Eric Oudart</div>
+            <div class="testimonial-role">Operations Director</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="text-align: center; margin-top: 2rem; padding: 0 3rem;">
+    <a href="https://www.linkedin.com/in/swannlv/details/recommendations/" target="_blank" class="btn" style="display: inline-flex;">View All on LinkedIn ↗</a>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="reveal">
+    <div class="section-label">Let's Connect</div>
+    <h2 class="section-title">Let's <em>Talk</em></h2>
+    <p class="section-subtitle">Whether you're scaling a hybrid team of humans and AIs, shipping a product, or just want to chat about the future of engineering leadership.</p>
+  </div>
+  
+  <div class="contact-grid">
+    <a href="mailto:le.vigouroux.swann@gmail.com" class="contact-card reveal">
+      <div class="contact-card-icon">✉️</div>
+      <div class="contact-card-label">Email</div>
+      <div class="contact-card-value">Let's Talk</div>
+    </a>
+    <a href="https://linkedin.com/in/swannlv" target="_blank" class="contact-card reveal">
+      <div class="contact-card-icon">💼</div>
+      <div class="contact-card-label">LinkedIn</div>
+      <div class="contact-card-value">/in/swannlv</div>
+    </a>
+    <a href="https://github.com/swannlv" target="_blank" class="contact-card reveal">
+      <div class="contact-card-icon">⌨️</div>
+      <div class="contact-card-label">GitHub</div>
+      <div class="contact-card-value">swannlv</div>
+    </a>
+  </div>
+  
+  <div style="text-align: center; margin-top: 3rem;">
+    <a href="https://swannlv.github.io/swann-le-vigouroux.pdf" class="btn btn-primary" style="display: inline-flex;">📄 Download Full Resume</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-left">© 2026 Swann Le Vigouroux · Aix-en-Provence / Remote</div>
+  <div class="footer-right">
+    <span style="color: var(--text-muted); font-family: var(--mono); font-size: 0.7rem;">FR (Native) · EN (Fluent) · PSM I</span>
+  </div>
+</footer>
+
+<script>
+/* ═══════════════════════════════════════════════════
+   PARTICLES
+   ═══════════════════════════════════════════════════ */
+const canvas = document.getElementById('particles');
+const ctx = canvas.getContext('2d');
+let particles = [];
+const PARTICLE_COUNT = 60;
+
+function resize() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+resize();
+window.addEventListener('resize', resize);
+
+class Particle {
+  constructor() {
+    this.reset();
+  }
+  reset() {
+    this.x = Math.random() * canvas.width;
+    this.y = Math.random() * canvas.height;
+    this.vx = (Math.random() - 0.5) * 0.3;
+    this.vy = (Math.random() - 0.5) * 0.3;
+    this.size = Math.random() * 1.5 + 0.5;
+    this.alpha = Math.random() * 0.5 + 0.1;
+  }
+  update() {
+    this.x += this.vx;
+    this.y += this.vy;
+    if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
+    if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
+  }
+  draw() {
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(200, 255, 0, ${this.alpha})`;
+    ctx.fill();
+  }
+}
+
+for (let i = 0; i < PARTICLE_COUNT; i++) particles.push(new Particle());
+
+function drawConnections() {
+  for (let i = 0; i < particles.length; i++) {
+    for (let j = i + 1; j < particles.length; j++) {
+      const dx = particles[i].x - particles[j].x;
+      const dy = particles[i].y - particles[j].y;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      if (dist < 150) {
+        ctx.beginPath();
+        ctx.moveTo(particles[i].x, particles[i].y);
+        ctx.lineTo(particles[j].x, particles[j].y);
+        ctx.strokeStyle = `rgba(200, 255, 0, ${0.06 * (1 - dist / 150)})`;
+        ctx.lineWidth = 0.5;
+        ctx.stroke();
+      }
+    }
+  }
+}
+
+function animateParticles() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  particles.forEach(p => { p.update(); p.draw(); });
+  drawConnections();
+  requestAnimationFrame(animateParticles);
+}
+animateParticles();
+
+/* ═══════════════════════════════════════════════════
+   CUSTOM CURSOR
+   ═══════════════════════════════════════════════════ */
+const dot = document.getElementById('cursorDot');
+const ring = document.getElementById('cursorRing');
+let mouseX = 0, mouseY = 0;
+let ringX = 0, ringY = 0;
+
+document.addEventListener('mousemove', e => {
+  mouseX = e.clientX;
+  mouseY = e.clientY;
+  dot.style.left = mouseX - 4 + 'px';
+  dot.style.top = mouseY - 4 + 'px';
+});
+
+function animateRing() {
+  ringX += (mouseX - ringX) * 0.15;
+  ringY += (mouseY - ringY) * 0.15;
+  ring.style.left = ringX - 20 + 'px';
+  ring.style.top = ringY - 20 + 'px';
+  requestAnimationFrame(animateRing);
+}
+animateRing();
+
+document.querySelectorAll('a, .btn, .project-card, .approach-card, .contact-card').forEach(el => {
+  el.addEventListener('mouseenter', () => ring.classList.add('hover'));
+  el.addEventListener('mouseleave', () => ring.classList.remove('hover'));
+});
+
+/* ═══════════════════════════════════════════════════
+   NAV HIDE ON SCROLL
+   ═══════════════════════════════════════════════════ */
+let lastScroll = 0;
+const nav = document.getElementById('mainNav');
+window.addEventListener('scroll', () => {
+  const st = window.scrollY;
+  if (st > lastScroll && st > 100) nav.classList.add('hidden');
+  else nav.classList.remove('hidden');
+  lastScroll = st;
+});
+
+/* ═══════════════════════════════════════════════════
+   SCROLL REVEAL
+   ═══════════════════════════════════════════════════ */
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach((entry, i) => {
+    if (entry.isIntersecting) {
+      setTimeout(() => entry.target.classList.add('visible'), i * 80);
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+/* ═══════════════════════════════════════════════════
+   DUPLICATE TESTIMONIAL CARDS FOR INFINITE SCROLL
+   ═══════════════════════════════════════════════════ */
+const track = document.getElementById('testimonialTrack');
+track.innerHTML += track.innerHTML;
+</script>
+</body>
+</html>
