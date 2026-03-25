@@ -850,62 +850,62 @@
   </div><!-- end terminal-content -->
 
 </div>
-<!-- ── Navigation bar ── -->
-<div id="cv-nav" style="
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 48px;
-  background: rgba(13,17,23,0.95);
-  backdrop-filter: blur(10px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  z-index: 9999;
-  border-top: 1px solid rgba(255,255,255,0.1);
-  font-family: -apple-system, sans-serif;
-">
-  <button onclick="navigate(-1)" style="
-    background: none; border: 1px solid rgba(255,255,255,0.2); color: #fff;
-    width: 36px; height: 36px; border-radius: 8px; cursor: pointer;
-    font-size: 16px; display: flex; align-items: center; justify-content: center;
-  ">←</button>
-  <span style="color: rgba(255,255,255,0.4); font-size: 12px;">Classic</span>
-  <span style="color: rgba(255,255,255,0.15); font-size: 12px;">·</span>
-  <span style="color: rgba(255,255,255,0.9); font-size: 12px; font-weight: 600;">Claude Code</span>
-  <span style="color: rgba(255,255,255,0.15); font-size: 12px;">·</span>
-  <span style="color: rgba(255,255,255,0.4); font-size: 12px;">Win98</span>
-  <span style="color: rgba(255,255,255,0.15); font-size: 12px;">·</span>
-  <span style="color: rgba(255,255,255,0.4); font-size: 12px;">Game</span>
-  <button onclick="navigate(1)" style="
-    background: none; border: 1px solid rgba(255,255,255,0.2); color: #fff;
-    width: 36px; height: 36px; border-radius: 8px; cursor: pointer;
-    font-size: 16px; display: flex; align-items: center; justify-content: center;
-  ">→</button>
-  <div style="width: 1px; height: 24px; background: rgba(255,255,255,0.1); margin: 0 4px;"></div>
-  <button onclick="window.print()" style="
-    background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: #fff;
-    height: 36px; border-radius: 8px; cursor: pointer;
-    font-size: 13px; padding: 0 14px; display: flex; align-items: center; gap: 6px;
-  ">📄 PDF</button>
-</div>
+<!-- ── Navigation ── -->
+<nav id="cv-nav">
+  <button class="cv-nav-arrow" onclick="cvNav(-1)">←</button>
+  <a href="index.html" class="cv-nav-link">Classic</a>
+  <a href="cv-swann-terminal.html" class="cv-nav-link active">Terminal</a>
+  <a href="cv-swann-win98.html" class="cv-nav-link">Win98</a>
+  <a href="cv-swann-game.html" class="cv-nav-link">Game</a>
+  <button class="cv-nav-arrow" onclick="cvNav(1)">→</button>
+  <button class="cv-nav-pdf" onclick="window.print()">PDF</button>
+</nav>
 <script>
-  const versions = [
-    'index.html',
-    'cv-swann-terminal.html',
-    'cv-swann-win98.html',
-    'cv-swann-game.html'
-  ];
-  const current = 1;
-  function navigate(dir) {
-    const next = (current + dir + versions.length) % versions.length;
-    window.location.href = versions[next];
-  }
+  const CV_PAGES=['index.html','cv-swann-terminal.html','cv-swann-win98.html','cv-swann-game.html'];
+  const CV_CUR=1;
+  function cvNav(d){window.location.href=CV_PAGES[(CV_CUR+d+CV_PAGES.length)%CV_PAGES.length]}
 </script>
 <style>
-  @media print { #cv-nav { display: none !important; } }
+  body { padding-bottom: 56px; }
+  #cv-nav {
+    position: fixed; bottom: 0; left: 0; right: 0; height: 48px;
+    background: rgba(13,17,23,0.95); backdrop-filter: blur(10px);
+    display: flex; align-items: center; justify-content: center; gap: 6px;
+    z-index: 9999; border-top: 1px solid rgba(255,255,255,0.1);
+    font-family: -apple-system, sans-serif; padding: 0 12px;
+  }
+  .cv-nav-arrow {
+    background: none; border: 1px solid rgba(255,255,255,0.2); color: #fff;
+    width: 34px; height: 34px; border-radius: 8px; cursor: pointer;
+    font-size: 15px; display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .cv-nav-link {
+    color: rgba(255,255,255,0.4); font-size: 12px; text-decoration: none;
+    padding: 6px 10px; border-radius: 6px; transition: all 0.15s;
+    white-space: nowrap;
+  }
+  .cv-nav-link:hover { color: rgba(255,255,255,0.7); background: rgba(255,255,255,0.05); }
+  .cv-nav-link.active { color: #fff; font-weight: 600; background: rgba(255,255,255,0.1); }
+  .cv-nav-pdf {
+    background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); color: #fff;
+    height: 34px; border-radius: 8px; cursor: pointer;
+    font-size: 12px; padding: 0 12px; margin-left: 4px; flex-shrink: 0;
+  }
+  @media print { #cv-nav { display: none !important; } body { padding-bottom: 0; } }
+  @media (max-width: 600px) {
+    #cv-nav { height: 44px; gap: 4px; padding: 0 8px; }
+    .cv-nav-arrow { width: 30px; height: 30px; font-size: 14px; }
+    .cv-nav-link { font-size: 10px; padding: 5px 7px; }
+    .cv-nav-pdf { font-size: 10px; padding: 0 8px; height: 30px; }
+    body { padding-bottom: 52px; }
+  }
+  @media (max-width: 380px) {
+    #cv-nav { gap: 2px; padding: 0 4px; }
+    .cv-nav-link { font-size: 9px; padding: 4px 5px; }
+    .cv-nav-arrow { width: 26px; height: 26px; font-size: 12px; }
+    .cv-nav-pdf { font-size: 9px; padding: 0 6px; height: 26px; }
+  }
 </style>
 </body>
 </html>

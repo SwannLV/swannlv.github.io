@@ -319,22 +319,30 @@
 
   /* ── Nav ── */
   #cv-nav {
-    position: fixed; bottom: 0; left: 0; right: 0; height: 44px;
-    background: rgba(10,10,26,0.92); backdrop-filter: blur(10px);
-    display: flex; align-items: center; justify-content: center; gap: 10px;
+    position: fixed; bottom: 0; left: 0; right: 0; height: 48px;
+    background: rgba(10,10,26,0.95); backdrop-filter: blur(10px);
+    display: flex; align-items: center; justify-content: center; gap: 6px;
     z-index: 9999; border-top: 1px solid rgba(255,255,255,0.08);
-    font-family: -apple-system, sans-serif;
+    font-family: -apple-system, sans-serif; padding: 0 12px;
   }
-
-  #cv-nav button {
-    background: none; border: 1px solid rgba(255,255,255,0.15); color: #fff;
-    height: 32px; border-radius: 6px; cursor: pointer; font-size: 12px;
-    padding: 0 12px; display: flex; align-items: center; justify-content: center;
+  .cv-nav-arrow {
+    background: none; border: 1px solid rgba(255,255,255,0.2); color: #fff;
+    width: 34px; height: 34px; border-radius: 8px; cursor: pointer;
+    font-size: 15px; display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
   }
-
-  .nl { color: rgba(255,255,255,0.3); font-size: 11px; }
-  .nl.a { color: #fff; font-weight: 600; }
-  .nd { color: rgba(255,255,255,0.1); font-size: 11px; }
+  .cv-nav-link {
+    color: rgba(255,255,255,0.4); font-size: 12px; text-decoration: none;
+    padding: 6px 10px; border-radius: 6px; transition: all 0.15s;
+    white-space: nowrap;
+  }
+  .cv-nav-link:hover { color: rgba(255,255,255,0.7); background: rgba(255,255,255,0.05); }
+  .cv-nav-link.active { color: #fff; font-weight: 600; background: rgba(255,255,255,0.1); }
+  .cv-nav-pdf {
+    background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); color: #fff;
+    height: 34px; border-radius: 8px; cursor: pointer;
+    font-size: 12px; padding: 0 12px; margin-left: 4px; flex-shrink: 0;
+  }
 
   /* ── Responsive ── */
   @media (max-width: 700px) {
@@ -370,6 +378,19 @@
     .world-company { font-size: 15px; }
     .world-bullets li { font-size: 11px; padding-left: 14px; }
     .pill { font-size: 6px; }
+  }
+
+  @media (max-width: 600px) {
+    #cv-nav { height: 44px; gap: 4px; padding: 0 8px; }
+    .cv-nav-arrow { width: 30px; height: 30px; font-size: 14px; }
+    .cv-nav-link { font-size: 10px; padding: 5px 7px; }
+    .cv-nav-pdf { font-size: 10px; padding: 0 8px; height: 30px; }
+  }
+  @media (max-width: 380px) {
+    #cv-nav { gap: 2px; padding: 0 4px; }
+    .cv-nav-link { font-size: 9px; padding: 4px 5px; }
+    .cv-nav-arrow { width: 26px; height: 26px; font-size: 12px; }
+    .cv-nav-pdf { font-size: 9px; padding: 0 6px; height: 26px; }
   }
 
   @media print {
@@ -569,21 +590,21 @@
 
 </div>
 
-<!-- Nav -->
-<div id="cv-nav">
-  <button onclick="nav(-1)" style="width:32px;padding:0">&#8592;</button>
-  <span class="nl">Classic</span><span class="nd">&middot;</span>
-  <span class="nl">Claude Code</span><span class="nd">&middot;</span>
-  <span class="nl">Win98</span><span class="nd">&middot;</span>
-  <span class="nl a">Game</span>
-  <button onclick="nav(1)" style="width:32px;padding:0">&#8594;</button>
-  <div style="width:1px;height:20px;background:rgba(255,255,255,0.08);margin:0 2px"></div>
-  <button onclick="window.print()">PDF</button>
-</div>
+<!-- ── Navigation ── -->
+<nav id="cv-nav">
+  <button class="cv-nav-arrow" onclick="cvNav(-1)">←</button>
+  <a href="index.html" class="cv-nav-link">Classic</a>
+  <a href="cv-swann-terminal.html" class="cv-nav-link">Terminal</a>
+  <a href="cv-swann-win98.html" class="cv-nav-link">Win98</a>
+  <a href="cv-swann-game.html" class="cv-nav-link active">Game</a>
+  <button class="cv-nav-arrow" onclick="cvNav(1)">→</button>
+  <button class="cv-nav-pdf" onclick="window.print()">PDF</button>
+</nav>
 
 <script>
-const VER=['index.html','cv-swann-terminal.html','cv-swann-win98.html','cv-swann-game.html'];
-function nav(d){window.location.href=VER[(3+d+VER.length)%VER.length]}
+const CV_PAGES=['index.html','cv-swann-terminal.html','cv-swann-win98.html','cv-swann-game.html'];
+const CV_CUR=3;
+function cvNav(d){window.location.href=CV_PAGES[(CV_CUR+d+CV_PAGES.length)%CV_PAGES.length]}
 
 // ══ CANVAS GAME LAYER ══
 const C=document.getElementById('game-canvas');
