@@ -393,11 +393,16 @@
 
   @media print {
     #cv-nav, #game-canvas, .scroll-hint { display: none !important; }
-    .world { min-height: auto; padding: 20px 0; }
-    .world-card { background: none; backdrop-filter: none; border: none; padding: 0; }
+    .hero { min-height: auto; padding: 20px 0; }
+    .world { min-height: auto; padding: 20px 0; break-inside: avoid; }
+    .world-card { background: none; backdrop-filter: none; border: none; padding: 0; break-inside: avoid; }
     body { background: #fff; color: #000; }
     .world-bullets li, .reco-card em, .hero-summary, .skill-val { color: #333; }
     .world-company, .world-bullets li strong, .hero-summary strong { color: #000; }
+    .world-bullets { break-inside: avoid; }
+    .pills { break-inside: avoid; break-before: avoid; }
+    .reco-card { break-inside: avoid; }
+    .world-company { break-after: avoid; }
   }
 </style>
 </head>

@@ -458,9 +458,17 @@
   .taskbar-clock::before { content: '🔊'; font-size: 10px; }
 
   @media print {
-    body { background: white; }
+    body { background: white; padding-bottom: 0; }
     .taskbar { display: none; }
     .window { margin: 0; box-shadow: none; }
+    .group-box { break-inside: avoid; }
+    .tree-company { break-after: avoid; }
+    .tree-view > div { break-inside: avoid; }
+    .tree-bullets { break-inside: avoid; }
+    .tech-buttons { break-inside: avoid; break-before: avoid; }
+    .edu-98 { break-inside: avoid; }
+    div[style*="padding: 8px 10px"] { break-inside: avoid; }
+    .group-box-title { break-after: avoid; }
   }
 
   @media (max-width: 768px) {

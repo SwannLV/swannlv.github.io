@@ -33,13 +33,22 @@
   }
 
   @media print {
-    body { background: white; }
+    body { background: white; padding-bottom: 0; }
     .page {
       margin: 0;
       box-shadow: none;
       padding: 24px 28px;
+      width: 100%;
+      min-height: auto;
     }
-    .page-break { page-break-before: always; }
+    .page-break { page-break-before: auto; }
+    .role { break-after: avoid; }
+    .bullets { break-before: avoid; break-inside: avoid; }
+    .tech-tags { break-inside: avoid; break-before: avoid; }
+    .company { break-after: avoid; }
+    .edu-item, .highlight-box { break-inside: avoid; }
+    div[style*="grid-template-columns"] { break-inside: avoid; }
+    .section-title { break-after: avoid; }
   }
 
   /* ── Header ── */

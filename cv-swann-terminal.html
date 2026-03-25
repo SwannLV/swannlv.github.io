@@ -545,8 +545,14 @@
   }
 
   @media print {
-    body { background: #0d1117; }
+    body { background: #0d1117; padding-bottom: 0; }
     .terminal-bar { position: static; }
+    .exp-card { break-inside: avoid; }
+    .reco { break-inside: avoid; }
+    .skill-row { break-inside: avoid; }
+    .edu-item { break-inside: avoid; }
+    .section-label { break-after: avoid; }
+    .pills { break-inside: avoid; break-before: avoid; }
   }
 </style>
 </head>
