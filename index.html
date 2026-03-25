@@ -1,1961 +1,743 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Swann Le Vigouroux — CTO</title>
-    <meta name="description" content="Hands-on CTO with 10 years in engineering leadership and 16+ years building products. Track record of scaling tech teams (8→15 engineers) and shipping AI-powered products to production.">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <style>
-        :root {
-            --accent: #d22d2d;
-            --accent-light: #ff4d4d;
-            --dark: #0a0a0a;
-            --dark-2: #141414;
-            --dark-3: #1a1a1a;
-            --light: #fafafa;
-            --gray: #888;
-            --gray-dark: #444;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            font-family: 'Inter', -apple-system, sans-serif;
-            background: var(--dark);
-            color: var(--light);
-            line-height: 1.6;
-            overflow-x: hidden;
-        }
-
-        ::selection {
-            background: var(--accent);
-            color: white;
-        }
-
-        a {
-            color: inherit;
-            text-decoration: none;
-        }
-
-        /* === NAVIGATION === */
-        nav {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            padding: 20px 40px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            z-index: 1000;
-            background: rgba(10, 10, 10, 0.8);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-            pointer-events: auto;
-        }
-
-        nav a {
-            pointer-events: auto;
-            cursor: pointer;
-        }
-
-        .logo {
-            font-weight: 800;
-            font-size: 18px;
-            letter-spacing: -0.5px;
-        }
-
-        .logo span {
-            color: var(--accent);
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 32px;
-        }
-
-        .nav-links a {
-            font-size: 14px;
-            color: var(--gray);
-            transition: color 0.2s;
-        }
-
-        .nav-links a:hover {
-            color: var(--light);
-        }
-
-        .nav-cta {
-            background: var(--accent);
-            color: white;
-            padding: 10px 20px;
-            border-radius: 8px;
-            font-weight: 600;
-            font-size: 14px;
-            transition: all 0.2s;
-        }
-
-        .nav-cta:hover {
-            background: var(--accent-light);
-            transform: translateY(-2px);
-        }
-
-        /* === HERO === */
-        .hero-wrapper {
-            position: relative;
-            min-height: 100vh;
-            overflow: hidden;
-        }
-
-        #hero-canvas {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100% !important;
-            height: 100% !important;
-            z-index: 0;
-            pointer-events: none;
-            display: block;
-        }
-
-        .hero {
-            position: relative;
-            z-index: 1;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            padding: 120px 40px 80px;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        .hero-inner {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 60px;
-            width: 100%;
-        }
-
-        .hero-content {
-            max-width: 700px;
-            flex: 1;
-        }
-
-        .hero-photo-container {
-            flex-shrink: 0;
-        }
-
-        .hero-photo {
-            width: 340px;
-            height: 340px;
-            border-radius: 24px;
-            object-fit: cover;
-            border: 3px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
-        }
-
-        @media (max-width: 900px) {
-            #hero-canvas {
-                display: none;
-            }
-
-            .hero-inner {
-                flex-direction: column-reverse;
-                text-align: center;
-                gap: 40px;
-            }
-
-            .hero-photo {
-                width: 200px;
-                height: 200px;
-                margin-bottom: 20px;
-            }
-
-            .hero-headline {
-                font-size: 36px;
-                margin-bottom: 24px;
-            }
-
-            .hero-subtitle {
-                font-size: 18px;
-                margin-bottom: 72px;
-                line-height: 1.7;
-            }
-
-            .hero-cta {
-                flex-direction: column;
-                align-items: stretch;
-                gap: 16px;
-                width: 100%;
-                padding: 0 20px;
-            }
-
-            .hero-cta .btn {
-                width: 100%;
-            }
-        }
-
-        .hero-headline {
-            font-size: clamp(32px, 5vw, 48px);
-            font-weight: 800;
-            margin-bottom: 20px;
-            line-height: 1.2;
-        }
-
-        .hero-role {
-            color: var(--accent);
-        }
-
-        .hero-company {
-            color: var(--light);
-            text-decoration: none;
-            border-bottom: 2px solid var(--accent);
-            transition: all 0.2s ease;
-        }
-
-        .hero-company:hover {
-            color: var(--accent);
-        }
-
-        .hero-badge {
-            display: inline-block;
-            background: rgba(210, 45, 45, 0.15);
-            border: 1px solid rgba(210, 45, 45, 0.4);
-            color: var(--accent);
-            font-size: 12px;
-            font-weight: 600;
-            padding: 4px 10px;
-            border-radius: 4px;
-            margin-left: 12px;
-            vertical-align: middle;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .hero-previous {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 14px;
-            color: var(--gray);
-            margin-bottom: 32px;
-        }
-
-        .hero-previous a {
-            color: var(--light);
-            text-decoration: none;
-            transition: color 0.2s;
-        }
-
-        .hero-previous a:hover {
-            color: var(--accent);
-        }
-
-        .hero-previous .sep {
-            color: var(--gray-dark);
-        }
-
-        .hero h1 {
-            font-size: clamp(48px, 8vw, 80px);
-            font-weight: 800;
-            line-height: 1.05;
-            letter-spacing: -3px;
-            margin-bottom: 24px;
-        }
-
-        .hero h1 .highlight {
-            color: var(--accent);
-        }
-
-        .hero-subtitle {
-            font-size: 20px;
-            color: var(--light);
-            max-width: 500px;
-            margin-bottom: 16px;
-            line-height: 1.6;
-        }
-
-        .hero-stats {
-            display: flex;
-            gap: 48px;
-            margin-bottom: 48px;
-        }
-
-        .stat {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .stat-value {
-            font-size: 48px;
-            font-weight: 800;
-            color: var(--light);
-            letter-spacing: -2px;
-        }
-
-        .stat-value span {
-            color: var(--accent);
-        }
-
-        .stat-label {
-            font-size: 14px;
-            color: var(--gray);
-            margin-top: 4px;
-        }
-
-        .hero-cta {
-            display: flex;
-            gap: 16px;
-        }
-
-        .btn {
-            padding: 16px 32px;
-            border-radius: 12px;
-            font-weight: 600;
-            font-size: 16px;
-            transition: all 0.2s;
-            cursor: pointer;
-            border: none;
-        }
-
-        .btn-primary {
-            background: var(--accent);
-            color: white;
-        }
-
-        .btn-primary:hover {
-            background: var(--accent-light);
-            transform: translateY(-2px);
-            box-shadow: 0 10px 40px rgba(210, 45, 45, 0.3);
-        }
-
-        .btn-secondary {
-            background: rgba(255,255,255,0.05);
-            color: var(--light);
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-
-        .btn-secondary:hover {
-            background: rgba(255,255,255,0.1);
-            border-color: rgba(255,255,255,0.2);
-        }
-
-        /* === SECTION COMMON === */
-        section {
-            padding: 80px 32px;
-            max-width: 1100px;
-            margin: 0 auto;
-        }
-
-        .section-label {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 12px;
-            color: var(--accent);
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 12px;
-        }
-
-        .section-title {
-            font-size: clamp(24px, 4vw, 36px);
-            font-weight: 800;
-            letter-spacing: -1px;
-            margin-bottom: 16px;
-        }
-
-        .section-subtitle {
-            font-size: 15px;
-            color: var(--gray);
-            max-width: 500px;
-            margin: 0 auto 48px;
-        }
-
-        /* === CASE STUDIES === */
-        #projects {
-            max-width: 1000px;
-        }
-
-        .case-cards {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
-        }
-
-        .case-card {
-            background: var(--dark-2);
-            border-radius: 16px;
-            padding: 24px;
-            border: 1px solid rgba(255,255,255,0.05);
-            text-decoration: none;
-            color: var(--light);
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            transition: all 0.3s ease;
-        }
-
-        .case-card:hover {
-            border-color: var(--accent);
-            transform: translateY(-4px);
-            box-shadow: 0 16px 40px rgba(210, 45, 45, 0.15);
-        }
-
-        .case-card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 12px;
-        }
-
-        .case-card-company {
-            font-weight: 600;
-        }
-
-        .case-card-role {
-            color: var(--gray);
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 10px;
-        }
-
-        .case-card-title {
-            font-size: 18px;
-            font-weight: 700;
-            margin: 4px 0;
-        }
-
-        .case-card-desc {
-            font-size: 13px;
-            color: var(--gray);
-            line-height: 1.6;
-            flex-grow: 1;
-        }
-
-        .case-card-metrics {
-            display: flex;
-            gap: 12px;
-            flex-wrap: wrap;
-        }
-
-        .case-metric {
-            font-size: 11px;
-            color: var(--gray);
-            background: var(--dark-3);
-            padding: 4px 8px;
-            border-radius: 4px;
-        }
-
-        .case-metric strong {
-            color: var(--accent);
-            font-weight: 700;
-        }
-
-        .case-card-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 6px;
-        }
-
-        .tech-tag {
-            background: rgba(210, 45, 45, 0.1);
-            color: var(--accent);
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 10px;
-            font-family: 'JetBrains Mono', monospace;
-        }
-
-        .case-card-link {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 11px;
-            color: var(--gray);
-            margin-top: auto;
-            padding-top: 8px;
-            border-top: 1px solid rgba(255,255,255,0.05);
-        }
-
-        .case-card:hover .case-card-link {
-            color: var(--accent);
-        }
-
-        .external-icon {
-            font-size: 10px;
-            transition: color 0.2s;
-        }
-
-        @media (max-width: 900px) {
-            .case-cards {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .site-previews {
-                grid-template-columns: 1fr;
-            }
-            
-            .site-preview.featured {
-                grid-column: span 1;
-            }
-        }
-
-        /* === PHILOSOPHY === */
-        .philosophy-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 24px;
-        }
-
-        .philosophy-card {
-            background: var(--dark-2);
-            border-radius: 20px;
-            padding: 40px;
-            border: 1px solid rgba(255,255,255,0.05);
-            transition: all 0.3s ease;
-        }
-
-        .philosophy-card:hover {
-            border-color: rgba(210, 45, 45, 0.3);
-            transform: translateY(-4px);
-        }
-
-        .philosophy-icon {
-            font-size: 28px;
-            margin-right: 10px;
-        }
-
-        .philosophy-card h3 {
-            font-size: 20px;
-            font-weight: 700;
-            margin-bottom: 12px;
-        }
-
-        .philosophy-card p {
-            color: #bbb;
-            font-size: 15px;
-            line-height: 1.7;
-        }
-
-        /* === SHIP LOG === */
-        .ship-log {
-            position: relative;
-        }
-
-        .ship-log::before {
-            content: '';
-            position: absolute;
-            left: 8px;
-            top: 0;
-            bottom: 0;
-            width: 2px;
-            background: linear-gradient(to bottom, var(--accent), transparent);
-        }
-
-        .ship-item {
-            display: flex;
-            gap: 32px;
-            margin-bottom: 48px;
-            position: relative;
-        }
-
-        .ship-dot {
-            width: 18px;
-            height: 18px;
-            background: var(--dark);
-            border: 3px solid var(--accent);
-            border-radius: 50%;
-            flex-shrink: 0;
-            position: relative;
-            z-index: 1;
-        }
-
-        .ship-item:first-child .ship-dot {
-            background: var(--accent);
-            box-shadow: 0 0 20px rgba(210, 45, 45, 0.5);
-        }
-
-        .ship-content {
-            flex: 1;
-            padding-bottom: 32px;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-        }
-
-        .ship-item:last-child .ship-content {
-            border-bottom: none;
-        }
-
-        .ship-date {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 13px;
-            color: var(--accent);
-            margin-bottom: 8px;
-        }
-
-        .ship-title {
-            font-size: 20px;
-            font-weight: 700;
-            margin-bottom: 8px;
-        }
-
-        .ship-company {
-            color: var(--gray);
-            font-size: 14px;
-            margin-bottom: 12px;
-        }
-
-        .ship-description {
-            color: var(--gray);
-            font-size: 15px;
-            line-height: 1.7;
-        }
-
-        .ship-impact {
-            display: inline-block;
-            background: rgba(210, 45, 45, 0.1);
-            color: var(--accent);
-            padding: 4px 12px;
-            border-radius: 6px;
-            font-size: 13px;
-            font-weight: 600;
-            margin-top: 12px;
-        }
-
-        /* === RECOMMENDATIONS CAROUSEL === */
-        #recommendations {
-            text-align: center;
-            overflow: hidden;
-        }
-
-        .carousel-wrapper {
-            position: relative;
-            margin: 40px 0 20px 0;
-        }
-
-        .carousel-container {
-            overflow: hidden;
-            width: 100%;
-        }
-
-        .carousel-track {
-            display: flex;
-            gap: 20px;
-            transition: transform 0.5s ease;
-        }
-
-        .recommendation-card {
-            background: var(--dark-2);
-            border-radius: 16px;
-            padding: 32px;
-            border: 1px solid rgba(255,255,255,0.05);
-            text-align: left;
-            transition: all 0.3s ease;
-            display: flex;
-            flex-direction: column;
-            min-width: 320px;
-            max-width: 320px;
-            flex-shrink: 0;
-        }
-
-        .recommendation-card:hover {
-            border-color: var(--accent);
-            transform: translateY(-4px);
-            box-shadow: 0 16px 40px rgba(210, 45, 45, 0.15);
-        }
-
-        .recommendation-header {
-            display: flex;
-            align-items: flex-start;
-            gap: 16px;
-            margin-bottom: 20px;
-        }
-
-        .recommendation-avatar {
-            width: 56px;
-            height: 56px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 2px solid rgba(255,255,255,0.1);
-            flex-shrink: 0;
-            margin-top: 2px;
-        }
-
-        .recommendation-info {
-            flex: 1;
-            min-width: 0;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .recommendation-name {
-            font-size: 16px;
-            font-weight: 700;
-            margin-bottom: 4px;
-            color: var(--light);
-            display: flex;
-            align-items: baseline;
-            gap: 6px;
-            line-height: 1.4;
-        }
-
-        .recommendation-linkedin {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 16px;
-            height: 16px;
-            opacity: 0.5;
-            transition: opacity 0.2s;
-            flex-shrink: 0;
-            margin-left: 2px;
-            position: relative;
-            top: 1px;
-        }
-
-        .recommendation-linkedin svg {
-            width: 100%;
-            height: 100%;
-            display: block;
-        }
-
-        .recommendation-linkedin:hover {
-            opacity: 1;
-        }
-
-        .recommendation-role {
-            font-size: 13px;
-            color: var(--gray);
-            line-height: 1.4;
-            margin: 0;
-        }
-
-        .recommendation-text {
-            color: var(--gray);
-            font-size: 14px;
-            line-height: 1.7;
-            flex-grow: 1;
-            white-space: pre-line;
-            position: relative;
-            max-height: calc(1.7em * 10);
-            overflow: hidden;
-            transition: max-height 0.3s ease;
-        }
-
-        .recommendation-text.expanded {
-            max-height: none;
-        }
-
-        .recommendation-text::before {
-            content: '"';
-            font-size: 32px;
-            color: var(--accent);
-            opacity: 0.3;
-            line-height: 0;
-            margin-right: 4px;
-        }
-
-        .recommendation-text::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 60px;
-            background: linear-gradient(to bottom, rgba(20, 20, 20, 0), rgba(20, 20, 20, 1));
-            pointer-events: none;
-            opacity: 1;
-            transition: opacity 0.3s ease;
-        }
-
-        .recommendation-text.expanded::after {
-            opacity: 0;
-        }
-
-        .recommendation-toggle {
-            background: transparent;
-            border: none;
-            color: var(--accent);
-            font-size: 12px;
-            font-weight: 600;
-            cursor: pointer;
-            padding: 8px 0;
-            margin-top: 8px;
-            text-align: left;
-            transition: color 0.2s;
-            font-family: 'Inter', sans-serif;
-        }
-
-        .recommendation-toggle:hover {
-            color: var(--accent-light);
-        }
-
-        .recommendation-toggle.hidden {
-            display: none;
-        }
-
-        .translation-note {
-            font-size: 11px;
-            color: var(--gray-dark);
-            font-style: italic;
-            margin-top: 12px;
-        }
-
-        .carousel-controls {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 16px;
-            margin-top: 32px;
-        }
-
-        .carousel-btn {
-            background: var(--dark-2);
-            border: 1px solid rgba(255,255,255,0.1);
-            color: var(--light);
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            cursor: pointer;
-            transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-        }
-
-        .carousel-btn:hover {
-            background: var(--accent);
-            border-color: var(--accent);
-            transform: scale(1.1);
-        }
-
-        .carousel-btn:disabled {
-            opacity: 0.3;
-            cursor: not-allowed;
-        }
-
-        .carousel-btn:disabled:hover {
-            background: var(--dark-2);
-            border-color: rgba(255,255,255,0.1);
-            transform: scale(1);
-        }
-
-        /* === PROJECTS CAROUSEL === */
-        .projects-carousel-wrapper {
-            position: relative;
-            margin: 40px 0 20px 0;
-        }
-
-        .projects-carousel-container {
-            overflow: hidden;
-            width: 100%;
-        }
-
-        .projects-carousel-track {
-            display: flex;
-            gap: 20px;
-            transition: transform 0.5s ease;
-        }
-
-        .case-card {
-            min-width: 400px;
-            max-width: 400px;
-            flex-shrink: 0;
-        }
-
-        @media (max-width: 768px) {
-            .recommendation-card {
-                min-width: 280px;
-                max-width: 280px;
-                padding: 24px;
-            }
-
-            .case-card {
-                min-width: 300px;
-                max-width: 300px;
-            }
-        }
-
-        /* === CONTACT === */
-        #contact {
-            text-align: center;
-            padding-bottom: 160px;
-        }
-
-        #contact .section-subtitle {
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .contact-options {
-            display: flex;
-            justify-content: center;
-            gap: 24px;
-            flex-wrap: wrap;
-        }
-
-        .contact-card {
-            background: var(--dark-2);
-            border: 1px solid rgba(255,255,255,0.05);
-            border-radius: 16px;
-            padding: 32px 48px;
-            transition: all 0.3s ease;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 12px;
-            min-width: 200px;
-        }
-
-        .contact-card:hover {
-            border-color: var(--accent);
-            transform: translateY(-4px);
-            box-shadow: 0 20px 60px rgba(210, 45, 45, 0.15);
-        }
-
-        .contact-icon {
-            font-size: 32px;
-        }
-
-        .contact-label {
-            font-size: 14px;
-            color: var(--gray);
-        }
-
-        .contact-value {
-            font-weight: 600;
-        }
-
-        /* === FOOTER === */
-        footer {
-            text-align: center;
-            padding: 40px;
-            color: var(--gray);
-            font-size: 14px;
-            border-top: 1px solid rgba(255,255,255,0.05);
-        }
-
-        /* === SCROLL ANIMATIONS === */
-        .fade-in {
-                opacity: 0;
-                transform: translateY(30px);
-            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-            }
-
-        .fade-in.visible {
-                opacity: 1;
-                transform: translateY(0);
-            }
-
-        /* === RESPONSIVE === */
-        @media (max-width: 1024px) {
-            .case-study-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .case-study-content {
-                grid-template-columns: 1fr;
-            }
-
-            .philosophy-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        @media (max-width: 768px) {
-            nav {
-                padding: 16px 20px;
-            }
-
-            .nav-links {
-                display: none;
-            }
-
-            .hero {
-                padding: 100px 20px 60px;
-            }
-
-            .hero-stats {
-                flex-wrap: wrap;
-                gap: 32px;
-            }
-
-            .hero-cta {
-                flex-direction: column;
-            }
-
-            .hero-subtitle {
-                margin-bottom: 72px !important;
-            }
-
-            section {
-                padding: 80px 20px;
-            }
-
-            #projects {
-                margin: 0 20px;
-                border-radius: 24px;
-            }
-
-            .case-study-header {
-                flex-direction: column;
-            }
-
-            .ship-item {
-                gap: 20px;
-            }
-
-            .philosophy-grid {
-                grid-template-columns: 1fr !important;
-                gap: 16px;
-            }
-
-            .philosophy-card {
-                padding: 24px;
-            }
-
-            .philosophy-card h3 {
-                display: flex;
-                align-items: center;
-                gap: 10px;
-                white-space: nowrap;
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5">
+<title>CV — Swann Le Vigouroux</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  @page {
+    size: A4;
+    margin: 0;
+  }
+
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    font-size: 9.5pt;
+    line-height: 1.45;
+    color: #1a1a1a;
+    background: #f0f0f0;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .page {
+    width: 210mm;
+    min-height: 297mm;
+    margin: 20px auto;
+    background: white;
+    padding: 28px 32px;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+  }
+
+  @media print {
+    body { background: white; }
+    .page {
+      margin: 0;
+      box-shadow: none;
+      padding: 24px 28px;
+    }
+    .page-break { page-break-before: always; }
+  }
+
+  /* ── Header ── */
+  .header {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    margin-bottom: 16px;
+  }
+
+  .header-photo {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    overflow: hidden;
+    border: 2.5px solid #bbb;
+  }
+
+  .header-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+  }
+
+  .header-center {
+    flex: 1;
+  }
+
+  .header-name {
+    font-size: 28pt;
+    font-weight: 800;
+    line-height: 1.05;
+    color: #1a1a1a;
+    letter-spacing: -0.5px;
+  }
+
+  .header-title {
+    font-size: 11pt;
+    color: #c0392b;
+    font-weight: 600;
+    margin-top: 2px;
+  }
+
+  .header-right {
+    text-align: right;
+    font-size: 8.5pt;
+    color: #555;
+    line-height: 1.6;
+  }
+
+  .header-right a {
+    color: #555;
+    text-decoration: none;
+  }
+
+  .header-right .label {
+    color: #c0392b;
+    font-weight: 600;
+  }
+
+  .languages {
+    text-align: right;
+    font-size: 8.5pt;
+    color: #555;
+    margin-top: 4px;
+  }
+
+  .languages strong { color: #c0392b; }
+
+  /* ── Summary ── */
+  .summary {
+    margin: 14px 0 18px;
+    font-size: 9.5pt;
+    line-height: 1.55;
+    color: #333;
+  }
+
+  .summary strong { color: #1a1a1a; }
+
+  .divider {
+    border: none;
+    border-top: 1.5px solid #e0e0e0;
+    margin: 14px 0;
+  }
+
+  /* ── Section Headers ── */
+  .section-title {
+    font-size: 12pt;
+    font-weight: 800;
+    color: #1a1a1a;
+    margin: 18px 0 10px;
+    padding: 3px 10px;
+    border-left: 4px solid #c0392b;
+    background: linear-gradient(90deg, #fdf0ef 0%, transparent 100%);
+  }
+
+  /* ── Expertise Grid ── */
+  .expertise {
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    gap: 5px 16px;
+    margin: 10px 0;
+  }
+
+  .expertise-label {
+    font-size: 8pt;
+    font-weight: 700;
+    color: #c0392b;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding-top: 1px;
+  }
+
+  .expertise-value {
+    font-size: 9pt;
+    color: #333;
+  }
+
+  /* ── Experience ── */
+  .company {
+    margin: 14px 0 4px;
+  }
+
+  .company-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+
+  .company-name {
+    font-size: 14pt;
+    font-weight: 800;
+    color: #1a1a1a;
+    letter-spacing: -0.3px;
+  }
+
+  .company-dates {
+    font-size: 8.5pt;
+    color: #777;
+  }
+
+  .company-dates .duration {
+    color: #c0392b;
+    font-weight: 600;
+  }
+
+  .company-sub {
+    font-size: 8.5pt;
+    color: #888;
+    font-style: italic;
+    margin-bottom: 6px;
+  }
+
+  .role {
+    margin: 10px 0 6px;
+  }
+
+  .role-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+
+  .role-title {
+    font-size: 10.5pt;
+    font-weight: 700;
+    color: #1a1a1a;
+  }
+
+  .role-dates {
+    font-size: 8.5pt;
+    color: #888;
+  }
+
+  .role-sub {
+    font-size: 8pt;
+    color: #999;
+    margin-bottom: 4px;
+  }
+
+  /* ── Bullet Points ── */
+  .bullets {
+    list-style: none;
+    margin: 4px 0 8px;
+  }
+
+  .bullets li {
+    padding-left: 16px;
+    position: relative;
+    margin-bottom: 3px;
+    font-size: 9pt;
+    color: #333;
+    line-height: 1.45;
+  }
+
+  .bullets li::before {
+    content: '>';
+    position: absolute;
+    left: 0;
+    color: #c0392b;
+    font-weight: 800;
+    font-size: 9pt;
+  }
+
+  .bullets li strong {
+    color: #1a1a1a;
+    font-weight: 600;
+  }
+
+  /* ── Tech Tags ── */
+  .tech-tags {
+    margin: 6px 0 4px;
+    padding: 4px 0;
+    border-top: 1px solid #eee;
+    border-bottom: 1px solid #eee;
+  }
+
+  .tech-tags span {
+    display: inline-block;
+    font-size: 7.5pt;
+    font-weight: 600;
+    color: #555;
+    margin-right: 12px;
+    letter-spacing: 0.2px;
+  }
+
+  /* ── Education ── */
+  .edu-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin: 8px 0;
+  }
+
+  .edu-title {
+    font-size: 10pt;
+    font-weight: 700;
+  }
+
+  .edu-sub {
+    font-size: 8.5pt;
+    color: #888;
+    font-style: italic;
+  }
+
+  .edu-year {
+    font-size: 9pt;
+    font-weight: 600;
+    color: #555;
+  }
+
+  /* ── Highlight box ── */
+  .highlight-box {
+    background: #fdf6f5;
+    border: 1px solid #f0d4d0;
+    border-radius: 6px;
+    padding: 10px 14px;
+    margin: 8px 0;
+    font-size: 8.5pt;
+    color: #555;
+    line-height: 1.5;
+  }
+
+  .highlight-box strong {
+    color: #c0392b;
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 768px) {
+    .page {
+      width: 100%;
+      min-height: auto;
+      padding: 16px;
+      margin: 0;
+      box-shadow: none;
+    }
+
+    .header {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 12px;
+    }
+
+    .header-photo { width: 80px; height: 80px; }
+    .header-name { font-size: 22pt; }
+    .header-title { font-size: 10pt; }
+    .header-right { text-align: center; font-size: 8pt; }
+
+    .summary { font-size: 9pt; }
+
+    .section-title { font-size: 11pt; }
+
+    .expertise {
+      grid-template-columns: 1fr;
+      gap: 8px 0;
+    }
+
+    .expertise-label { margin-bottom: -4px; }
+
+    .company-header { flex-direction: column; gap: 2px; }
+    .company-name { font-size: 12pt; }
+    .company-dates { font-size: 8pt; }
+
+    .role-header { flex-direction: column; gap: 2px; }
+    .role-title { font-size: 10pt; }
+
+    .bullets li { font-size: 8.5pt; }
+
+    .tech-tags span { font-size: 7pt; margin-right: 8px; }
+
+    .edu-item { flex-direction: column; gap: 2px; }
+
+    div[style*="grid-template-columns: 1fr 1fr"] {
+      display: block !important;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .page { padding: 12px; }
+    .header-name { font-size: 18pt; }
+    .header-photo { width: 70px; height: 70px; }
+    .summary { font-size: 8.5pt; }
+    .company-name { font-size: 11pt; }
+    .role-title { font-size: 9.5pt; }
+    .bullets li { font-size: 8pt; padding-left: 12px; }
+  }
+</style>
 </head>
 <body>
-    <!-- Navigation -->
-    <nav>
-        <div class="logo">swann le vigouroux<span>.</span></div>
-        <div class="nav-links">
-            <a href="#">Home</a>
-            <a href="#approach">My Approach</a>
-            <a href="#journey">Journey</a>
-            <a href="#projects">Projects</a>
-            <a href="#recommendations">Testimonials</a>
-            <a href="#contact">Contact</a>
-            </div>
-        <a href="https://swannlv.github.io/swann-le-vigouroux.pdf" target="_blank" class="nav-cta">Resume (PDF)</a>
-    </nav>
 
-    <!-- Hero -->
-    <div class="hero-wrapper">
-        <canvas id="hero-canvas"></canvas>
-    <section class="hero">
-        <div class="hero-inner">
-        <div class="hero-content">
-                <!-- <div class="hero-headline">
-                    <span class="hero-role">CTO</span> @ <a href="https://www.comet.co/" target="_blank" class="hero-company">Comet</a>
-            </div> -->
-            <div class="hero-headline">
-                <span class="hero-role">CTO</span> @ <a href="https://www.comet.co/" target="_blank" class="hero-company">Comet</a>
-            </div>
+<!-- ════════════════ PAGE 1 ════════════════ -->
+<div class="page">
 
-                <p class="hero-subtitle">
-                    Creative mind. Team builder. AI-powered.<br>
-                    Everything I do serves the product.
-                </p>
-                <div class="hero-cta">
-                    <a href="mailto:le.vigouroux.swann@gmail.com" class="btn btn-primary">Get in Touch</a>
-                    <a href="#approach" class="btn btn-secondary">My Approach</a>
-                </div>
-        </div>
-        <div class="hero-photo-container">
-            <img src="https://swannlv.github.io/profil.jpg" alt="Swann Le Vigouroux" class="hero-photo">
-            </div>
-        </div>
-    </section>
+  <!-- Header -->
+  <div class="header">
+    <div class="header-photo"><img src="1769980301719.jpeg" alt="Swann Le Vigouroux"></div>
+    <div class="header-center">
+      <div class="header-name">SWANN<br>LE VIGOUROUX</div>
+      <div class="header-title">Agentic Engineer · Ex-CTO</div>
     </div>
-
-    <!-- Approach -->
-    <section id="approach" class="fade-in">
-        <div class="section-label" style="text-align: center;">My Approach</div>
-        <h2 class="section-title" style="text-align: center;">How I Lead</h2>
-        <p class="section-subtitle" style="text-align: center;">
-            Engineering leadership isn't just about code—it's about people and momentum.
-        </p>
-
-        <div class="philosophy-grid" style="grid-template-columns: repeat(2, 1fr);">
-            <div class="philosophy-card">
-                <h3><span class="philosophy-icon">🔥</span> Daily Spark</h3>
-                <p>A motivated team finds its daily spark—that small pleasure that makes everyone more productive, creative, and engaged. My job: create the conditions for each person to find theirs.</p>
-            </div>
-            <div class="philosophy-card">
-                <h3><span class="philosophy-icon">⚡</span> 2-Way Product × Tech</h3>
-                <p>Fast iterations, commando mode. Devs aren't just executors—they propose, challenge, and co-create with product. Innovation flows both ways.</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Ship Log -->
-    <section id="journey" class="fade-in">
-        <div class="section-label" style="text-align: center;">Ship Log</div>
-        <h2 class="section-title" style="text-align: center;">What I've Built</h2>
-        <p class="section-subtitle" style="text-align: center;">
-            A timeline of teams scaled and products shipped.
-        </p>
-
-        <div class="ship-log">
-            <div class="ship-item">
-                <div class="ship-dot"></div>
-                <div class="ship-content">
-                    <div class="ship-date">Jan 2025 — Present</div>
-                    <div class="ship-title">Chief Technology Officer (Hands-on)</div>
-                    <div class="ship-company">Comet · Paris / Remote · <a href="https://www.comet.co/" target="_blank" style="color: var(--accent);">comet.co</a> · <a href="https://app.comet.co/" target="_blank" style="color: var(--accent);">app</a></div>
-                    <p class="ship-description">
-                        Leading 9 engineers (7 devs, 1 data engineer, 1 QA). Shipped Nova AI platform, driving 85% reduction in portfolio creation time. Implementing strategic legacy-to-SaaS migration.
-                    </p>
-                    <span class="ship-impact">9 engineers · AI Platform · -85% time</span>
-            </div>
-                </div>
-                
-            <div class="ship-item">
-                <div class="ship-dot"></div>
-                <div class="ship-content">
-                    <div class="ship-date">Feb 2022 — Jan 2025</div>
-                    <div class="ship-title">Engineering Manager (Hands-on)</div>
-                    <div class="ship-company">Comet</div>
-                    <p class="ship-description">
-                        Scaled engineering from 8 to 15 engineers across cross-functional squads. Built predictable delivery pipeline, implemented Notion↔GitLab sync for product autonomy.
-                    </p>
-                    <span class="ship-impact">8→15 engineers · Process Excellence</span>
-                </div>
-                </div>
-                
-            <div class="ship-item">
-                <div class="ship-dot"></div>
-                <div class="ship-content">
-                    <div class="ship-date">Nov 2018 — Feb 2022</div>
-                    <div class="ship-title">Team Lead & Fullstack Developer</div>
-                    <div class="ship-company">Comet</div>
-                    <p class="ship-description">
-                        Led team of 5 engineers. Drove agile transformation across the company. Led complete platform rebuild: TypeScript, Node.js, React, AWS Serverless.
-                    </p>
-                    <span class="ship-impact">5 engineers · Agile Transformation</span>
-                </div>
-            </div>
-
-            <div class="ship-item">
-                <div class="ship-dot"></div>
-                <div class="ship-content">
-                    <div class="ship-date">Feb 2016 — Oct 2018</div>
-                    <div class="ship-title">Lead Developer</div>
-                    <div class="ship-company">CMA CGM · Marseille</div>
-                    <p class="ship-description">
-                        Led team of 5 developers. Pioneered Vue.js and Git adoption in traditional corporate environment. Core developer on global booking platform.
-                    </p>
-                    <span class="ship-impact">5 developers · Vue.js Pioneer</span>
-            </div>
-        </div>
-                
-            <div class="ship-item">
-                <div class="ship-dot"></div>
-                <div class="ship-content">
-                    <div class="ship-date">2012 — 2016</div>
-                    <div class="ship-title">Creative Technologist & Lead Developer</div>
-                    <div class="ship-company">UNION Advertising + Freelance · Toronto 🇨🇦</div>
-                    <p class="ship-description">
-                        Built interactive brand experiences (WebGL, Three.js, Arduino). Led team of 3 on <a href="https://www.shoppersdrugmart.ca/" target="_blank" style="color: var(--accent);">shoppersdrugmart.ca</a>. Developed mobile apps and social platforms as freelancer.
-                    </p>
-                    <span class="ship-impact">4 years Toronto · 3 developers</span>
-                </div>
-            </div>
-
-            <div class="ship-item">
-                <div class="ship-dot"></div>
-                <div class="ship-content">
-                    <div class="ship-date">Oct 2009 — Jul 2012</div>
-                    <div class="ship-title">Software Engineer</div>
-                    <div class="ship-company">Anyware Video · Marseille</div>
-                    <p class="ship-description">
-                        Real-time broadcast development in C++ and .Net. Client deployments for TF1, AB Productions, LCP, and Gameone. Built low-latency broadcast technology.
-                    </p>
-                    <span class="ship-impact">C++ · Broadcast · TF1</span>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Projects -->
-    <section id="projects" class="fade-in">
-        <div class="section-label" style="text-align: center;">Projects</div>
-        <h2 class="section-title" style="text-align: center;">Projects & Impact</h2>
-        <p class="section-subtitle" style="text-align: center; margin: 0 auto 40px;">
-            A selection of projects where I led teams to deliver measurable business results.
-        </p>
-
-        <div class="projects-carousel-wrapper">
-            <div class="projects-carousel-container">
-                <div class="projects-carousel-track" id="projectsCarouselTrack">
-                    <!-- Comet SaaS Platform -->
-                    <a href="https://app.comet.co/" target="_blank" class="case-card">
-                        <div class="case-card-header">
-                            <span class="case-card-company">⚡ Comet</span>
-                            <span class="case-card-role">Lead → EM · 2018-2025</span>
-                        </div>
-                        <h3 class="case-card-title">Full SaaS Platform</h3>
-                        <p class="case-card-desc">Built the entire SaaS platform with the team. Freelance & client apps, matching engine, billing, analytics.</p>
-                        <div class="case-card-metrics">
-                            <span class="case-metric"><strong>8→15</strong> engineers</span>
-                            <span class="case-metric"><strong>7</strong> years</span>
-                        </div>
-                        <div class="case-card-tags">
-                            <span class="tech-tag">TypeScript</span>
-                            <span class="tech-tag">Node.js</span>
-                            <span class="tech-tag">React</span>
-                            <span class="tech-tag">Vue.js</span>
-                            <span class="tech-tag">AWS</span>
-                        </div>
-                        <div class="case-card-link">app.comet.co <span class="external-icon">↗</span></div>
-                    </a>
-
-                    <!-- Nova AI -->
-                    <a href="https://www.comet.co/" target="_blank" class="case-card">
-                        <div class="case-card-header">
-                            <span class="case-card-company">⚡ Comet</span>
-                            <span class="case-card-role">CTO · 2025</span>
-                        </div>
-                        <h3 class="case-card-title">Nova AI Platform</h3>
-                        <p class="case-card-desc">GenAI matching engine — portfolio creation from 78min to 12min, candidate matching from 1h to 5min.</p>
-                        <div class="case-card-metrics">
-                            <span class="case-metric"><strong>-85%</strong> time</span>
-                            <span class="case-metric"><strong>-90%</strong> cost</span>
-                        </div>
-                        <div class="case-card-tags">
-                            <span class="tech-tag">AWS Bedrock</span>
-                            <span class="tech-tag">GenAI</span>
-                            <span class="tech-tag">Terraform</span>
-                        </div>
-                        <div class="case-card-link">comet.co <span class="external-icon">↗</span></div>
-                    </a>
-
-                    <!-- Shoppers Drug Mart -->
-                    <a href="https://www.shoppersdrugmart.ca/" target="_blank" class="case-card">
-                        <div class="case-card-header">
-                            <span class="case-card-company">💊 Shoppers Drug Mart</span>
-                            <span class="case-card-role">Lead Dev · 2014</span>
-                        </div>
-                        <h3 class="case-card-title">E-commerce Platform</h3>
-                        <p class="case-card-desc">Led squad for Canada's largest pharmacy chain. High-traffic e-commerce with complex product catalog.</p>
-                        <div class="case-card-tags">
-                            <span class="tech-tag">JavaScript</span>
-                            <span class="tech-tag">E-commerce</span>
-                            <span class="tech-tag">Performance</span>
-                        </div>
-                        <div class="case-card-link">shoppersdrugmart.ca <span class="external-icon">↗</span></div>
-                    </a>
-
-                    <!-- CMA CGM -->
-                    <a href="https://www.cma-cgm.com/" target="_blank" class="case-card">
-                        <div class="case-card-header">
-                            <span class="case-card-company">🚢 CMA CGM</span>
-                            <span class="case-card-role">Lead Dev · 2016-2018</span>
-                        </div>
-                        <h3 class="case-card-title">Global Booking Platform</h3>
-                        <p class="case-card-desc">Pioneered Vue.js adoption at one of the world's largest shipping companies. Built booking system serving global logistics operations.</p>
-                        <div class="case-card-metrics">
-                            <span class="case-metric"><strong>5</strong> devs led</span>
-                            <span class="case-metric"><strong>Vue.js</strong> pioneer</span>
-                        </div>
-                        <div class="case-card-tags">
-                            <span class="tech-tag">Vue.js</span>
-                            <span class="tech-tag">C#.Net</span>
-                            <span class="tech-tag">Logistics</span>
-                        </div>
-                        <div class="case-card-link">cma-cgm.com <span class="external-icon">↗</span></div>
-                    </a>
-                </div>
-            </div>
-            <div class="carousel-controls">
-                <button class="carousel-btn" id="projectsPrev" aria-label="Previous">←</button>
-                <button class="carousel-btn" id="projectsNext" aria-label="Next">→</button>
-            </div>
-        </div>
-    </section>
-
-    <!-- Recommendations -->
-    <section id="recommendations" class="fade-in">
-        <div class="section-label" style="text-align: center;">Recommendations</div>
-        <h2 class="section-title" style="text-align: center;">What People Say</h2>
-        <p class="section-subtitle" style="text-align: center;">
-            Testimonials from colleagues, team members, and clients I've worked with.
-        </p>
-
-        <div class="carousel-wrapper">
-            <div class="carousel-container">
-                <div class="carousel-track" id="recommendationsCarouselTrack">
-                    <!-- Shannone Controu -->
-                    <div class="recommendation-card">
-                        <div class="recommendation-header">
-                            <img src="https://media.licdn.com/dms/image/v2/C5603AQF75aa2sYtgyA/profile-displayphoto-shrink_100_100/profile-displayphoto-shrink_100_100/0/1591021250965?e=1769040000&v=beta&t=rtj7XKfGtqM8oJQb6VXav5OVboUQWr1YCHt9_enPrtM" alt="Shannone Controu" class="recommendation-avatar">
-                            <div class="recommendation-info">
-                                <div class="recommendation-name">
-                                    Shannone Controu
-                                    <a href="https://www.linkedin.com/in/shannone-controu" target="_blank" class="recommendation-linkedin">
-                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-                                        </svg>
-                                    </a>
-                                </div>
-                                <div class="recommendation-role">Fullstack Developer @Comet</div>
-                            </div>
-                        </div>
-                        <div class="recommendation-text">I had the chance to work with Swann for four years, and this collaboration was extremely impactful. Throughout this period, I always felt listened to, valued, and supported, which makes a real difference on a daily basis.
-
-Swann's technical expertise, vision, and ability to make sound decisions provide a solid and reassuring framework. But what I appreciated most was the quality of every exchange: open, respectful, and stimulating discussions where viewpoints are genuinely taken into account.
-
-His deeply human way of working, attentive to team balance, creates a healthy and engaging environment. I am convinced that Swann will continue to have a positive and lasting impact on the teams and projects he supports.</div>
-                        <div class="translation-note">— translated from French</div>
-                        <button class="recommendation-toggle" onclick="toggleRecommendation(this)">Read more</button>
-                    </div>
-
-                    <!-- Jérémy Levy -->
-                    <div class="recommendation-card">
-                        <div class="recommendation-header">
-                            <img src="https://media.licdn.com/dms/image/v2/D4D03AQGtpv228RQ9hw/profile-displayphoto-shrink_100_100/profile-displayphoto-shrink_100_100/0/1673042946086?e=1769040000&v=beta&t=vYIy6xte7jnG9Nhl6rhhtTkfbB7AvDoyX8RmcvdcMd0" alt="Jérémy Levy" class="recommendation-avatar">
-                            <div class="recommendation-info">
-                                <div class="recommendation-name">
-                                    Jérémy Levy
-                                    <a href="https://www.linkedin.com/in/jeremy-levy18" target="_blank" class="recommendation-linkedin">
-                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-                                        </svg>
-                                    </a>
-                                </div>
-                                <div class="recommendation-role">Tech Lead @ Comet | Next40/120</div>
-                            </div>
-                        </div>
-                        <div class="recommendation-text">I have rarely, if ever, worked with a manager and CTO who is so attentive, caring, and deeply human.
-
-The trust given, the quality of exchanges, the relevance of advice, and the energy transmitted on a daily basis make a real difference, both on a human and professional level.
-
-His impact on teams and projects is real, lasting, and immediately noticeable. I have no doubt that Swann will continue to help grow the teams and projects he encounters in his future experiences.</div>
-                        <div class="translation-note">— translated from French</div>
-                        <button class="recommendation-toggle" onclick="toggleRecommendation(this)">Read more</button>
-                    </div>
-
-                    <!-- Nicolas Benhamou -->
-                    <div class="recommendation-card">
-                        <div class="recommendation-header">
-                            <img src="https://media.licdn.com/dms/image/v2/C4D03AQHD18Osh35zmQ/profile-displayphoto-shrink_100_100/profile-displayphoto-shrink_100_100/0/1547151375988?e=1769040000&v=beta&t=LxtMEfdaLJ5i8KL-rDdBtmaTesby8ITvXDIuqZDwlX4" alt="Nicolas Benhamou" class="recommendation-avatar">
-                            <div class="recommendation-info">
-                                <div class="recommendation-name">
-                                    Nicolas Benhamou
-                                    <a href="https://www.linkedin.com/in/nicolasbenhamou" target="_blank" class="recommendation-linkedin">
-                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-                                        </svg>
-                                    </a>
-                                </div>
-                                <div class="recommendation-role">Solutions Architect @ Mistral AI</div>
-                            </div>
-                        </div>
-                        <div class="recommendation-text">I worked with Swann for many years. He is a skilled software engineer, especially with web technologies, with a strong leading capacity.
-
-As an innovative person, Swann continuously improves our projects and makes his whole team grow. Thanks to him, our frontend apps are modern and efficient and our dev teams can count on an amazing colleague.</div>
-                        <button class="recommendation-toggle" onclick="toggleRecommendation(this)">Read more</button>
-                    </div>
-
-                    <!-- Mouna Ben Chamekh -->
-                    <div class="recommendation-card">
-                        <div class="recommendation-header">
-                            <img src="https://media.licdn.com/dms/image/v2/C5603AQHC4pjEy8BNmQ/profile-displayphoto-shrink_100_100/profile-displayphoto-shrink_100_100/0/1517030095254?e=1769040000&v=beta&t=TJ4tMTOl0spRveYqBdhCP3mNmevMifL8w84psb3P8hs" alt="Mouna Ben Chamekh" class="recommendation-avatar">
-                            <div class="recommendation-info">
-                                <div class="recommendation-name">
-                                    Mouna Ben Chamekh
-                                    <a href="https://www.linkedin.com/in/mouna-ben-chamekh-037434127" target="_blank" class="recommendation-linkedin">
-                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-                                        </svg>
-                                    </a>
-                                </div>
-                                <div class="recommendation-role">Senior Data Engineer</div>
-                            </div>
-                        </div>
-                        <div class="recommendation-text">I had the opportunity to work with Swann at Comet for over two years.
-
-He is a competent, creative person full of ideas. Caring, always in good spirits and attentive, he knows how to unite and motivate his teams. His management allowed us to reinvent ourselves and give the best of ourselves.
-
-It was a pleasure working with Swann; hoping to see you again soon!</div>
-                        <div class="translation-note">— translated from French</div>
-                        <button class="recommendation-toggle" onclick="toggleRecommendation(this)">Read more</button>
-                    </div>
-
-                    <!-- Anthony LE ROY -->
-                    <div class="recommendation-card">
-                        <div class="recommendation-header">
-                            <img src="https://media.licdn.com/dms/image/v2/D4E03AQFKnoCDq1lzeQ/profile-displayphoto-shrink_100_100/profile-displayphoto-shrink_100_100/0/1695118524341?e=1769040000&v=beta&t=vh8Tvdl4uRKOiI8_u9a6BwZxMUJchMHw6HhU3JOeNpA" alt="Anthony LE ROY" class="recommendation-avatar">
-                            <div class="recommendation-info">
-                                <div class="recommendation-name">
-                                    Anthony LE ROY
-                                    <a href="https://www.linkedin.com/in/anthony-le-roy-617353149" target="_blank" class="recommendation-linkedin">
-                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-                                        </svg>
-                                    </a>
-                                </div>
-                                <div class="recommendation-role">Software Engineer | AWS Certified</div>
-                            </div>
-                        </div>
-                        <div class="recommendation-text">I highly recommend Swann, with whom I had the pleasure of working for 2 years when he was my manager.
-
-Swann is a competent, involved person with excellent interpersonal skills.
-
-He places great importance on human interactions, the well-being of his team, and knows how to establish a climate of trust that promotes commitment and motivation.</div>
-                        <div class="translation-note">— translated from French</div>
-                        <button class="recommendation-toggle" onclick="toggleRecommendation(this)">Read more</button>
-                    </div>
-
-                    <!-- Mehdi Tagaizine -->
-                    <div class="recommendation-card">
-                        <div class="recommendation-header">
-                            <img src="https://media.licdn.com/dms/image/v2/D4D03AQE3TqOzOl7r6w/profile-displayphoto-shrink_100_100/profile-displayphoto-shrink_100_100/0/1725834864066?e=1769040000&v=beta&t=aCjpLk8pSnWX2qCp6rYppwK2SByPDFHZ3hxjwepWVP4" alt="Mehdi Tagaizine" class="recommendation-avatar">
-                            <div class="recommendation-info">
-                                <div class="recommendation-name">
-                                    Mehdi Tagaizine
-                                    <a href="https://www.linkedin.com/in/mehdi-tagaizine" target="_blank" class="recommendation-linkedin">
-                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-                                        </svg>
-                                    </a>
-                                </div>
-                                <div class="recommendation-role">Product Owner & Freelance Developer</div>
-                            </div>
-                        </div>
-                        <div class="recommendation-text">We worked together for 5 years at Comet! He's someone who gives his all and expects the same from the rest of the team by pushing them to reinvent themselves and step out of their comfort zone.
-
-I particularly remember our debates: a real pleasure to exchange, to confront our viewpoints, to challenge R&D and technical ideas. We didn't always agree, but these discussions always allowed us to come up with better solutions.
-
-Working with Swann means being challenged and progressing quickly! I hope we'll work together again sometime :)</div>
-                        <div class="translation-note">— translated from French</div>
-                        <button class="recommendation-toggle" onclick="toggleRecommendation(this)">Read more</button>
-                    </div>
-
-                    <!-- Eric Oudart -->
-                    <div class="recommendation-card">
-                        <div class="recommendation-header">
-                            <img src="https://media.licdn.com/dms/image/v2/C5603AQEohM5T-7TSzw/profile-displayphoto-shrink_100_100/profile-displayphoto-shrink_100_100/0/1517352184991?e=1769040000&v=beta&t=YnhWdX6ZrfgbgVHwXxP_bKYPNti-VcVr145zf19uXkM" alt="Eric Oudart" class="recommendation-avatar">
-                            <div class="recommendation-info">
-                                <div class="recommendation-name">
-                                    Eric Oudart
-                                    <a href="https://www.linkedin.com/in/eric-oudart-av" target="_blank" class="recommendation-linkedin">
-                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-                                </svg>
-                            </a>
-                        </div>
-                        <div class="recommendation-role">Operations Director</div>
-                    </div>
-                </div>
-                <div class="recommendation-text">I would like to express my sincere gratitude and thank Swann Le Vigouroux for his collaboration with the technical team at Cognacq Jay Image, as a Software Engineer at the company Anyware Vidéo.
-
-From 2010 to 2012, Swann actively participated in the development of dynamic graphics systems and broadcast control systems for Cognacq Jay Image. On this occasion, he demonstrated skills, reactivity, and professionalism. He has always been a reliable and responsible person, both in his work and in his relationships with the Cognacq Jay teams.
-
-This is why I strongly recommend the services of Swann Le Vigouroux.</div>
-                        <div class="translation-note">— translated from French</div>
-                        <button class="recommendation-toggle" onclick="toggleRecommendation(this)">Read more</button>
-                    </div>
-                </div>
-            </div>
-            <div class="carousel-controls">
-                <button class="carousel-btn" id="recommendationsPrev" aria-label="Previous">←</button>
-                <button class="carousel-btn" id="recommendationsNext" aria-label="Next">→</button>
-            </div>
-        </div>
-
-        <div style="text-align: center; margin-top: 24px;">
-            <a href="https://www.linkedin.com/in/swannlv/details/recommendations/" target="_blank" class="btn btn-secondary">View More on LinkedIn</a>
-        </div>
-    </section>
-
-    <!-- Contact -->
-    <section id="contact" class="fade-in">
-        <div class="section-label">Let's Connect</div>
-        <h2 class="section-title">Let's Talk</h2>
-        <p class="section-subtitle">
-            Whether you're scaling a team, shipping a product, or just want to chat about engineering leadership—I'd love to hear from you.
-        </p>
-
-        <div class="contact-options">
-            <a href="mailto:le.vigouroux.swann@gmail.com" class="contact-card">
-                <div class="contact-icon">✉️</div>
-                <div class="contact-label">Email</div>
-                <div class="contact-value">Let's Talk</div>
-            </a>
-            <a href="https://linkedin.com/in/swannlv" target="_blank" class="contact-card">
-                <div class="contact-icon">💼</div>
-                <div class="contact-label">LinkedIn</div>
-                <div class="contact-value">/in/swannlv</div>
-            </a>
-            <a href="https://github.com/swannlv" target="_blank" class="contact-card">
-                <div class="contact-icon">⌨️</div>
-                <div class="contact-label">GitHub</div>
-                <div class="contact-value">swannlv</div>
-            </a>
-        </div>
-
-        <div style="text-align: center; margin-top: 40px;">
-            <a href="https://swannlv.github.io/swann-le-vigouroux.pdf" target="_blank" class="btn btn-primary">📄 Download Full Resume</a>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer>
-        <p>© 2026 Swann Le Vigouroux · Aix-en-Provence / Remote</p>
-        <p style="margin-top: 8px; font-size: 13px;">
-            French (Native) · English (Fluent — 3 years Toronto) · PSM I Certified
-        </p>
-    </footer>
-
-    <script>
-        // === THREE.JS HERO ANIMATION ===
-        (function() {
-            const canvas = document.getElementById('hero-canvas');
-            const container = canvas.parentElement;
-            const scene = new THREE.Scene();
-            
-            function getSize() {
-                return {
-                    width: container.offsetWidth,
-                    height: container.offsetHeight
-                };
-            }
-            
-            const size = getSize();
-            const camera = new THREE.PerspectiveCamera(60, size.width / size.height, 0.1, 1000);
-            const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
-            
-            renderer.setSize(size.width, size.height);
-            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-            
-            // Subtle ambient light
-            const ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
-            scene.add(ambientLight);
-            
-            const pointLight1 = new THREE.PointLight(0xd22d2d, 1.5, 50);
-            pointLight1.position.set(10, 10, 10);
-            scene.add(pointLight1);
-            
-            const pointLight2 = new THREE.PointLight(0xffffff, 0.8, 50);
-            pointLight2.position.set(-10, -5, 10);
-            scene.add(pointLight2);
-            
-            // Create floating geometric shapes
-            const objects = [];
-            
-            // Wireframe material - subtle background
-            const wireMaterialRed = new THREE.LineBasicMaterial({ color: 0xd22d2d, transparent: true, opacity: 0.12 });
-            const wireMaterialWhite = new THREE.LineBasicMaterial({ color: 0x666666, transparent: true, opacity: 0.08 });
-            
-            // Rotating cubes (edges only)
-            const boxGeometry = new THREE.BoxGeometry(1.5, 1.5, 1.5);
-            const edgesGeometry1 = new THREE.EdgesGeometry(boxGeometry);
-            const cube1 = new THREE.LineSegments(edgesGeometry1, wireMaterialRed);
-            cube1.position.set(4, 1, -3);
-            scene.add(cube1);
-            objects.push({ mesh: cube1, rotationSpeed: { x: 0.002, y: 0.003, z: 0.001 } });
-            
-            const cube2 = new THREE.LineSegments(edgesGeometry1.clone(), wireMaterialWhite);
-            cube2.position.set(-3, -1, -4);
-            cube2.scale.setScalar(0.8);
-            scene.add(cube2);
-            objects.push({ mesh: cube2, rotationSpeed: { x: 0.003, y: 0.002, z: 0.002 } });
-            
-            // Large rotating ring
-            const ringGeometry = new THREE.TorusGeometry(2, 0.02, 16, 100);
-            const ringMaterial = new THREE.MeshBasicMaterial({ color: 0xd22d2d, transparent: true, opacity: 0.5 });
-            const ring1 = new THREE.Mesh(ringGeometry, ringMaterial);
-            ring1.position.set(0, 0, -5);
-            ring1.rotation.x = Math.PI / 3;
-            scene.add(ring1);
-            objects.push({ mesh: ring1, rotationSpeed: { x: 0.002, y: 0.006, z: 0 } });
-            
-            const ring2 = new THREE.Mesh(ringGeometry.clone(), ringMaterial.clone());
-            ring2.material.opacity = 0.4;
-            ring2.position.set(1, 0, -5);
-            ring2.rotation.x = -Math.PI / 4;
-            ring2.scale.setScalar(1.3);
-            scene.add(ring2);
-            objects.push({ mesh: ring2, rotationSpeed: { x: -0.003, y: 0.005, z: 0.0015 } });
-            
-            // Floating crosses/plus signs
-            function createCross(size, material) {
-                const group = new THREE.Group();
-                const barGeom = new THREE.BoxGeometry(size, size * 0.1, size * 0.1);
-                const edges = new THREE.EdgesGeometry(barGeom);
-                const bar1 = new THREE.LineSegments(edges, material);
-                const bar2 = new THREE.LineSegments(edges.clone(), material);
-                bar2.rotation.z = Math.PI / 2;
-                group.add(bar1, bar2);
-                return group;
-            }
-            
-            for (let i = 0; i < 4; i++) {
-                const cross = createCross(0.6 + Math.random() * 0.4, i % 2 === 0 ? wireMaterialRed.clone() : wireMaterialWhite.clone());
-                cross.position.set(
-                    (Math.random() - 0.5) * 12,
-                    (Math.random() - 0.5) * 6,
-                    -5 - Math.random() * 5
-                );
-                scene.add(cross);
-                objects.push({
-                    mesh: cross,
-                    rotationSpeed: {
-                        x: (Math.random() - 0.5) * 0.005,
-                        y: (Math.random() - 0.5) * 0.005,
-                        z: (Math.random() - 0.5) * 0.01
-                    },
-                    floatOffset: Math.random() * Math.PI * 2,
-                    floatSpeed: 0.3 + Math.random() * 0.3,
-                    floatAmplitude: 0.1 + Math.random() * 0.15,
-                    initialY: cross.position.y
-                });
-            }
-            
-            // Small dots/points scattered
-            const dotGeometry = new THREE.SphereGeometry(0.03, 8, 8);
-            const dotMaterial = new THREE.MeshBasicMaterial({ color: 0xd22d2d });
-            
-            for (let i = 0; i < 20; i++) {
-                const dot = new THREE.Mesh(dotGeometry, dotMaterial.clone());
-                dot.material.opacity = 0.05 + Math.random() * 0.1;
-                dot.material.transparent = true;
-                dot.position.set(
-                    (Math.random() - 0.5) * 15,
-                    (Math.random() - 0.5) * 10,
-                    -3 - Math.random() * 8
-                );
-                scene.add(dot);
-                objects.push({
-                    mesh: dot,
-                    rotationSpeed: { x: 0, y: 0, z: 0 },
-                    floatOffset: Math.random() * Math.PI * 2,
-                    floatSpeed: 0.5 + Math.random() * 0.5,
-                    floatAmplitude: 0.1 + Math.random() * 0.2,
-                    initialY: dot.position.y
-                });
-            }
-            
-            camera.position.z = 8;
-            
-            // Mouse tracking
-            let mouseX = 0, mouseY = 0;
-            let targetX = 0, targetY = 0;
-            
-            document.addEventListener('mousemove', (e) => {
-                mouseX = (e.clientX / window.innerWidth) * 2 - 1;
-                mouseY = -(e.clientY / window.innerHeight) * 2 + 1;
-            });
-            
-            // Animation
-            let time = 0;
-            function animate() {
-                requestAnimationFrame(animate);
-                time += 0.01;
-                
-                // Smooth camera follow
-                targetX += (mouseX * 0.8 - targetX) * 0.03;
-                targetY += (mouseY * 0.4 - targetY) * 0.03;
-                camera.position.x = targetX;
-                camera.position.y = targetY;
-                camera.lookAt(0, 0, -3);
-                
-                // Animate objects
-                objects.forEach((obj) => {
-                    obj.mesh.rotation.x += obj.rotationSpeed.x;
-                    obj.mesh.rotation.y += obj.rotationSpeed.y;
-                    obj.mesh.rotation.z += obj.rotationSpeed.z;
-                    
-                    // Floating animation
-                    if (obj.floatOffset !== undefined) {
-                        obj.mesh.position.y = obj.initialY + Math.sin(time * obj.floatSpeed + obj.floatOffset) * obj.floatAmplitude;
-                    }
-                });
-                
-                renderer.render(scene, camera);
-            }
-            
-            // Handle resize
-            window.addEventListener('resize', () => {
-                const newSize = getSize();
-                camera.aspect = newSize.width / newSize.height;
-                camera.updateProjectionMatrix();
-                renderer.setSize(newSize.width, newSize.height);
-            });
-            
-            animate();
-        })();
-
-        // === SCROLL ANIMATIONS ===
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
-            });
-        }, observerOptions);
-
-        document.querySelectorAll('.fade-in').forEach(el => {
-            observer.observe(el);
-        });
-
-        // Smooth scroll for internal navigation only
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                const href = this.getAttribute('href');
-                // Only handle internal links
-                if (href && href.startsWith('#')) {
-                e.preventDefault();
-                    if (href === '#') {
-                        window.scrollTo({ top: 0, behavior: 'smooth' });
-                    } else {
-                        const target = document.querySelector(href);
-                if (target) {
-                            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                        }
-                    }
-                }
-            });
-        });
-
-        // === CAROUSEL FUNCTIONALITY ===
-        function initCarousel(trackId, prevBtnId, nextBtnId) {
-            const track = document.getElementById(trackId);
-            if (!track) return;
-
-            const container = track.parentElement;
-            const cards = Array.from(track.children);
-            
-            if (cards.length === 0) return;
-
-            // Clone cards for infinite scroll
-            const cloneCount = Math.max(3, cards.length);
-            for (let i = 0; i < cloneCount; i++) {
-                const clone = cards[i % cards.length].cloneNode(true);
-                track.appendChild(clone);
-            }
-            for (let i = 0; i < cloneCount; i++) {
-                const clone = cards[i % cards.length].cloneNode(true);
-                track.insertBefore(clone, track.firstChild);
-            }
-
-            let currentIndex = cloneCount;
-            const cardWidth = cards[0].offsetWidth;
-            const gap = 20;
-            const moveDistance = cardWidth + gap;
-
-            track.style.transform = `translateX(-${currentIndex * moveDistance}px)`;
-
-            const prevBtn = document.getElementById(prevBtnId);
-            const nextBtn = document.getElementById(nextBtnId);
-
-            function updateCarousel(smooth = true) {
-                if (smooth) {
-                    track.style.transition = 'transform 0.5s ease';
-                } else {
-                    track.style.transition = 'none';
-                }
-                track.style.transform = `translateX(-${currentIndex * moveDistance}px)`;
-            }
-
-            function moveNext() {
-                currentIndex++;
-                updateCarousel(true);
-
-                if (currentIndex >= cloneCount + cards.length) {
-                    setTimeout(() => {
-                        currentIndex = cloneCount;
-                        updateCarousel(false);
-                    }, 500);
-                }
-            }
-
-            function movePrev() {
-                currentIndex--;
-                updateCarousel(true);
-
-                if (currentIndex < cloneCount) {
-                    setTimeout(() => {
-                        currentIndex = cloneCount + cards.length - 1;
-                        updateCarousel(false);
-                    }, 500);
-                }
-            }
-
-            if (nextBtn) nextBtn.addEventListener('click', moveNext);
-            if (prevBtn) prevBtn.addEventListener('click', movePrev);
-
-            // Reinitialize carousel on window resize
-            let resizeTimeout;
-            window.addEventListener('resize', () => {
-                clearTimeout(resizeTimeout);
-                resizeTimeout = setTimeout(() => {
-                    const newCardWidth = cards[0].offsetWidth;
-                    const newMoveDistance = newCardWidth + gap;
-                    track.style.transition = 'none';
-                    track.style.transform = `translateX(-${currentIndex * newMoveDistance}px)`;
-                }, 250);
-            });
-
-            // Touch/Swipe and Mouse drag support
-            let startX = 0;
-            let endX = 0;
-            let isDragging = false;
-            let canDrag = true;
-            let isSwipingAction = false;
-
-            // Touch events
-            track.addEventListener('touchstart', (e) => {
-                // Prevent drag ONLY on buttons (keep links draggable for project cards)
-                const target = e.target;
-                if (target.tagName === 'BUTTON' || target.closest('button')) {
-                    canDrag = false;
-                    return;
-                }
-                canDrag = true;
-                isSwipingAction = false;
-                startX = e.touches[0].clientX;
-                endX = startX; // Initialize endX
-                isDragging = true;
-            }, { passive: true });
-
-            track.addEventListener('touchmove', (e) => {
-                if (!isDragging || !canDrag) return;
-                endX = e.touches[0].clientX;
-            }, { passive: true });
-
-            track.addEventListener('touchend', () => {
-                if (!isDragging || !canDrag) {
-                    isDragging = false;
-                    canDrag = true;
-                    return;
-                }
-                handleSwipeEnd();
-            }, { passive: true });
-
-            // Mouse events for desktop testing
-            track.addEventListener('mousedown', (e) => {
-                // Prevent drag ONLY on buttons
-                const target = e.target;
-                if (target.tagName === 'BUTTON' || target.closest('button')) {
-                    canDrag = false;
-                    return;
-                }
-                canDrag = true;
-                isSwipingAction = false;
-                startX = e.clientX;
-                endX = startX; // Initialize endX
-                isDragging = true;
-                track.style.cursor = 'grabbing';
-            });
-
-            track.addEventListener('mousemove', (e) => {
-                if (!isDragging || !canDrag) return;
-                endX = e.clientX;
-            });
-
-            track.addEventListener('mouseup', () => {
-                if (!isDragging || !canDrag) {
-                    isDragging = false;
-                    canDrag = true;
-                    track.style.cursor = 'grab';
-                    return;
-                }
-                track.style.cursor = 'grab';
-                handleSwipeEnd();
-            });
-
-            track.addEventListener('mouseleave', () => {
-                if (isDragging) {
-                    track.style.cursor = 'grab';
-                    isDragging = false;
-                    canDrag = true;
-                }
-            });
-
-            // Prevent link click if a swipe occurred
-            track.addEventListener('click', (e) => {
-                if (isSwipingAction) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    isSwipingAction = false;
-                }
-            }, { capture: true });
-
-            function handleSwipeEnd() {
-                isDragging = false;
-                
-                const swipeThreshold = 50;
-                const diff = startX - endX;
-
-                if (Math.abs(diff) > swipeThreshold) {
-                    isSwipingAction = true; // Flag that a swipe happened
-                    if (diff > 0) {
-                        moveNext();
-                    } else {
-                        movePrev();
-                    }
-                }
-
-                startX = 0;
-                endX = 0;
-                canDrag = true;
-            }
-
-            // Set cursor style
-            track.style.cursor = 'grab';
-        }
-
-        // Initialize both carousels
-        initCarousel('recommendationsCarouselTrack', 'recommendationsPrev', 'recommendationsNext');
-        initCarousel('projectsCarouselTrack', 'projectsPrev', 'projectsNext');
-
-        // === RECOMMENDATIONS TOGGLE TEXT ===
-        function toggleRecommendation(button) {
-            const card = button.closest('.recommendation-card');
-            const text = card.querySelector('.recommendation-text');
-            const isExpanded = text.classList.contains('expanded');
-            
-            if (isExpanded) {
-                text.classList.remove('expanded');
-                button.textContent = 'Read more';
-            } else {
-                text.classList.add('expanded');
-                button.textContent = 'Read less';
-            }
-        }
-
-        // Initialize recommendation toggles
-        (function() {
-            document.querySelectorAll('.recommendation-card').forEach(card => {
-                const text = card.querySelector('.recommendation-text');
-                const toggle = card.querySelector('.recommendation-toggle');
-                
-                if (text && toggle) {
-                    // Check if text is actually truncated
-                    const lineHeight = parseFloat(getComputedStyle(text).lineHeight);
-                    const maxHeight = lineHeight * 10;
-                    const actualHeight = text.scrollHeight;
-                    
-                    if (actualHeight <= maxHeight) {
-                        toggle.classList.add('hidden');
-                    }
-                }
-            });
-        })();
-    </script>
+    <div class="header-right">
+      Aix-en-Provence / Remote<br>
+      <a href="mailto:swann.lvgx@gmail.com">swann.lvgx@gmail.com</a><br>
+      <a href="https://linkedin.com/in/swannlv">linkedin.com/in/swannlv</a><br>
+      <a href="https://swannlv.github.io">swannlv.github.io</a><br>
+      <span style="font-size:8pt; color:#777;">French (Native) | English (Professional — 3y Toronto)</span>
+    </div>
+  </div>
+
+  <!-- Summary -->
+  <div class="summary">
+    <strong>Ex-CTO hands-on</strong> (7 years at Comet, team scaled 8→15, GenAI matching engine shipped to production).<br>
+    Now freelance, I deliver full-scope applications — mobile, backoffice, architecture — by <strong>orchestrating specialized AI agents</strong>, combining 17 years of product engineering with modern AI workflows.<br>
+    What I bring: <strong>17 years of experience</strong>, a deep understanding of client needs, and the ability to <strong>turn complex problems into shipped products</strong>. International experience (3y Canada). PSM I certified.
+  </div>
+
+  <hr class="divider">
+
+  <!-- Expertise -->
+  <div class="section-title">Expertise</div>
+  <div class="expertise">
+    <div class="expertise-label">AI & Orchestration</div>
+    <div class="expertise-value">Agentic Engineering · Multi-Agent Orchestration · Claude Code · AI-Augmented Development</div>
+
+    <div class="expertise-label">Leadership</div>
+    <div class="expertise-value">Engineering Management (10y) · Team Scaling 8→15 · Agile/Scrum (PSM I) · Product Strategy · Delivery Excellence</div>
+
+    <div class="expertise-label">Frontend</div>
+    <div class="expertise-value">TypeScript · React · Vue.js · Flutter · HTML5/CSS3</div>
+
+    <div class="expertise-label">Backend</div>
+    <div class="expertise-value">Node.js · GraphQL · PostgreSQL · C#/.Net</div>
+
+    <div class="expertise-label">Infra</div>
+    <div class="expertise-value">AWS Serverless · Lambda · Terraform · Azure AKS · Docker</div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- ── Experience ── -->
+  <div class="section-title">Professional Experience</div>
+
+  <div class="company">
+    <div class="company-header">
+      <div class="company-name">PROXISERVE <span style="font-size:10pt">&#127467;&#127479;</span> <span style="font-size:8pt; font-weight:400; color:#c0392b; vertical-align:middle;">freelance</span></div>
+      <div class="company-dates">Jan 2026 – Present | <span class="duration">ongoing</span></div>
+    </div>
+    <div class="company-sub">via ExFabrica — Field Service Management App · Remote</div>
+  </div>
+
+  <div class="role">
+    <div class="role-header">
+      <div class="role-title">Agentic Engineer & Tech Lead</div>
+    </div>
+  </div>
+
+  <ul class="bullets">
+    <li><strong>AI-Orchestrated Development:</strong> Delivering a complete field service app (Flutter mobile + Vue.js backoffice + architecture) by orchestrating 9 specialized AI agents — scope equivalent to a 4-5 person team, working 4 days/week.</li>
+    <li><strong>Offline-First Architecture:</strong> Designed robust sync system ensuring field technicians never lose data — the core technical challenge of the project.</li>
+    <li><strong>Human-AI Collaboration:</strong> Coordinating with backend dev and PO, multi-agent review pipeline — every commit signed and validated by a senior human.</li>
+  </ul>
+
+  <div class="tech-tags">
+    <span>Flutter</span><span>Vue.js</span><span>TypeScript</span><span>Node.js</span><span>Azure AKS</span><span>Okta</span><span>Claude Code</span><span>Agentic Workflows</span>
+  </div>
+
+  <hr class="divider">
+
+  <!-- ── Comet ── -->
+  <div class="company">
+    <div class="company-header">
+      <div class="company-name">COMET <span style="font-size:10pt">&#127467;&#127479;</span></div>
+      <div class="company-dates">Nov 2018 – Dec 2025 | <span class="duration">7 years</span></div>
+    </div>
+    <div class="company-sub">Paris / Remote — HR Tech Scale-up</div>
+  </div>
+
+  <div class="role">
+    <div class="role-header">
+      <div class="role-title">Chief Technology Officer (Hands-on)</div>
+      <div class="role-dates">Jan 2025 – Dec 2025</div>
+    </div>
+  </div>
+
+  <ul class="bullets">
+    <li><strong>Team Leadership:</strong> Managing 9 engineers (7 developers, 1 data engineer, 1 QA).</li>
+    <li><strong>Nova AI Platform:</strong> Led team building proprietary GenAI matching engine with extreme data compression, reducing portfolio build time by <strong>85%</strong> (78min → 12min) and candidate matching by <strong>10x</strong> (1h → 5min).</li>
+    <li><strong>Product Methodology:</strong> Established rapid prototyping framework with immediate production deployment and data-driven industrialization decisions, balancing speed-to-market with quality.</li>
+    <li><strong>Strategic Migration:</strong> Led legacy-to-SaaS transition for commodity features, projecting <strong>90% cost reduction</strong> on baseline functionality to focus engineering resources on innovation.</li>
+    <li><strong>Compliance:</strong> Implemented and managed CyberVadis security framework for enterprise clients.</li>
+  </ul>
+
+  <div class="role">
+    <div class="role-header">
+      <div class="role-title">Engineering Manager (Hands-on)</div>
+      <div class="role-dates">Feb 2022 – Jan 2025</div>
+    </div>
+  </div>
+
+  <ul class="bullets">
+    <li><strong>Team Growth:</strong> Scaled engineering org from <strong>8 to 15 engineers</strong> (developers, 2 data engineers, 1 data analyst, 1 data scientist, 1 QA) across cross-functional squads with predictable delivery.</li>
+    <li><strong>Full-Stack Leadership:</strong> Drove end-to-end feature delivery across frontend, backend, and infrastructure — from writing React components to architecting AWS serverless solutions.</li>
+    <li><strong>Process Excellence:</strong> Built agile, measurable delivery pipeline focused on operational excellence and predictable shipping.</li>
+    <li><strong>Workflow Automation:</strong> Implemented bidirectional Notion↔GitLab sync, enabling product team autonomy and faster roadmap iteration.</li>
+  </ul>
+
+  <div class="role">
+    <div class="role-header">
+      <div class="role-title">Team Lead & Fullstack Developer</div>
+      <div class="role-dates">Nov 2018 – Feb 2022</div>
+    </div>
+  </div>
+
+  <ul class="bullets">
+    <li><strong>Team Leadership:</strong> Led a team of <strong>5 engineers</strong>.</li>
+    <li><strong>Agile Transformation:</strong> Progressively structured entire company around Agile Scrum methodology, introducing ceremonies and metrics.</li>
+    <li><strong>Product Rebuild:</strong> Led full platform refactor using TypeScript, Node.js, React, and AWS serverless architecture.</li>
+    <li><strong>Performance Optimization:</strong> Redesigned core architecture for scale and maintainability.</li>
+  </ul>
+
+  <div class="tech-tags">
+    <span>TypeScript</span><span>Node.js</span><span>React</span><span>Vue.js</span><span>Flutter</span><span>GraphQL</span><span>PostgreSQL</span><span>AWS Lambda</span><span>Terraform</span><span>GenAI/LLM</span><span>AWS Bedrock</span>
+  </div>
+
+</div>
+
+<!-- ════════════════ PAGE 2 ════════════════ -->
+<div class="page page-break">
+
+  <!-- ── CMA CGM ── -->
+  <div class="company">
+    <div class="company-header">
+      <div class="company-name">CMA CGM <span style="font-size:10pt">&#127467;&#127479;</span></div>
+      <div class="company-dates">Feb 2016 – Oct 2018 | <span class="duration">~3 years</span></div>
+    </div>
+    <div class="company-sub">Marseille — Global Shipping & Logistics</div>
+  </div>
+
+  <div class="role">
+    <div class="role-header">
+      <div class="role-title">Lead Developer / Project Lead</div>
+    </div>
+  </div>
+
+  <ul class="bullets">
+    <li><strong>Project BOSS:</strong> Led team of 5 developers, pioneering <strong>Vue.js and Git adoption</strong> in traditional corporate environment.</li>
+    <li><strong>E-commerce Platform:</strong> Core developer for CMA CGM's global booking platform under high-performance constraints.</li>
+    <li><strong>Routing Engine:</strong> Maintained and enhanced <strong>C++ optimization engine</strong> for worldwide shipping route calculation.</li>
+  </ul>
+
+  <div class="tech-tags">
+    <span>.Net</span><span>C#</span><span>JavaScript</span><span>Vue.js</span><span>SQL Server</span><span>C++</span><span>Git</span>
+  </div>
+
+  <!-- ── Independent Consultant (Canada) ── -->
+  <div class="company">
+    <div class="company-header">
+      <div class="company-name">LVGX <span style="font-size:10pt">&#127464;&#127462;</span> <span style="font-size:8pt; font-weight:400; color:#c0392b; vertical-align:middle;">freelance</span></div>
+      <div class="company-dates">Jun 2015 – Jul 2016 | <span class="duration">~1 year</span></div>
+    </div>
+    <div class="company-sub">Toronto Area — Freelance</div>
+  </div>
+
+  <div class="role">
+    <div class="role-header">
+      <div class="role-title">Freelance Web Developer</div>
+    </div>
+  </div>
+
+  <ul class="bullets">
+    <li><strong>Mobile Shopping App:</strong> iOS/Android application with pathfinding algorithms for optimized in-store navigation.</li>
+    <li><strong>Social Network for Athletes:</strong> Sports-focused platform with profiles, activity tracking, community features.</li>
+  </ul>
+
+  <div class="tech-tags">
+    <span>PHP</span><span>JavaScript</span><span>PhoneGap</span><span>MySQL</span><span>iOS</span><span>Android</span>
+  </div>
+
+  <!-- ── Union Advertising (Canada) ── -->
+  <div class="company">
+    <div class="company-header">
+      <div class="company-name">UNION ADVERTISING <span style="font-size:10pt">&#127464;&#127462;</span></div>
+      <div class="company-dates">Oct 2012 – Jun 2015 | <span class="duration">~3 years</span></div>
+    </div>
+    <div class="company-sub">Toronto — Creative Agency</div>
+  </div>
+
+  <div class="role">
+    <div class="role-header">
+      <div class="role-title">Creative Technologist</div>
+      <div class="role-dates">Jul 2014 – Jun 2015</div>
+    </div>
+  </div>
+
+  <ul class="bullets">
+    <li><strong>Interactive Experiences:</strong> Built cutting-edge web experiences using HTML5, WebRTC, WebAudio, WebGL, Three.js for major brand activations.</li>
+    <li><strong>Physical Computing:</strong> Custom Arduino + laser installations for experiential marketing.</li>
+  </ul>
+
+  <div class="role">
+    <div class="role-header">
+      <div class="role-title">Lead Web Developer</div>
+      <div class="role-dates">Oct 2012 – Jun 2014</div>
+    </div>
+  </div>
+
+  <ul class="bullets">
+    <li><strong>Team Leadership:</strong> Led a team of <strong>3 developers</strong>.</li>
+    <li><strong>National Platform:</strong> Technical lead for <em>shoppersdrugmart.ca</em>, a major Canadian pharmacy portal.</li>
+  </ul>
+
+  <div class="tech-tags">
+    <span>.Net</span><span>C#</span><span>JavaScript</span><span>Angular</span><span>WebGL</span><span>Three.js</span><span>WebRTC</span><span>Arduino</span><span>Node.js</span>
+  </div>
+
+  <!-- ── Anyware Video ── -->
+  <div class="company">
+    <div class="company-header">
+      <div class="company-name">ANYWARE VIDEO <span style="font-size:10pt">&#127467;&#127479;</span></div>
+      <div class="company-dates">Oct 2009 – Jul 2012 | <span class="duration">~3 years</span></div>
+    </div>
+    <div class="company-sub">Marseille — Broadcast Technology</div>
+  </div>
+
+  <div class="role">
+    <div class="role-header">
+      <div class="role-title">Software Engineer</div>
+    </div>
+  </div>
+
+  <ul class="bullets">
+    <li><strong>Broadcast Features:</strong> Developed video stream overlay and graphics engine using C++ and .Net.</li>
+    <li><strong>Client Deployments:</strong> On-site integration for <strong>TF1, AB Productions, LCP, Gameone</strong>.</li>
+    <li><strong>Real-Time Systems:</strong> Built low-latency broadcast technology for live television.</li>
+  </ul>
+
+  <div class="tech-tags">
+    <span>C++</span><span>.Net</span><span>C#</span><span>DirectX</span><span>Video Codecs</span>
+  </div>
+
+  <hr class="divider">
+
+  <!-- ── Recommendations ── -->
+  <div class="section-title">Recommendations</div>
+
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 8px 0;">
+    <div style="background: #fafafa; border-left: 3px solid #c0392b; padding: 8px 10px; font-size: 8.5pt; line-height: 1.5;">
+      <em>"I have rarely, if ever, worked with a manager and CTO who is so attentive, caring, and deeply human. The trust given, the quality of exchanges, the relevance of advice make a real difference. His impact on teams and projects is real, lasting, and immediately noticeable."</em><br>
+      <strong style="color: #c0392b;">— Jérémy Levy</strong> <span style="color:#888; font-size:8pt;">Tech Lead @ Comet</span>
+    </div>
+    <div style="background: #fafafa; border-left: 3px solid #c0392b; padding: 8px 10px; font-size: 8.5pt; line-height: 1.5;">
+      <em>"I had the chance to work with Swann for four years. I always felt listened to, valued, and supported. His deeply human way of working creates a healthy and engaging environment. I am convinced Swann will continue to have a positive and lasting impact."</em><br>
+      <strong style="color: #c0392b;">— Shannone Controu</strong> <span style="color:#888; font-size:8pt;">Fullstack Developer @ Comet</span>
+    </div>
+    <div style="background: #fafafa; border-left: 3px solid #c0392b; padding: 8px 10px; font-size: 8.5pt; line-height: 1.5;">
+      <em>"He is a skilled software engineer, especially with web technologies, with a strong leading capacity. As an innovative person, Swann continuously improves our projects and makes his whole team grow."</em><br>
+      <strong style="color: #c0392b;">— Nicolas Benhamou</strong> <span style="color:#888; font-size:8pt;">Solutions Architect @ Anthropic</span>
+    </div>
+    <div style="background: #fafafa; border-left: 3px solid #c0392b; padding: 8px 10px; font-size: 8.5pt; line-height: 1.5;">
+      <em>"He is a competent, creative person full of ideas. Caring, always in good spirits and attentive, he knows how to unite and motivate his teams. His management allowed us to reinvent ourselves and give the best of ourselves."</em><br>
+      <strong style="color: #c0392b;">— Mouna Ben Chamekh</strong> <span style="color:#888; font-size:8pt;">Senior Data Engineer</span>
+    </div>
+    <div style="background: #fafafa; border-left: 3px solid #c0392b; padding: 8px 10px; font-size: 8.5pt; line-height: 1.5;">
+      <em>"Working with Swann means being challenged and progressing quickly! I particularly remember our debates: a real pleasure to exchange, to confront our viewpoints. These discussions always allowed us to come up with better solutions."</em><br>
+      <strong style="color: #c0392b;">— Mehdi Tagaizine</strong> <span style="color:#888; font-size:8pt;">Product Owner & Freelance Developer</span>
+    </div>
+    <div style="background: #fafafa; border-left: 3px solid #c0392b; padding: 8px 10px; font-size: 8.5pt; line-height: 1.5;">
+      <em>"Swann is a competent, involved person with excellent interpersonal skills. He places great importance on human interactions, the well-being of his team, and knows how to establish a climate of trust that promotes commitment and motivation."</em><br>
+      <strong style="color: #c0392b;">— Anthony LE ROY</strong> <span style="color:#888; font-size:8pt;">Software Engineer, AWS Certified</span>
+    </div>
+    <div style="background: #fafafa; border-left: 3px solid #c0392b; padding: 8px 10px; font-size: 8.5pt; line-height: 1.5;">
+      <em>"Swann actively participated in the development of dynamic graphics systems and broadcast control systems. He demonstrated skills, reactivity, and professionalism. He has always been a reliable and responsible person."</em><br>
+      <strong style="color: #c0392b;">— Eric Oudart</strong> <span style="color:#888; font-size:8pt;">Operations Director, Cognacq Jay Image</span>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- ── Education ── -->
+  <div class="section-title">Education & Certifications</div>
+
+  <div class="edu-item">
+    <div>
+      <div class="edu-title">PSM I — Professional Scrum Master I</div>
+      <div class="edu-sub">Scrum.org Certification</div>
+    </div>
+    <div class="edu-year">2017</div>
+  </div>
+
+  <div class="edu-item">
+    <div>
+      <div class="edu-title">Master's Degree in Computer Science</div>
+      <div class="edu-sub">Aix-Marseille University, France</div>
+    </div>
+    <div class="edu-year">2009</div>
+  </div>
+
+</div>
+
+<!-- ── Navigation bar ── -->
+<div id="cv-nav" style="
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 48px;
+  background: rgba(30,30,30,0.95);
+  backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  z-index: 9999;
+  border-top: 1px solid rgba(255,255,255,0.1);
+  font-family: -apple-system, sans-serif;
+">
+  <button onclick="navigate(-1)" style="
+    background: none; border: 1px solid rgba(255,255,255,0.2); color: #fff;
+    width: 36px; height: 36px; border-radius: 8px; cursor: pointer;
+    font-size: 16px; display: flex; align-items: center; justify-content: center;
+  ">←</button>
+  <span style="color: rgba(255,255,255,0.9); font-size: 12px; font-weight: 600;">Classic</span>
+  <span style="color: rgba(255,255,255,0.15); font-size: 12px;">·</span>
+  <span style="color: rgba(255,255,255,0.4); font-size: 12px;">Claude Code</span>
+  <span style="color: rgba(255,255,255,0.15); font-size: 12px;">·</span>
+  <span style="color: rgba(255,255,255,0.4); font-size: 12px;">Win98</span>
+  <span style="color: rgba(255,255,255,0.15); font-size: 12px;">·</span>
+  <span style="color: rgba(255,255,255,0.4); font-size: 12px;">Game</span>
+  <button onclick="navigate(1)" style="
+    background: none; border: 1px solid rgba(255,255,255,0.2); color: #fff;
+    width: 36px; height: 36px; border-radius: 8px; cursor: pointer;
+    font-size: 16px; display: flex; align-items: center; justify-content: center;
+  ">→</button>
+  <div style="width: 1px; height: 24px; background: rgba(255,255,255,0.1); margin: 0 4px;"></div>
+  <button onclick="window.print()" style="
+    background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: #fff;
+    height: 36px; border-radius: 8px; cursor: pointer;
+    font-size: 13px; padding: 0 14px; display: flex; align-items: center; gap: 6px;
+  ">📄 PDF</button>
+</div>
+<script>
+  const versions = [
+    'index.html',
+    'cv-swann-terminal.html',
+    'cv-swann-win98.html',
+    'cv-swann-game.html'
+  ];
+  const current = 0;
+  function navigate(dir) {
+    const next = (current + dir + versions.length) % versions.length;
+    window.location.href = versions[next];
+  }
+</script>
+<style>
+  @media print { #cv-nav { display: none !important; } }
+</style>
 </body>
 </html>

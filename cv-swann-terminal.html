@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CV — Swann Le Vigouroux</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    font-size: 15px;
+    line-height: 1.7;
+    color: #c9d1d9;
+    background: #0d1117;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .page {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 0 60px;
+  }
+
+  /* ── Typography ── */
+  .mono { font-family: 'JetBrains Mono', monospace; }
+  .dim { color: #6e7681; }
+  .white { color: #f0f6fc; }
+  .bold { font-weight: 700; color: #f0f6fc; }
+  .accent { color: #58a6ff; }
+  .green { color: #3fb950; }
+  .orange { color: #d29922; }
+  .purple { color: #bc8cff; }
+  .cyan { color: #79c0ff; }
+  .pink { color: #f778ba; }
+
+  a { color: #58a6ff; text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  /* ── Terminal header bar ── */
+  .terminal-bar {
+    background: #161b22;
+    border-bottom: 1px solid #21262d;
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .terminal-dots {
+    display: flex;
+    gap: 6px;
+  }
+
+  .terminal-dots span {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    display: block;
+  }
+
+  .dot-red { background: #ff5f57; }
+  .dot-yellow { background: #febc2e; }
+  .dot-green { background: #28c840; }
+
+  .terminal-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: #6e7681;
+    margin-left: 8px;
+  }
+
+  .terminal-content {
+    padding: 24px 32px;
+  }
+
+  /* ── Claude prompt line ── */
+  .prompt-line {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    color: #6e7681;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 0;
+  }
+
+  .prompt-caret {
+    color: #bc8cff;
+    font-weight: 700;
+    margin-right: 8px;
+  }
+
+  .prompt-path {
+    color: #6e7681;
+  }
+
+  /* ── User message (prompt) ── */
+  .user-msg {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    color: #f0f6fc;
+    margin-bottom: 20px;
+    padding: 8px 0 8px 4px;
+  }
+
+  .user-msg .caret {
+    color: #bc8cff;
+    font-weight: 700;
+    margin-right: 8px;
+  }
+
+  /* ── Claude response block ── */
+  .claude-response {
+    margin-bottom: 28px;
+    padding-left: 4px;
+  }
+
+  .claude-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    color: #d29922;
+    margin-bottom: 8px;
+    letter-spacing: 0.5px;
+  }
+
+  /* ── Header (identity) ── */
+  .header {
+    display: flex;
+    gap: 24px;
+    align-items: center;
+    padding-bottom: 20px;
+    margin-bottom: 8px;
+  }
+
+  .photo {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 2px solid #30363d;
+    flex-shrink: 0;
+  }
+
+  .photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+  }
+
+  .header-info { flex: 1; }
+
+  .name {
+    font-size: 28px;
+    font-weight: 800;
+    color: #f0f6fc;
+    line-height: 1.1;
+    letter-spacing: -0.5px;
+  }
+
+  .title-line {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    color: #3fb950;
+    font-weight: 500;
+    margin-top: 4px;
+  }
+
+  .contact-line {
+    font-size: 13px;
+    color: #6e7681;
+    margin-top: 8px;
+  }
+
+  .contact-line a { color: #58a6ff; }
+
+  .badge {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 12px;
+    background: #1b3a2d;
+    color: #3fb950;
+    margin-top: 8px;
+  }
+
+  /* ── Summary ── */
+  .summary {
+    font-size: 15px;
+    line-height: 1.8;
+    color: #8b949e;
+    margin-bottom: 4px;
+  }
+
+  .summary strong { color: #c9d1d9; }
+
+  /* ── Section ── */
+  .section {
+    margin-bottom: 8px;
+  }
+
+  .section-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    font-weight: 600;
+    color: #6e7681;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #21262d;
+  }
+
+  /* ── Tool call block (for expertise) ── */
+  .tool-call {
+    border: 1px solid #21262d;
+    border-radius: 8px;
+    margin-bottom: 4px;
+    overflow: hidden;
+  }
+
+  .tool-call-header {
+    background: #161b22;
+    padding: 8px 14px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-bottom: 1px solid #21262d;
+  }
+
+  .tool-call-name {
+    color: #d29922;
+    font-weight: 600;
+  }
+
+  .tool-call-args {
+    color: #6e7681;
+  }
+
+  .tool-call-body {
+    padding: 14px 18px;
+    background: #0d1117;
+  }
+
+  /* ── Skills grid ── */
+  .skills {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px 24px;
+    margin-bottom: 8px;
+  }
+
+  .skill-row {
+    display: flex;
+    gap: 12px;
+    align-items: baseline;
+  }
+
+  .skill-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    color: #d29922;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    min-width: 80px;
+    flex-shrink: 0;
+  }
+
+  .skill-value {
+    font-size: 13px;
+    color: #8b949e;
+  }
+
+  /* ── Experience card ── */
+  .exp-card {
+    padding: 16px 20px;
+    border-left: 3px solid #21262d;
+    margin-bottom: 12px;
+    margin-left: 4px;
+    border-radius: 0 6px 6px 0;
+    background: rgba(22, 27, 34, 0.4);
+    transition: border-color 0.2s;
+  }
+
+  .exp-card:hover {
+    border-left-color: #bc8cff;
+  }
+
+  .exp-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 4px;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+
+  .exp-company {
+    font-size: 18px;
+    font-weight: 700;
+    color: #f0f6fc;
+  }
+
+  .exp-flag { font-size: 14px; }
+
+  .exp-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 10px;
+    background: #1f2a37;
+    color: #58a6ff;
+    margin-left: 6px;
+  }
+
+  .exp-dates {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: #6e7681;
+  }
+
+  .exp-dates .duration {
+    color: #3fb950;
+    font-weight: 600;
+  }
+
+  .exp-sub {
+    font-size: 13px;
+    color: #484f58;
+    margin-bottom: 8px;
+  }
+
+  .exp-role {
+    font-size: 14px;
+    font-weight: 600;
+    color: #c9d1d9;
+    margin: 10px 0 4px;
+  }
+
+  .exp-role-dates {
+    font-size: 12px;
+    font-weight: 400;
+    color: #484f58;
+    margin-left: 8px;
+  }
+
+  .exp-bullets {
+    list-style: none;
+    margin: 4px 0;
+  }
+
+  .exp-bullets li {
+    padding-left: 20px;
+    position: relative;
+    font-size: 14px;
+    color: #8b949e;
+    margin-bottom: 4px;
+    line-height: 1.6;
+  }
+
+  .exp-bullets li::before {
+    content: '▸';
+    position: absolute;
+    left: 4px;
+    color: #30363d;
+  }
+
+  .exp-bullets li strong {
+    color: #c9d1d9;
+    font-weight: 600;
+  }
+
+  /* ── Tech pills ── */
+  .tech-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-top: 8px;
+  }
+
+  .pill {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    padding: 2px 8px;
+    background: #161b22;
+    border: 1px solid #21262d;
+    border-radius: 4px;
+    color: #79c0ff;
+  }
+
+  /* ── Recommendations ── */
+  .reco {
+    padding: 14px 16px;
+    margin: 10px 0;
+    border-left: 3px solid #21262d;
+    border-radius: 0 6px 6px 0;
+    background: #161b22;
+  }
+
+  .reco em {
+    font-size: 14px;
+    color: #8b949e;
+    font-style: italic;
+    line-height: 1.7;
+  }
+
+  .reco-author {
+    margin-top: 8px;
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  .reco-author .reco-name { color: #58a6ff; }
+  .reco-author .reco-role { color: #484f58; font-weight: 400; }
+
+  /* ── Education ── */
+  .edu-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 6px 0;
+  }
+
+  .edu-name { font-weight: 600; color: #c9d1d9; font-size: 14px; }
+  .edu-detail { font-size: 13px; color: #484f58; }
+  .edu-year {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: #6e7681;
+    font-weight: 600;
+  }
+
+  /* ── Status bar (above footer) ── */
+  .status-line {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: #30363d;
+    padding: 16px 0;
+    margin-top: 24px;
+    border-top: 1px solid #21262d;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  /* ── Blinking cursor ── */
+  .cursor-block {
+    margin-top: 24px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    color: #6e7681;
+    display: flex;
+    align-items: center;
+    gap: 0;
+  }
+
+  .cursor-block .caret {
+    color: #bc8cff;
+    font-weight: 700;
+    margin-right: 8px;
+  }
+
+  .blink-cursor {
+    display: inline-block;
+    width: 8px;
+    height: 18px;
+    background: #bc8cff;
+    animation: blink 1s step-end infinite;
+    vertical-align: text-bottom;
+    border-radius: 1px;
+  }
+
+  @keyframes blink {
+    50% { opacity: 0; }
+  }
+
+  /* ── Separator between sections ── */
+  .section-sep {
+    border: none;
+    border-top: 1px solid #161b22;
+    margin: 24px 0;
+  }
+
+  /* ── Tool result status ── */
+  .tool-status {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: #3fb950;
+    margin-top: 6px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .tool-status::before {
+    content: '✓';
+    font-weight: 700;
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 768px) {
+    .terminal-content { padding: 20px 16px; }
+    .header { flex-direction: column; align-items: flex-start; gap: 16px; }
+    .photo { width: 70px; height: 70px; }
+    .name { font-size: 24px; }
+    .title-line { font-size: 13px; }
+    .skills { grid-template-columns: 1fr; }
+    .exp-header { flex-direction: column; }
+    .exp-company { font-size: 16px; }
+    .exp-bullets li { font-size: 13px; }
+    .reco { padding: 10px 12px; }
+    .reco em { font-size: 13px; }
+    .edu-item { flex-direction: column; gap: 2px; }
+    .status-line { flex-direction: column; gap: 4px; }
+    .user-msg { font-size: 13px; }
+    .exp-card { padding: 12px 14px; }
+  }
+
+  @media (max-width: 480px) {
+    .terminal-content { padding: 16px 12px; }
+    .name { font-size: 20px; }
+    .summary { font-size: 14px; }
+    .exp-company { font-size: 15px; }
+    .exp-role { font-size: 13px; }
+    .exp-role-dates { display: block; margin-left: 0; }
+    .exp-bullets li { font-size: 12px; padding-left: 16px; }
+    .pill { font-size: 10px; }
+    .reco em { font-size: 12px; }
+    .contact-line { font-size: 12px; }
+    .skill-row { flex-direction: column; gap: 2px; }
+    .skill-label { min-width: auto; }
+  }
+
+  @media print {
+    body { background: #0d1117; }
+    .terminal-bar { position: static; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- ── Terminal header bar ── -->
+  <div class="terminal-bar">
+    <div class="terminal-dots">
+      <span class="dot-red"></span>
+      <span class="dot-yellow"></span>
+      <span class="dot-green"></span>
+    </div>
+    <div class="terminal-title">claude — ~/career</div>
+  </div>
+
+  <div class="terminal-content">
+
+  <!-- ── Initial prompt ── -->
+  <div class="prompt-line">
+    <span class="prompt-caret">❯</span>
+    <span class="prompt-path">~/career</span>
+  </div>
+  <div class="user-msg"><span class="caret">$</span> claude "Tell me about Swann Le Vigouroux"</div>
+
+  <!-- ── Claude response: Header + Summary ── -->
+  <div class="claude-response">
+    <div class="claude-label">⏵ Claude</div>
+
+    <div class="header">
+      <div class="photo">
+        <img src="1769980301719.jpeg" alt="Swann Le Vigouroux">
+      </div>
+      <div class="header-info">
+        <div class="name">Swann Le Vigouroux</div>
+        <div class="title-line">Agentic Engineer · Ex-CTO</div>
+        <div class="contact-line">
+          Aix-en-Provence / Remote ·
+          <a href="mailto:swann.lvgx@gmail.com">swann.lvgx@gmail.com</a> ·
+          <a href="https://linkedin.com/in/swannlv">linkedin.com/in/swannlv</a> ·
+          <a href="https://swannlv.github.io">swannlv.github.io</a><br>
+          <span class="dim">French (Native) | English (Professional — 3y Toronto)</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="summary">
+      <strong>Ex-CTO hands-on</strong> (7 years at Comet, team scaled 8→15, GenAI matching engine shipped to production).<br>
+      Now freelance, I deliver full-scope applications — mobile, backoffice, architecture — by <strong>orchestrating specialized AI agents</strong>, combining 17 years of product engineering with modern AI workflows.<br>
+      What I bring: <strong>17 years of experience</strong>, a deep understanding of client needs, and the ability to <strong>turn complex problems into shipped products</strong>.
+    </div>
+  </div>
+
+  <hr class="section-sep">
+
+  <!-- ── Expertise as tool call ── -->
+  <div class="user-msg"><span class="caret">❯</span> list expertise</div>
+
+  <div class="claude-response">
+    <div class="tool-call">
+      <div class="tool-call-header">
+        <span class="tool-call-name">Read</span>
+        <span class="tool-call-args">skills.json</span>
+      </div>
+      <div class="tool-call-body">
+        <div class="skills">
+          <div class="skill-row"><span class="skill-label">AI</span><span class="skill-value">Agentic Engineering · Multi-Agent Orchestration · Claude Code</span></div>
+          <div class="skill-row"><span class="skill-label">Leadership</span><span class="skill-value">Engineering Management (10y) · Team 8→15 · PSM I</span></div>
+          <div class="skill-row"><span class="skill-label">Frontend</span><span class="skill-value">TypeScript · React · Vue.js · Flutter</span></div>
+          <div class="skill-row"><span class="skill-label">Backend</span><span class="skill-value">Node.js · GraphQL · PostgreSQL · C#/.Net</span></div>
+          <div class="skill-row"><span class="skill-label">Infra</span><span class="skill-value">AWS Serverless · Terraform · Azure AKS · Docker</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="tool-status">5 skill domains loaded</div>
+  </div>
+
+  <hr class="section-sep">
+
+  <!-- ── Experience ── -->
+  <div class="user-msg"><span class="caret">❯</span> list experience --detailed</div>
+
+  <div class="claude-response">
+    <div class="claude-label">⏵ Claude</div>
+
+    <!-- Proxiserve -->
+    <div class="exp-card">
+      <div class="exp-header">
+        <div><span class="exp-company">Proxiserve</span> <span class="exp-flag">🇫🇷</span> <span class="exp-tag">freelance</span></div>
+        <div class="exp-dates">Jan 2026 → Present · <span class="duration">ongoing</span></div>
+      </div>
+      <div class="exp-sub">via ExFabrica — Field Service Management App · Remote</div>
+      <div class="exp-role">Agentic Engineer & Tech Lead</div>
+      <ul class="exp-bullets">
+        <li><strong>AI-Orchestrated Development:</strong> Delivering a complete field service app (Flutter mobile + Vue.js backoffice + architecture) by orchestrating 9 specialized AI agents — scope equivalent to a 4-5 person team, working 4 days/week.</li>
+        <li><strong>Offline-First Architecture:</strong> Designed robust sync system ensuring field technicians never lose data — the core technical challenge of the project.</li>
+        <li><strong>Human-AI Collaboration:</strong> Coordinating with backend dev and PO, multi-agent review pipeline — every commit signed and validated by a senior human.</li>
+      </ul>
+      <div class="tech-pills">
+        <span class="pill">Flutter</span><span class="pill">Vue.js</span><span class="pill">TypeScript</span><span class="pill">Node.js</span><span class="pill">Azure AKS</span><span class="pill">Okta</span><span class="pill">Claude Code</span>
+      </div>
+    </div>
+
+    <!-- Comet -->
+    <div class="exp-card">
+      <div class="exp-header">
+        <div><span class="exp-company">Comet</span> <span class="exp-flag">🇫🇷</span></div>
+        <div class="exp-dates">Nov 2018 → Dec 2025 · <span class="duration">7 years</span></div>
+      </div>
+      <div class="exp-sub">Paris / Remote — HR Tech Scale-up</div>
+
+      <div class="exp-role">Chief Technology Officer (Hands-on)<span class="exp-role-dates">Jan 2025 – Dec 2025</span></div>
+      <ul class="exp-bullets">
+        <li><strong>Team Leadership:</strong> Managing 9 engineers (7 developers, 1 data engineer, 1 QA).</li>
+        <li><strong>Nova AI Platform:</strong> Proprietary GenAI matching engine — portfolio build time <strong>-85%</strong>, candidate matching <strong>10x faster</strong>.</li>
+        <li><strong>Strategic Migration:</strong> Legacy-to-SaaS transition, projecting <strong>90% cost reduction</strong>.</li>
+        <li><strong>Compliance:</strong> CyberVadis security framework for enterprise clients.</li>
+      </ul>
+
+      <div class="exp-role">Engineering Manager (Hands-on)<span class="exp-role-dates">Feb 2022 – Jan 2025</span></div>
+      <ul class="exp-bullets">
+        <li><strong>Team Growth:</strong> Scaled org from <strong>8 to 15 engineers</strong> across cross-functional squads.</li>
+        <li><strong>Full-Stack Leadership:</strong> End-to-end delivery — React to AWS serverless.</li>
+        <li><strong>Workflow Automation:</strong> Bidirectional Notion↔GitLab sync.</li>
+      </ul>
+
+      <div class="exp-role">Team Lead & Fullstack Developer<span class="exp-role-dates">Nov 2018 – Feb 2022</span></div>
+      <ul class="exp-bullets">
+        <li>Led <strong>5 engineers</strong>. Structured company around Scrum. Full platform refactor — TypeScript, Node.js, React, AWS serverless.</li>
+      </ul>
+
+      <div class="tech-pills">
+        <span class="pill">TypeScript</span><span class="pill">Node.js</span><span class="pill">React</span><span class="pill">Vue.js</span><span class="pill">Flutter</span><span class="pill">GraphQL</span><span class="pill">PostgreSQL</span><span class="pill">AWS Lambda</span><span class="pill">Terraform</span><span class="pill">GenAI/LLM</span>
+      </div>
+    </div>
+
+    <!-- CMA CGM -->
+    <div class="exp-card">
+      <div class="exp-header">
+        <div><span class="exp-company">CMA CGM</span> <span class="exp-flag">🇫🇷</span></div>
+        <div class="exp-dates">Feb 2016 → Oct 2018 · <span class="duration">~3 years</span></div>
+      </div>
+      <div class="exp-sub">Marseille — Global Shipping & Logistics</div>
+      <div class="exp-role">Lead Developer / Project Lead</div>
+      <ul class="exp-bullets">
+        <li><strong>Project BOSS:</strong> Led 5 developers, pioneered <strong>Vue.js and Git</strong> in corporate environment.</li>
+        <li><strong>E-commerce:</strong> CMA CGM's global booking platform.</li>
+        <li><strong>Routing Engine:</strong> <strong>C++ optimization</strong> for worldwide shipping routes.</li>
+      </ul>
+      <div class="tech-pills">
+        <span class="pill">.Net</span><span class="pill">C#</span><span class="pill">Vue.js</span><span class="pill">SQL Server</span><span class="pill">C++</span>
+      </div>
+    </div>
+
+    <!-- LVGX -->
+    <div class="exp-card">
+      <div class="exp-header">
+        <div><span class="exp-company">LVGX</span> <span class="exp-flag">🇨🇦</span> <span class="exp-tag">freelance</span></div>
+        <div class="exp-dates">Jun 2015 → Jul 2016 · <span class="duration">~1 year</span></div>
+      </div>
+      <div class="exp-sub">Toronto Area</div>
+      <div class="exp-role">Freelance Web Developer</div>
+      <ul class="exp-bullets">
+        <li><strong>Mobile Shopping App:</strong> iOS/Android with pathfinding algorithms.</li>
+        <li><strong>Social Network for Athletes:</strong> Profiles, activity tracking, community.</li>
+      </ul>
+      <div class="tech-pills">
+        <span class="pill">PHP</span><span class="pill">JavaScript</span><span class="pill">PhoneGap</span><span class="pill">MySQL</span><span class="pill">iOS</span>
+      </div>
+    </div>
+
+    <!-- Union -->
+    <div class="exp-card">
+      <div class="exp-header">
+        <div><span class="exp-company">Union Advertising</span> <span class="exp-flag">🇨🇦</span></div>
+        <div class="exp-dates">Oct 2012 → Jun 2015 · <span class="duration">~3 years</span></div>
+      </div>
+      <div class="exp-sub">Toronto — Creative Agency</div>
+      <div class="exp-role">Creative Technologist<span class="exp-role-dates">Jul 2014 – Jun 2015</span></div>
+      <ul class="exp-bullets">
+        <li><strong>Interactive Experiences:</strong> HTML5, WebRTC, WebGL, Three.js for brand activations.</li>
+        <li><strong>Physical Computing:</strong> Arduino + laser installations.</li>
+      </ul>
+      <div class="exp-role">Lead Web Developer<span class="exp-role-dates">Oct 2012 – Jun 2014</span></div>
+      <ul class="exp-bullets">
+        <li>Led <strong>3 developers</strong>. Technical lead for <em>shoppersdrugmart.ca</em>.</li>
+      </ul>
+      <div class="tech-pills">
+        <span class="pill">.Net</span><span class="pill">C#</span><span class="pill">Angular</span><span class="pill">WebGL</span><span class="pill">Three.js</span><span class="pill">Arduino</span>
+      </div>
+    </div>
+
+    <!-- Anyware -->
+    <div class="exp-card">
+      <div class="exp-header">
+        <div><span class="exp-company">Anyware Video</span> <span class="exp-flag">🇫🇷</span></div>
+        <div class="exp-dates">Oct 2009 → Jul 2012 · <span class="duration">~3 years</span></div>
+      </div>
+      <div class="exp-sub">Marseille — Broadcast Technology</div>
+      <div class="exp-role">Software Engineer</div>
+      <ul class="exp-bullets">
+        <li><strong>Broadcast:</strong> Video stream overlay engine — C++ and .Net.</li>
+        <li><strong>Clients:</strong> TF1, AB Productions, LCP, Gameone.</li>
+        <li><strong>Real-Time:</strong> Low-latency broadcast for live television.</li>
+      </ul>
+      <div class="tech-pills">
+        <span class="pill">C++</span><span class="pill">.Net</span><span class="pill">C#</span><span class="pill">DirectX</span>
+      </div>
+    </div>
+
+  </div>
+
+  <hr class="section-sep">
+
+  <!-- ── Education ── -->
+  <div class="user-msg"><span class="caret">❯</span> show education</div>
+
+  <div class="claude-response">
+    <div class="claude-label">⏵ Claude</div>
+    <div class="edu-item">
+      <div>
+        <div class="edu-name">PSM I — Professional Scrum Master I</div>
+        <div class="edu-detail">Scrum.org Certification</div>
+      </div>
+      <div class="edu-year">2017</div>
+    </div>
+    <div class="edu-item">
+      <div>
+        <div class="edu-name">Master's Degree in Computer Science</div>
+        <div class="edu-detail">Aix-Marseille University, France</div>
+      </div>
+      <div class="edu-year">2009</div>
+    </div>
+  </div>
+
+  <hr class="section-sep">
+
+  <!-- ── Recommendations ── -->
+  <div class="user-msg"><span class="caret">❯</span> list recommendations</div>
+
+  <div class="claude-response">
+    <div class="tool-call">
+      <div class="tool-call-header">
+        <span class="tool-call-name">Grep</span>
+        <span class="tool-call-args">--pattern "recommendation" linkedin-profile/</span>
+      </div>
+      <div class="tool-call-body">
+
+        <div class="reco">
+          <em>"I have rarely, if ever, worked with a manager and CTO who is so attentive, caring, and deeply human. The trust given, the quality of exchanges, the relevance of advice, and the energy transmitted on a daily basis make a real difference. His impact on teams and projects is real, lasting, and immediately noticeable."</em>
+          <div class="reco-author"><span class="reco-name">— Jérémy Levy</span> <span class="reco-role">· Tech Lead @ Comet</span></div>
+        </div>
+
+        <div class="reco">
+          <em>"I had the chance to work with Swann for four years. I always felt listened to, valued, and supported. His deeply human way of working, attentive to team balance, creates a healthy and engaging environment. I am convinced that Swann will continue to have a positive and lasting impact."</em>
+          <div class="reco-author"><span class="reco-name">— Shannone Controu</span> <span class="reco-role">· Fullstack Developer @ Comet</span></div>
+        </div>
+
+        <div class="reco">
+          <em>"He is a skilled software engineer, especially with web technologies, with a strong leading capacity. As an innovative person, Swann continuously improves our projects and makes his whole team grow."</em>
+          <div class="reco-author"><span class="reco-name">— Nicolas Benhamou</span> <span class="reco-role">· Solutions Architect @ Anthropic</span></div>
+        </div>
+
+        <div class="reco">
+          <em>"He is a competent, creative person full of ideas. Caring, always in good spirits and attentive, he knows how to unite and motivate his teams. His management allowed us to reinvent ourselves and give the best of ourselves."</em>
+          <div class="reco-author"><span class="reco-name">— Mouna Ben Chamekh</span> <span class="reco-role">· Senior Data Engineer</span></div>
+        </div>
+
+        <div class="reco">
+          <em>"Working with Swann means being challenged and progressing quickly! I particularly remember our debates: a real pleasure to exchange, to confront our viewpoints, to challenge R&D and technical ideas. We didn't always agree, but these discussions always allowed us to come up with better solutions."</em>
+          <div class="reco-author"><span class="reco-name">— Mehdi Tagaizine</span> <span class="reco-role">· Product Owner & Freelance Developer</span></div>
+        </div>
+
+        <div class="reco">
+          <em>"Swann is a competent, involved person with excellent interpersonal skills. He places great importance on human interactions, the well-being of his team, and knows how to establish a climate of trust that promotes commitment and motivation."</em>
+          <div class="reco-author"><span class="reco-name">— Anthony LE ROY</span> <span class="reco-role">· Software Engineer, AWS Certified</span></div>
+        </div>
+
+        <div class="reco">
+          <em>"Swann actively participated in the development of dynamic graphics systems and broadcast control systems. He demonstrated skills, reactivity, and professionalism. He has always been a reliable and responsible person."</em>
+          <div class="reco-author"><span class="reco-name">— Eric Oudart</span> <span class="reco-role">· Operations Director, Cognacq Jay Image</span></div>
+        </div>
+
+      </div>
+    </div>
+    <div class="tool-status">7 recommendations found</div>
+  </div>
+
+  <!-- ── Footer / status ── -->
+  <div class="status-line">
+    <span>17 years · 6 companies · 2 countries · 7 recommendations</span>
+    <span>swann.lvgx@gmail.com</span>
+  </div>
+
+  <!-- ── Blinking cursor ── -->
+  <div class="cursor-block">
+    <span class="caret">❯</span>
+    <span class="blink-cursor"></span>
+  </div>
+
+  </div><!-- end terminal-content -->
+
+</div>
+<!-- ── Navigation bar ── -->
+<div id="cv-nav" style="
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 48px;
+  background: rgba(13,17,23,0.95);
+  backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  z-index: 9999;
+  border-top: 1px solid rgba(255,255,255,0.1);
+  font-family: -apple-system, sans-serif;
+">
+  <button onclick="navigate(-1)" style="
+    background: none; border: 1px solid rgba(255,255,255,0.2); color: #fff;
+    width: 36px; height: 36px; border-radius: 8px; cursor: pointer;
+    font-size: 16px; display: flex; align-items: center; justify-content: center;
+  ">←</button>
+  <span style="color: rgba(255,255,255,0.4); font-size: 12px;">Classic</span>
+  <span style="color: rgba(255,255,255,0.15); font-size: 12px;">·</span>
+  <span style="color: rgba(255,255,255,0.9); font-size: 12px; font-weight: 600;">Claude Code</span>
+  <span style="color: rgba(255,255,255,0.15); font-size: 12px;">·</span>
+  <span style="color: rgba(255,255,255,0.4); font-size: 12px;">Win98</span>
+  <span style="color: rgba(255,255,255,0.15); font-size: 12px;">·</span>
+  <span style="color: rgba(255,255,255,0.4); font-size: 12px;">Game</span>
+  <button onclick="navigate(1)" style="
+    background: none; border: 1px solid rgba(255,255,255,0.2); color: #fff;
+    width: 36px; height: 36px; border-radius: 8px; cursor: pointer;
+    font-size: 16px; display: flex; align-items: center; justify-content: center;
+  ">→</button>
+  <div style="width: 1px; height: 24px; background: rgba(255,255,255,0.1); margin: 0 4px;"></div>
+  <button onclick="window.print()" style="
+    background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: #fff;
+    height: 36px; border-radius: 8px; cursor: pointer;
+    font-size: 13px; padding: 0 14px; display: flex; align-items: center; gap: 6px;
+  ">📄 PDF</button>
+</div>
+<script>
+  const versions = [
+    'index.html',
+    'cv-swann-terminal.html',
+    'cv-swann-win98.html',
+    'cv-swann-game.html'
+  ];
+  const current = 1;
+  function navigate(dir) {
+    const next = (current + dir + versions.length) % versions.length;
+    window.location.href = versions[next];
+  }
+</script>
+<style>
+  @media print { #cv-nav { display: none !important; } }
+</style>
+</body>
+</html>

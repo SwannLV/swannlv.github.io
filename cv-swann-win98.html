@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>CV — Swann Le Vigouroux [Windows 98 Edition]</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'MS Sans Serif', 'Microsoft Sans Serif', Tahoma, Geneva, sans-serif;
+    font-size: 13px;
+    line-height: 1.5;
+    color: #000;
+    background: #008080;
+    cursor: default;
+  }
+
+  /* ── Win98 beveled borders ── */
+  .bevel-out {
+    border-top: 2px solid #fff;
+    border-left: 2px solid #fff;
+    border-bottom: 2px solid #808080;
+    border-right: 2px solid #808080;
+  }
+
+  .bevel-in {
+    border-top: 2px solid #808080;
+    border-left: 2px solid #808080;
+    border-bottom: 2px solid #fff;
+    border-right: 2px solid #fff;
+  }
+
+  /* ── Window ── */
+  .window {
+    width: 100%;
+    max-width: 900px;
+    margin: 30px auto;
+    background: #c0c0c0;
+  }
+
+  .title-bar {
+    background: linear-gradient(90deg, #000080, #1084d0);
+    padding: 3px 4px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 22px;
+  }
+
+  .title-bar-text {
+    color: white;
+    font-weight: bold;
+    font-size: 11px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .title-bar-text img { width: 14px; height: 14px; image-rendering: pixelated; }
+
+  .title-bar-controls {
+    display: flex;
+    gap: 2px;
+  }
+
+  .title-bar-controls button {
+    width: 16px;
+    height: 14px;
+    background: #c0c0c0;
+    border-top: 1px solid #fff;
+    border-left: 1px solid #fff;
+    border-bottom: 1px solid #808080;
+    border-right: 1px solid #808080;
+    font-size: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    line-height: 1;
+  }
+
+  .window-body {
+    padding: 8px;
+  }
+
+  /* ── Menu bar ── */
+  .menu-bar {
+    background: #c0c0c0;
+    padding: 2px 4px;
+    border-bottom: 1px solid #808080;
+    font-size: 11px;
+  }
+
+  .menu-bar span {
+    padding: 1px 6px;
+    cursor: pointer;
+  }
+
+  .menu-bar span:first-child { text-decoration: underline; }
+
+  /* ── Content area ── */
+  .content {
+    background: #fff;
+    padding: 12px;
+    margin: 4px 0;
+  }
+
+  /* ── Header ── */
+  .header-98 {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 8px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #808080;
+  }
+
+  .photo-98 {
+    width: 120px;
+    height: 120px;
+    border: 2px solid #808080;
+    flex-shrink: 0;
+    overflow: hidden;
+    image-rendering: pixelated;
+  }
+
+  .photo-98 img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    filter: contrast(1.1) saturate(0.7);
+  }
+
+  .header-info {
+    flex: 1;
+  }
+
+  .name-98 {
+    font-family: 'VT323', monospace;
+    font-size: 38px;
+    color: #000080;
+    line-height: 1;
+    letter-spacing: 1px;
+  }
+
+  .title-98 {
+    font-size: 14px;
+    color: #808080;
+    font-weight: bold;
+    margin-top: 2px;
+  }
+
+  .contact-98 {
+    margin-top: 6px;
+    font-size: 12px;
+    color: #000;
+  }
+
+  .contact-98 a {
+    color: #0000ff;
+    text-decoration: underline;
+  }
+
+  .lang-98 {
+    font-size: 9px;
+    color: #808080;
+    margin-top: 2px;
+  }
+
+  /* ── Summary ── */
+  .summary-98 {
+    background: #ffffcc;
+    border: 1px solid #808080;
+    padding: 14px 16px;
+    margin: 12px 0;
+    font-size: 13px;
+    line-height: 1.8;
+  }
+
+  .summary-98::before {
+    content: '📋 ';
+  }
+
+  /* ── Group box ── */
+  .group-box {
+    border: 1px solid #808080;
+    margin: 10px 0 6px;
+    padding: 10px 8px 8px;
+    position: relative;
+  }
+
+  .group-box-title {
+    position: absolute;
+    top: -8px;
+    left: 8px;
+    background: #fff;
+    padding: 0 4px;
+    font-weight: bold;
+    font-size: 11px;
+    color: #000080;
+  }
+
+  /* ── Expertise table ── */
+  .expertise-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 10px;
+    margin-top: 4px;
+  }
+
+  .expertise-table td {
+    padding: 4px 8px;
+    border: 1px solid #c0c0c0;
+    vertical-align: top;
+    font-size: 12px;
+  }
+
+  .expertise-table td:first-child {
+    background: #c0c0c0;
+    font-weight: bold;
+    width: 140px;
+    color: #000080;
+    text-transform: uppercase;
+    font-size: 11px;
+    letter-spacing: 0.5px;
+  }
+
+  /* ── Tree view ── */
+  .tree-view {
+    font-size: 11px;
+    margin: 4px 0;
+  }
+
+  .tree-company {
+    margin: 8px 0 2px;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+
+  .tree-company-name {
+    font-weight: bold;
+    font-size: 15px;
+    color: #000;
+  }
+
+  .tree-company-name .flag { font-size: 11px; }
+  .tree-company-name .tag-freelance {
+    font-size: 9px;
+    font-weight: normal;
+    color: #fff;
+    background: #000080;
+    padding: 0 4px;
+    margin-left: 4px;
+  }
+
+  .tree-dates {
+    font-size: 12px;
+    color: #808080;
+  }
+
+  .tree-dates .duration {
+    color: #000080;
+    font-weight: bold;
+  }
+
+  .tree-sub {
+    font-size: 12px;
+    color: #808080;
+    font-style: italic;
+    margin-bottom: 4px;
+  }
+
+  .tree-role {
+    font-weight: bold;
+    font-size: 13px;
+    margin: 4px 0 2px;
+    padding-left: 16px;
+    position: relative;
+  }
+
+  .tree-role::before {
+    content: '📁 ';
+    position: absolute;
+    left: 0;
+  }
+
+  .tree-role-dates {
+    font-weight: normal;
+    font-size: 10px;
+    color: #808080;
+    margin-left: 8px;
+  }
+
+  .tree-bullets {
+    list-style: none;
+    margin: 2px 0 6px;
+    padding-left: 20px;
+  }
+
+  .tree-bullets li {
+    padding: 2px 0;
+    font-size: 12px;
+    position: relative;
+    padding-left: 16px;
+    line-height: 1.5;
+  }
+
+  .tree-bullets li::before {
+    content: '├─';
+    position: absolute;
+    left: 0;
+    color: #808080;
+    font-family: monospace;
+    font-size: 10px;
+  }
+
+  .tree-bullets li:last-child::before {
+    content: '└─';
+  }
+
+  .tree-bullets li strong {
+    color: #000080;
+  }
+
+  /* ── Tech tags (buttons) ── */
+  .tech-buttons {
+    margin: 4px 0 2px 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 3px;
+  }
+
+  .tech-btn {
+    display: inline-block;
+    background: #c0c0c0;
+    border-top: 1px solid #fff;
+    border-left: 1px solid #fff;
+    border-bottom: 1px solid #808080;
+    border-right: 1px solid #808080;
+    padding: 2px 8px;
+    font-size: 11px;
+    font-family: 'MS Sans Serif', Tahoma, sans-serif;
+    cursor: default;
+  }
+
+  /* ── Separator ── */
+  .sep-98 {
+    border: none;
+    border-top: 1px solid #808080;
+    border-bottom: 1px solid #fff;
+    margin: 8px 0;
+  }
+
+  /* ── Education ── */
+  .edu-98 {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin: 4px 0;
+    font-size: 11px;
+  }
+
+  .edu-98 .edu-name { font-weight: bold; }
+  .edu-98 .edu-detail { font-size: 10px; color: #808080; font-style: italic; }
+  .edu-98 .edu-year { font-weight: bold; color: #000080; }
+
+  /* ── Status bar ── */
+  .status-bar {
+    display: flex;
+    gap: 2px;
+    margin-top: 4px;
+  }
+
+  .status-field {
+    background: #c0c0c0;
+    border-top: 1px solid #808080;
+    border-left: 1px solid #808080;
+    border-bottom: 1px solid #fff;
+    border-right: 1px solid #fff;
+    padding: 2px 6px;
+    font-size: 10px;
+    flex: 1;
+  }
+
+  .status-field:first-child { flex: 3; }
+
+  /* ── Taskbar ── */
+  .taskbar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 28px;
+    background: #c0c0c0;
+    border-top: 2px solid #fff;
+    display: flex;
+    align-items: center;
+    padding: 0 4px;
+    gap: 4px;
+    z-index: 100;
+  }
+
+  .start-btn {
+    background: #c0c0c0;
+    border-top: 2px solid #fff;
+    border-left: 2px solid #fff;
+    border-bottom: 2px solid #808080;
+    border-right: 2px solid #808080;
+    padding: 2px 8px;
+    font-weight: bold;
+    font-size: 11px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    height: 22px;
+  }
+
+  .start-btn::before { content: '🪟'; font-size: 14px; }
+
+  .taskbar-btn {
+    background: #c0c0c0;
+    border-top: 1px solid #808080;
+    border-left: 1px solid #808080;
+    border-bottom: 1px solid #fff;
+    border-right: 1px solid #fff;
+    padding: 2px 8px;
+    font-size: 10px;
+    height: 22px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    min-width: 120px;
+  }
+
+  .taskbar-btn::before { content: '📄'; }
+
+  .taskbar-clock {
+    margin-left: auto;
+    border-top: 1px solid #808080;
+    border-left: 1px solid #808080;
+    border-bottom: 1px solid #fff;
+    border-right: 1px solid #fff;
+    padding: 2px 8px;
+    font-size: 10px;
+    height: 22px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .taskbar-clock::before { content: '🔊'; font-size: 10px; }
+
+  @media print {
+    body { background: white; }
+    .taskbar { display: none; }
+    .window { margin: 0; box-shadow: none; }
+  }
+
+  @media (max-width: 768px) {
+    body { font-size: 12px; }
+    .window { margin: 0; border: none; }
+    .window-body { padding: 4px; }
+    .content { padding: 8px; }
+
+    .header-98 {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .name-98 { font-size: 26px; }
+    .title-98 { font-size: 12px; }
+    .contact-98 { font-size: 11px; }
+
+    .photo-98 {
+      width: 100px;
+      height: 100px;
+      margin-bottom: 8px;
+    }
+
+    .expertise-table td:first-child {
+      width: 100px;
+      font-size: 9px;
+    }
+
+    .expertise-table td { font-size: 11px; padding: 3px 4px; }
+
+    .tree-company { flex-direction: column; gap: 2px; }
+    .tree-company-name { font-size: 13px; }
+    .tree-dates { font-size: 11px; }
+    .tree-role { font-size: 12px; }
+    .tree-role-dates { display: block; margin-left: 0; }
+    .tree-bullets li { font-size: 11px; }
+    .tree-bullets { padding-left: 10px; }
+
+    .tech-buttons { margin-left: 10px; }
+    .tech-btn { font-size: 10px; padding: 2px 6px; }
+
+    .group-box { padding: 8px 6px 6px; }
+
+    .edu-98 { flex-direction: column; gap: 2px; }
+
+    .taskbar { display: none; }
+
+    .summary-98 { font-size: 12px; }
+
+    div[style*="padding: 8px 10px"] { padding: 6px 8px !important; font-size: 11px !important; }
+  }
+
+  @media (max-width: 480px) {
+    .name-98 { font-size: 22px; }
+    .expertise-table { font-size: 10px; }
+    .expertise-table td:first-child { width: 80px; font-size: 8px; }
+    .tree-company-name { font-size: 12px; }
+    .tree-bullets li { padding-left: 12px; font-size: 10px; }
+    .content { padding: 6px; }
+    .menu-bar span { padding: 1px 3px; font-size: 10px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ══ Nav bar (same across all versions) ══ -->
+<div id="cv-nav" style="
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 48px;
+  background: rgba(30,30,30,0.95);
+  backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  z-index: 9999;
+  border-top: 1px solid rgba(255,255,255,0.1);
+  font-family: -apple-system, sans-serif;
+">
+  <button onclick="navigate(-1)" style="
+    background: none; border: 1px solid rgba(255,255,255,0.2); color: #fff;
+    width: 36px; height: 36px; border-radius: 8px; cursor: pointer;
+    font-size: 16px; display: flex; align-items: center; justify-content: center;
+  ">←</button>
+  <span class="cv-nav-label" data-idx="0" style="color: rgba(255,255,255,0.4); font-size: 12px;">Classic</span>
+  <span style="color: rgba(255,255,255,0.15); font-size: 12px;">·</span>
+  <span class="cv-nav-label" data-idx="1" style="color: rgba(255,255,255,0.4); font-size: 12px;">Claude Code</span>
+  <span style="color: rgba(255,255,255,0.15); font-size: 12px;">·</span>
+  <span class="cv-nav-label" data-idx="2" style="color: rgba(255,255,255,0.9); font-size: 12px; font-weight: 600;">Win98</span>
+  <span style="color: rgba(255,255,255,0.15); font-size: 12px;">·</span>
+  <span class="cv-nav-label" data-idx="3" style="color: rgba(255,255,255,0.4); font-size: 12px;">Game</span>
+  <button onclick="navigate(1)" style="
+    background: none; border: 1px solid rgba(255,255,255,0.2); color: #fff;
+    width: 36px; height: 36px; border-radius: 8px; cursor: pointer;
+    font-size: 16px; display: flex; align-items: center; justify-content: center;
+  ">→</button>
+  <div style="width: 1px; height: 24px; background: rgba(255,255,255,0.1); margin: 0 4px;"></div>
+  <button onclick="window.print()" style="
+    background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: #fff;
+    height: 36px; border-radius: 8px; cursor: pointer;
+    font-size: 13px; padding: 0 14px; display: flex; align-items: center; gap: 6px;
+  ">📄 PDF</button>
+</div>
+<style>
+  @media print { #cv-nav { display: none !important; } }
+</style>
+
+<!-- ══ Window ══ -->
+<div class="window bevel-out">
+
+  <!-- Title bar -->
+  <div class="title-bar">
+    <div class="title-bar-text">📄 cv_swann_levigouroux.doc — Microsoft Word</div>
+    <div class="title-bar-controls">
+      <button>_</button>
+      <button>□</button>
+      <button>✕</button>
+    </div>
+  </div>
+
+  <!-- Menu bar -->
+  <div class="menu-bar">
+    <span>File</span>
+    <span>Edit</span>
+    <span>View</span>
+    <span>Insert</span>
+    <span>Format</span>
+    <span>Tools</span>
+    <span>Help</span>
+  </div>
+
+  <!-- Window body -->
+  <div class="window-body">
+    <div class="content bevel-in">
+
+      <!-- ── Header ── -->
+      <div class="header-98">
+        <div class="photo-98">
+          <img src="1769980301719.jpeg" alt="Swann Le Vigouroux">
+        </div>
+        <div class="header-info">
+          <div class="name-98">SWANN LE VIGOUROUX</div>
+          <div class="title-98">Agentic Engineer · Ex-CTO</div>
+          <div class="contact-98">
+            Aix-en-Provence / Remote<br>
+            <a href="mailto:swann.lvgx@gmail.com">swann.lvgx@gmail.com</a> |
+            <a href="https://linkedin.com/in/swannlv">linkedin.com/in/swannlv</a> |
+            <a href="https://swannlv.github.io">swannlv.github.io</a>
+          </div>
+          <div class="lang-98">French (Native) | English (Professional — 3y Toronto)</div>
+        </div>
+      </div>
+
+      <!-- ── Summary ── -->
+      <div class="summary-98">
+        <strong>Ex-CTO hands-on</strong> (7 years at Comet, team scaled 8→15, GenAI matching engine shipped to production).<br>
+        Now freelance, delivering full-scope applications by <strong>orchestrating specialized AI agents</strong>, combining 17 years of product engineering with modern AI workflows.<br>
+        What I bring: <strong>17 years of experience</strong>, a deep understanding of client needs, and the ability to <strong>turn complex problems into shipped products</strong>.
+      </div>
+
+      <!-- ── Expertise ── -->
+      <div class="group-box">
+        <div class="group-box-title">Expertise</div>
+        <table class="expertise-table">
+          <tr><td>AI & Orchestration</td><td>Agentic Engineering · Multi-Agent Orchestration · Claude Code · AI-Augmented Development</td></tr>
+          <tr><td>Leadership</td><td>Engineering Management (10y) · Team Scaling 8→15 · Agile/Scrum (PSM I) · Product Strategy</td></tr>
+          <tr><td>Frontend</td><td>TypeScript · React · Vue.js · Flutter · HTML5/CSS3</td></tr>
+          <tr><td>Backend</td><td>Node.js · GraphQL · PostgreSQL · C#/.Net</td></tr>
+          <tr><td>Infra</td><td>AWS Serverless · Lambda · Terraform · Azure AKS · Docker</td></tr>
+        </table>
+      </div>
+
+      <hr class="sep-98">
+
+      <!-- ── Experience ── -->
+      <div class="group-box">
+        <div class="group-box-title">Professional Experience</div>
+        <div class="tree-view">
+
+          <!-- Proxiserve -->
+          <div class="tree-company">
+            <div class="tree-company-name">PROXISERVE <span class="flag">🇫🇷</span><span class="tag-freelance">FREELANCE</span></div>
+            <div class="tree-dates">Jan 2026 – Present | <span class="duration">ongoing</span></div>
+          </div>
+          <div class="tree-sub">via ExFabrica — Field Service Management App · Remote</div>
+
+          <div class="tree-role">Agentic Engineer & Tech Lead</div>
+          <ul class="tree-bullets">
+            <li><strong>AI-Orchestrated Development:</strong> Delivering a complete field service app (Flutter mobile + Vue.js backoffice + architecture) by orchestrating 9 specialized AI agents — scope equivalent to a 4-5 person team, working 4 days/week.</li>
+            <li><strong>Offline-First Architecture:</strong> Designed robust sync system ensuring field technicians never lose data — the core technical challenge of the project.</li>
+            <li><strong>Human-AI Collaboration:</strong> Coordinating with backend dev and PO, multi-agent review pipeline — every commit signed and validated by a senior human.</li>
+          </ul>
+          <div class="tech-buttons">
+            <span class="tech-btn">Flutter</span><span class="tech-btn">Vue.js</span><span class="tech-btn">TypeScript</span><span class="tech-btn">Node.js</span><span class="tech-btn">Azure AKS</span><span class="tech-btn">Okta</span><span class="tech-btn">Claude Code</span><span class="tech-btn">Agentic Workflows</span>
+          </div>
+
+          <hr class="sep-98">
+
+          <!-- Comet -->
+          <div class="tree-company">
+            <div class="tree-company-name">COMET <span class="flag">🇫🇷</span></div>
+            <div class="tree-dates">Nov 2018 – Dec 2025 | <span class="duration">7 years</span></div>
+          </div>
+          <div class="tree-sub">Paris / Remote — HR Tech Scale-up</div>
+
+          <div class="tree-role">Chief Technology Officer (Hands-on)<span class="tree-role-dates">Jan 2025 – Dec 2025</span></div>
+          <ul class="tree-bullets">
+            <li><strong>Team Leadership:</strong> Managing 9 engineers (7 developers, 1 data engineer, 1 QA).</li>
+            <li><strong>Nova AI Platform:</strong> Led team building proprietary GenAI matching engine — portfolio build time <strong>-85%</strong>, candidate matching <strong>10x faster</strong>.</li>
+            <li><strong>Product Methodology:</strong> Rapid prototyping framework with immediate production deployment.</li>
+            <li><strong>Strategic Migration:</strong> Legacy-to-SaaS transition, projecting <strong>90% cost reduction</strong>.</li>
+            <li><strong>Compliance:</strong> CyberVadis security framework for enterprise clients.</li>
+          </ul>
+
+          <div class="tree-role">Engineering Manager (Hands-on)<span class="tree-role-dates">Feb 2022 – Jan 2025</span></div>
+          <ul class="tree-bullets">
+            <li><strong>Team Growth:</strong> Scaled org from <strong>8 to 15 engineers</strong> across cross-functional squads.</li>
+            <li><strong>Full-Stack Leadership:</strong> End-to-end delivery — React to AWS serverless.</li>
+            <li><strong>Process Excellence:</strong> Agile delivery pipeline, predictable shipping.</li>
+            <li><strong>Workflow Automation:</strong> Bidirectional Notion↔GitLab sync.</li>
+          </ul>
+
+          <div class="tree-role">Team Lead & Fullstack Developer<span class="tree-role-dates">Nov 2018 – Feb 2022</span></div>
+          <ul class="tree-bullets">
+            <li><strong>Team:</strong> Led <strong>5 engineers</strong>.</li>
+            <li><strong>Agile Transformation:</strong> Structured company around Scrum.</li>
+            <li><strong>Product Rebuild:</strong> Full platform refactor — TypeScript, Node.js, React, AWS serverless.</li>
+          </ul>
+          <div class="tech-buttons">
+            <span class="tech-btn">TypeScript</span><span class="tech-btn">Node.js</span><span class="tech-btn">React</span><span class="tech-btn">Vue.js</span><span class="tech-btn">Flutter</span><span class="tech-btn">GraphQL</span><span class="tech-btn">PostgreSQL</span><span class="tech-btn">AWS Lambda</span><span class="tech-btn">Terraform</span><span class="tech-btn">GenAI/LLM</span>
+          </div>
+
+          <hr class="sep-98">
+
+          <!-- CMA CGM -->
+          <div class="tree-company">
+            <div class="tree-company-name">CMA CGM <span class="flag">🇫🇷</span></div>
+            <div class="tree-dates">Feb 2016 – Oct 2018 | <span class="duration">~3 years</span></div>
+          </div>
+          <div class="tree-sub">Marseille — Global Shipping & Logistics</div>
+
+          <div class="tree-role">Lead Developer / Project Lead</div>
+          <ul class="tree-bullets">
+            <li><strong>Project BOSS:</strong> Led 5 developers, pioneered <strong>Vue.js and Git</strong> in corporate environment.</li>
+            <li><strong>E-commerce:</strong> CMA CGM's global booking platform.</li>
+            <li><strong>Routing Engine:</strong> <strong>C++ optimization</strong> for worldwide shipping routes.</li>
+          </ul>
+          <div class="tech-buttons">
+            <span class="tech-btn">.Net</span><span class="tech-btn">C#</span><span class="tech-btn">Vue.js</span><span class="tech-btn">SQL Server</span><span class="tech-btn">C++</span>
+          </div>
+
+          <hr class="sep-98">
+
+          <!-- LVGX -->
+          <div class="tree-company">
+            <div class="tree-company-name">LVGX <span class="flag">🇨🇦</span><span class="tag-freelance">FREELANCE</span></div>
+            <div class="tree-dates">Jun 2015 – Jul 2016 | <span class="duration">~1 year</span></div>
+          </div>
+          <div class="tree-sub">Toronto Area</div>
+
+          <div class="tree-role">Freelance Web Developer</div>
+          <ul class="tree-bullets">
+            <li><strong>Mobile Shopping App:</strong> iOS/Android with pathfinding algorithms.</li>
+            <li><strong>Social Network for Athletes:</strong> Profiles, activity tracking, community.</li>
+          </ul>
+          <div class="tech-buttons">
+            <span class="tech-btn">PHP</span><span class="tech-btn">JavaScript</span><span class="tech-btn">PhoneGap</span><span class="tech-btn">MySQL</span><span class="tech-btn">iOS</span>
+          </div>
+
+          <hr class="sep-98">
+
+          <!-- Union Advertising -->
+          <div class="tree-company">
+            <div class="tree-company-name">UNION ADVERTISING <span class="flag">🇨🇦</span></div>
+            <div class="tree-dates">Oct 2012 – Jun 2015 | <span class="duration">~3 years</span></div>
+          </div>
+          <div class="tree-sub">Toronto — Creative Agency</div>
+
+          <div class="tree-role">Creative Technologist<span class="tree-role-dates">Jul 2014 – Jun 2015</span></div>
+          <ul class="tree-bullets">
+            <li><strong>Interactive Experiences:</strong> HTML5, WebRTC, WebGL, Three.js for brand activations.</li>
+            <li><strong>Physical Computing:</strong> Arduino + laser installations.</li>
+          </ul>
+
+          <div class="tree-role">Lead Web Developer<span class="tree-role-dates">Oct 2012 – Jun 2014</span></div>
+          <ul class="tree-bullets">
+            <li>Led <strong>3 developers</strong>. Technical lead for <em>shoppersdrugmart.ca</em>.</li>
+          </ul>
+          <div class="tech-buttons">
+            <span class="tech-btn">.Net</span><span class="tech-btn">C#</span><span class="tech-btn">Angular</span><span class="tech-btn">WebGL</span><span class="tech-btn">Three.js</span><span class="tech-btn">Arduino</span>
+          </div>
+
+          <hr class="sep-98">
+
+          <!-- Anyware Video -->
+          <div class="tree-company">
+            <div class="tree-company-name">ANYWARE VIDEO <span class="flag">🇫🇷</span></div>
+            <div class="tree-dates">Oct 2009 – Jul 2012 | <span class="duration">~3 years</span></div>
+          </div>
+          <div class="tree-sub">Marseille — Broadcast Technology</div>
+
+          <div class="tree-role">Software Engineer</div>
+          <ul class="tree-bullets">
+            <li><strong>Broadcast:</strong> Video stream overlay engine — C++ and .Net.</li>
+            <li><strong>Clients:</strong> TF1, AB Productions, LCP, Gameone.</li>
+            <li><strong>Real-Time:</strong> Low-latency broadcast for live television.</li>
+          </ul>
+          <div class="tech-buttons">
+            <span class="tech-btn">C++</span><span class="tech-btn">.Net</span><span class="tech-btn">C#</span><span class="tech-btn">DirectX</span><span class="tech-btn">Video Codecs</span>
+          </div>
+
+        </div>
+      </div>
+
+      <hr class="sep-98">
+
+      <!-- ── Education ── -->
+      <div class="group-box">
+        <div class="group-box-title">Education & Certifications</div>
+        <div style="padding-top: 4px;">
+          <div class="edu-98">
+            <div>
+              <span class="edu-name">📜 PSM I — Professional Scrum Master I</span><br>
+              <span class="edu-detail">Scrum.org Certification</span>
+            </div>
+            <span class="edu-year">2017</span>
+          </div>
+          <div class="edu-98">
+            <div>
+              <span class="edu-name">🎓 Master's Degree in Computer Science</span><br>
+              <span class="edu-detail">Aix-Marseille University, France</span>
+            </div>
+            <span class="edu-year">2009</span>
+          </div>
+        </div>
+      </div>
+
+      <hr class="sep-98">
+
+      <!-- ── Recommendations ── -->
+      <div class="group-box">
+        <div class="group-box-title">💬 Recommendations</div>
+        <div style="padding-top: 8px; font-size: 11px; line-height: 1.6;">
+
+          <div style="margin-bottom: 10px; padding: 8px 10px; background: #ffffcc; border: 1px solid #808080;">
+            <em>"I have rarely, if ever, worked with a manager and CTO who is so attentive, caring, and deeply human. The trust given, the quality of exchanges, the relevance of advice, and the energy transmitted on a daily basis make a real difference. His impact on teams and projects is real, lasting, and immediately noticeable."</em><br>
+            <strong style="color:#000080; font-size: 11px;">— Jérémy Levy</strong> <span style="color:#808080;">Tech Lead @ Comet</span>
+          </div>
+
+          <div style="margin-bottom: 10px; padding: 8px 10px; background: #ffffcc; border: 1px solid #808080;">
+            <em>"I had the chance to work with Swann for four years. I always felt listened to, valued, and supported. His deeply human way of working, attentive to team balance, creates a healthy and engaging environment. I am convinced that Swann will continue to have a positive and lasting impact on the teams and projects he supports."</em><br>
+            <strong style="color:#000080; font-size: 11px;">— Shannone Controu</strong> <span style="color:#808080;">Fullstack Developer @ Comet</span>
+          </div>
+
+          <div style="margin-bottom: 10px; padding: 8px 10px; background: #ffffcc; border: 1px solid #808080;">
+            <em>"He is a skilled software engineer, especially with web technologies, with a strong leading capacity. As an innovative person, Swann continuously improves our projects and makes his whole team grow."</em><br>
+            <strong style="color:#000080; font-size: 11px;">— Nicolas Benhamou</strong> <span style="color:#808080;">Solutions Architect @ Anthropic</span>
+          </div>
+
+          <div style="margin-bottom: 10px; padding: 8px 10px; background: #ffffcc; border: 1px solid #808080;">
+            <em>"He is a competent, creative person full of ideas. Caring, always in good spirits and attentive, he knows how to unite and motivate his teams. His management allowed us to reinvent ourselves and give the best of ourselves."</em><br>
+            <strong style="color:#000080; font-size: 11px;">— Mouna Ben Chamekh</strong> <span style="color:#808080;">Senior Data Engineer</span>
+          </div>
+
+          <div style="margin-bottom: 10px; padding: 8px 10px; background: #ffffcc; border: 1px solid #808080;">
+            <em>"Working with Swann means being challenged and progressing quickly! I particularly remember our debates: a real pleasure to exchange, to confront our viewpoints, to challenge R&D and technical ideas. We didn't always agree, but these discussions always allowed us to come up with better solutions."</em><br>
+            <strong style="color:#000080; font-size: 11px;">— Mehdi Tagaizine</strong> <span style="color:#808080;">Product Owner & Freelance Developer</span>
+          </div>
+
+          <div style="margin-bottom: 10px; padding: 8px 10px; background: #ffffcc; border: 1px solid #808080;">
+            <em>"Swann is a competent, involved person with excellent interpersonal skills. He places great importance on human interactions, the well-being of his team, and knows how to establish a climate of trust that promotes commitment and motivation."</em><br>
+            <strong style="color:#000080; font-size: 11px;">— Anthony LE ROY</strong> <span style="color:#808080;">Software Engineer, AWS Certified</span>
+          </div>
+
+          <div style="margin-bottom: 6px; padding: 8px 10px; background: #ffffcc; border: 1px solid #808080;">
+            <em>"Swann actively participated in the development of dynamic graphics systems and broadcast control systems. He demonstrated skills, reactivity, and professionalism. He has always been a reliable and responsible person, both in his work and in his relationships with the teams."</em><br>
+            <strong style="color:#000080; font-size: 11px;">— Eric Oudart</strong> <span style="color:#808080;">Operations Director, Cognacq Jay Image</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Status bar -->
+    <div class="status-bar">
+      <div class="status-field">Ready — 17 years of experience loaded successfully.</div>
+      <div class="status-field">Page 1/1</div>
+      <div class="status-field">Col 1</div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  const versions = [
+    'index.html',
+    'cv-swann-terminal.html',
+    'cv-swann-win98.html',
+    'cv-swann-game.html'
+  ];
+  const current = 2;
+  function navigate(dir) {
+    const next = (current + dir + versions.length) % versions.length;
+    window.location.href = versions[next];
+  }
+</script>
+</body>
+</html>
