@@ -1771,8 +1771,7 @@ function draw(){
   FX.font='bold '+yfSize+'px "Press Start 2P"';
   const yearText=year.toString();
   const yearW=FX.measureText(yearText).width;
-  const safeH=(window.visualViewport?window.visualViewport.height:innerHeight)*2;
-  const yearY=Math.min(gy+yfSize*2.2, safeH-yfSize*1.2);
+  const yearY=mobileYear ? gy-yfSize*0.8 : gy+yfSize*2.2;
   FX.fillText(yearText,px,yearY);
   FX.font=flagSize+'px serif';
   FX.fillText(flag,px+yearW/2+flagSize*0.8,yearY);
