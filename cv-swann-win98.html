@@ -537,34 +537,26 @@
 
 <!-- ── Navigation ── -->
 <nav id="cv-nav">
-  <button class="cv-nav-arrow" onclick="cvNav(-1)">←</button>
   <a href="index.html" class="cv-nav-link">Classic</a>
   <a href="cv-swann-terminal.html" class="cv-nav-link">Terminal</a>
   <a href="cv-swann-win98.html" class="cv-nav-link active">Win98</a>
   <a href="cv-swann-game.html" class="cv-nav-link">Game</a>
-  <button class="cv-nav-arrow" onclick="cvNav(1)">→</button>
+  <a href="cv-swann-team.html" class="cv-nav-link">Team</a>
   <button class="cv-nav-pdf" onclick="window.print()">PDF</button>
 </nav>
 <style>
-  body { padding-bottom: 72px; }
+  body { padding-bottom: 52px; }
   #cv-nav {
-    position: fixed; bottom: 0; left: 0; right: 0; height: 64px;
+    position: fixed; bottom: 0; left: 0; right: 0; height: 48px;
     background: rgba(20,20,20,0.97); backdrop-filter: blur(12px);
-    display: flex; align-items: center; justify-content: center; gap: 6px;
+    display: flex; align-items: center; justify-content: center; gap: 0;
     z-index: 9999; border-top: 1px solid rgba(255,255,255,0.12);
-    font-family: -apple-system, sans-serif; padding: 0 10px;
-    padding-bottom: env(safe-area-inset-bottom, 0px);
+    font-family: -apple-system, sans-serif;
+    padding: 0 8px; padding-bottom: env(safe-area-inset-bottom, 0px);
   }
-  .cv-nav-arrow {
-    background: none; border: 1px solid rgba(255,255,255,0.25); color: #fff;
-    width: 44px; height: 44px; border-radius: 10px; cursor: pointer;
-    font-size: 18px; display: flex; align-items: center; justify-content: center;
-    flex-shrink: 0;
-  }
-  .cv-nav-arrow:active { background: rgba(255,255,255,0.15); }
   .cv-nav-link {
     color: rgba(255,255,255,0.4); font-size: 14px; text-decoration: none;
-    padding: 10px 12px; border-radius: 8px; transition: all 0.15s;
+    padding: 12px 14px; border-radius: 8px; transition: all 0.15s;
     white-space: nowrap; min-height: 44px; display: flex; align-items: center;
   }
   .cv-nav-link:hover { color: rgba(255,255,255,0.7); background: rgba(255,255,255,0.05); }
@@ -572,17 +564,16 @@
   .cv-nav-link.active { color: #fff; font-weight: 600; background: rgba(255,255,255,0.12); }
   .cv-nav-pdf {
     background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: #fff;
-    height: 44px; border-radius: 10px; cursor: pointer;
-    font-size: 14px; padding: 0 14px; margin-left: 4px; flex-shrink: 0;
+    height: 36px; border-radius: 8px; cursor: pointer;
+    font-size: 13px; padding: 0 12px; margin-left: auto; flex-shrink: 0;
   }
   .cv-nav-pdf:active { background: rgba(255,255,255,0.2); }
   @media print { #cv-nav { display: none !important; } body { padding-bottom: 0; } }
   @media (max-width: 480px) {
-    #cv-nav { height: 56px; gap: 2px; padding: 0 6px; padding-bottom: env(safe-area-inset-bottom, 0px); }
-    .cv-nav-arrow { width: 40px; height: 40px; font-size: 16px; }
-    .cv-nav-link { font-size: 12px; padding: 8px 8px; min-height: 40px; }
-    .cv-nav-pdf { font-size: 12px; padding: 0 10px; height: 40px; }
-    body { padding-bottom: 64px; }
+    #cv-nav { height: 44px; padding: 0 4px; padding-bottom: env(safe-area-inset-bottom, 0px); }
+    .cv-nav-link { font-size: 12px; padding: 10px 10px; min-height: 40px; }
+    .cv-nav-pdf { font-size: 11px; padding: 0 10px; height: 32px; }
+    body { padding-bottom: 48px; }
   }
 </style>
 
@@ -873,9 +864,7 @@
 </div>
 
 <script>
-  const CV_PAGES=['index.html','cv-swann-terminal.html','cv-swann-win98.html','cv-swann-game.html'];
-  const CV_CUR=2;
-  function cvNav(d){window.location.href=CV_PAGES[(CV_CUR+d+CV_PAGES.length)%CV_PAGES.length]}
+  // Navigation handled by direct links in nav
 </script>
 </body>
 </html>

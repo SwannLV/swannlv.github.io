@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Team — Swann Le Vigouroux</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: #1a1a2e;
+    color: #ccc;
+    min-height: 100vh;
+    padding-bottom: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .team-page {
+    max-width: 960px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 40px 24px 80px;
+  }
+
+  .team-title {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 18px;
+    color: #ffd700;
+    text-align: center;
+    margin-bottom: 12px;
+  }
+
+  .team-subtitle {
+    text-align: center;
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 44px;
+  }
+
+  /* ── Org chart ── */
+  .org {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+  }
+
+  /* ── Cards ── */
+  .card {
+    background: rgba(255,255,255,0.04);
+    border: 1.5px solid rgba(255,255,255,0.12);
+    border-radius: 8px;
+    padding: 16px 24px;
+    text-align: center;
+    position: relative;
+  }
+
+  .card-emoji {
+    font-size: 24px;
+    margin-bottom: 4px;
+  }
+
+  .card-name {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 11px;
+    color: #fff;
+    margin-bottom: 4px;
+    letter-spacing: 1px;
+  }
+
+  .card-role {
+    font-size: 13px;
+    color: #888;
+    line-height: 1.4;
+  }
+
+  /* ── Top leader card ── */
+  .card-leader {
+    width: 100%;
+    max-width: 860px;
+    padding: 22px 32px;
+    border-color: rgba(255,215,0,0.25);
+    background: rgba(255,215,0,0.04);
+  }
+
+  .card-leader .card-name { font-size: 13px; color: #ffd700; }
+  .card-leader .card-role { font-size: 14px; color: #999; }
+
+  /* ── Orchestrator card ── */
+  .card-orchestrator {
+    width: 100%;
+    max-width: 860px;
+    padding: 20px 28px;
+    border-color: rgba(192,57,43,0.3);
+    background: rgba(192,57,43,0.05);
+  }
+
+  .card-orchestrator .card-name { font-size: 12px; color: #e74c3c; }
+  .card-orchestrator .card-role { font-size: 13px; }
+
+  /* ── Connector lines ── */
+  .connector {
+    display: flex;
+    justify-content: center;
+    padding: 16px 0;
+    color: rgba(255,255,255,0.2);
+    font-size: 14px;
+    letter-spacing: 2px;
+  }
+
+  .connector-multi {
+    display: grid;
+    grid-template-columns: repeat(9, 1fr);
+    padding: 16px 0;
+    width: 100%;
+    max-width: 860px;
+  }
+
+  .connector-multi span {
+    flex: 1;
+    text-align: center;
+    color: rgba(255,255,255,0.2);
+    font-size: 14px;
+  }
+
+  /* ── Agent grid ── */
+  .agents-grid {
+    display: grid;
+    grid-template-columns: repeat(9, 1fr);
+    gap: 10px;
+    width: 100%;
+    max-width: 860px;
+    margin-top: 8px;
+  }
+
+  .agent-card {
+    background: rgba(255,255,255,0.04);
+    border: 1.5px solid rgba(255,255,255,0.1);
+    border-radius: 6px;
+    padding: 16px 8px;
+    text-align: center;
+    transition: border-color 0.2s, background 0.2s;
+    min-height: 90px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .agent-card:hover {
+    border-color: rgba(255,255,255,0.25);
+    background: rgba(255,255,255,0.07);
+  }
+
+  .agent-card .card-emoji { font-size: 22px; margin-bottom: 6px; }
+
+  .agent-card .card-name {
+    font-size: 9px;
+    margin-bottom: 4px;
+    letter-spacing: 0.5px;
+  }
+
+  .agent-card .card-role {
+    font-size: 10px;
+    line-height: 1.4;
+    color: #777;
+  }
+
+  /* ── Reserve section ── */
+  .reserve-separator {
+    width: 100%;
+    max-width: 860px;
+    margin: 40px 0 28px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .reserve-separator::before,
+  .reserve-separator::after {
+    content: '';
+    flex: 1;
+    border-top: 2px dashed rgba(255,255,255,0.12);
+  }
+
+  .reserve-label {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 10px;
+    color: #555;
+    letter-spacing: 3px;
+    white-space: nowrap;
+  }
+
+  .reserve-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 14px;
+    max-width: 660px;
+  }
+
+  .reserve-card {
+    background: rgba(255,255,255,0.04);
+    border: 1.5px dashed rgba(255,255,255,0.12);
+    border-radius: 6px;
+    padding: 16px 24px;
+    text-align: center;
+    min-width: 120px;
+  }
+
+  .reserve-card .card-emoji { font-size: 20px; margin-bottom: 4px; }
+  .reserve-card .card-name { font-size: 9px; margin-bottom: 3px; }
+  .reserve-card .card-role { font-size: 11px; color: #777; }
+
+  /* ── Responsive ── */
+  @media (max-width: 700px) {
+    .team-page { padding: 24px 16px 100px; }
+    .team-title { font-size: 13px; }
+    .team-subtitle { font-size: 12px; margin-bottom: 32px; }
+
+    .card-leader { padding: 14px 16px; }
+    .card-leader .card-name { font-size: 11px; }
+    .card-leader .card-role { font-size: 12px; }
+
+    .card-orchestrator { padding: 12px 14px; }
+    .card-orchestrator .card-name { font-size: 10px; }
+    .card-orchestrator .card-role { font-size: 11px; }
+
+    .agents-grid {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      max-width: 360px;
+      margin-top: 16px;
+    }
+
+    .connector-multi { display: none; }
+
+    .agent-card { padding: 14px 6px; }
+    .agent-card .card-emoji { font-size: 22px; margin-bottom: 4px; }
+    .agent-card .card-name { font-size: 9px; margin-bottom: 4px; }
+    .agent-card .card-role { font-size: 11px; }
+
+    .reserve-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      width: 100%;
+      max-width: 340px;
+      margin: 0 auto;
+    }
+    .reserve-card { padding: 10px 2px; min-width: 0; }
+    .reserve-card .card-emoji { font-size: 17px; }
+    .reserve-card .card-name { font-size: 7px; }
+    .reserve-card .card-role { font-size: 8.5px; }
+    .reserve-label { font-size: 8px; }
+  }
+
+  @media (max-width: 400px) {
+    .team-title { font-size: 11px; }
+    .agents-grid { max-width: 300px; gap: 6px; }
+    .agent-card .card-name { font-size: 8px; }
+    .agent-card .card-role { font-size: 10px; }
+  }
+
+  /* ── Nav ── */
+  #cv-nav {
+    position: fixed; bottom: 0; left: 0; right: 0; height: 48px;
+    background: rgba(10,10,26,0.97); backdrop-filter: blur(12px);
+    display: flex; align-items: center; justify-content: center; gap: 0;
+    z-index: 9999; border-top: 1px solid rgba(255,255,255,0.08);
+    font-family: -apple-system, sans-serif;
+    padding: 0 8px; padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  .cv-nav-link {
+    color: rgba(255,255,255,0.4); font-size: 14px; text-decoration: none;
+    padding: 12px 14px; border-radius: 8px; transition: all 0.15s;
+    white-space: nowrap; min-height: 44px; display: flex; align-items: center;
+  }
+  .cv-nav-link:hover { color: rgba(255,255,255,0.7); background: rgba(255,255,255,0.05); }
+  .cv-nav-link:active { background: rgba(255,255,255,0.12); }
+  .cv-nav-link.active { color: #fff; font-weight: 600; background: rgba(255,255,255,0.12); }
+  .cv-nav-pdf {
+    background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: #fff;
+    height: 36px; border-radius: 8px; cursor: pointer;
+    font-size: 13px; padding: 0 12px; margin-left: auto; flex-shrink: 0;
+  }
+  .cv-nav-pdf:active { background: rgba(255,255,255,0.2); }
+
+  @media (max-width: 480px) {
+    #cv-nav { height: 44px; padding: 0 4px; padding-bottom: env(safe-area-inset-bottom, 0px); }
+    .cv-nav-link { font-size: 11px; padding: 10px 8px; min-height: 40px; }
+    .cv-nav-pdf { font-size: 11px; padding: 0 10px; height: 32px; }
+  }
+
+  @media print {
+    #cv-nav { display: none !important; }
+    body { background: #1a1a2e; padding-bottom: 0; }
+  }
+</style>
+</head>
+<body>
+
+<div class="team-page">
+
+  <div class="team-title">MY TEAM</div>
+  <div class="team-subtitle">9 specialized AI agents, powered by Claude Code</div>
+
+  <div class="org">
+
+    <!-- SWANN — orchestrator -->
+    <div class="card card-leader">
+      <div class="card-emoji">🧠</div>
+      <div class="card-name">SWANN</div>
+      <div class="card-role">Orchestrator — direction, coordination, delivery</div>
+    </div>
+
+    <div class="connector">▼</div>
+
+    <!-- AGENTS -->
+    <div class="agents-grid">
+      <div class="agent-card">
+        <div class="card-emoji">🔍</div>
+        <div class="card-name">NAVI</div>
+        <div class="card-role">Explore</div>
+      </div>
+      <div class="agent-card">
+        <div class="card-emoji">🏗</div>
+        <div class="card-name">MARIO</div>
+        <div class="card-role">Archi</div>
+      </div>
+      <div class="agent-card">
+        <div class="card-emoji">📱</div>
+        <div class="card-name">YOSHI</div>
+        <div class="card-role">Flutter Dev</div>
+      </div>
+      <div class="agent-card">
+        <div class="card-emoji">🖥</div>
+        <div class="card-name">ZELDA</div>
+        <div class="card-role">Vue.js Dev</div>
+      </div>
+      <div class="agent-card">
+        <div class="card-emoji">🔥</div>
+        <div class="card-name">BOWSER</div>
+        <div class="card-role">QA Destroyer</div>
+      </div>
+      <div class="agent-card">
+        <div class="card-emoji">🦍</div>
+        <div class="card-name">DK</div>
+        <div class="card-role">Tests Guardian</div>
+      </div>
+      <div class="agent-card">
+        <div class="card-emoji">🍄</div>
+        <div class="card-name">TOAD</div>
+        <div class="card-role">Debug</div>
+      </div>
+      <div class="agent-card">
+        <div class="card-emoji">👾</div>
+        <div class="card-name">WARIO</div>
+        <div class="card-role">Review Backend PHP</div>
+      </div>
+      <div class="agent-card">
+        <div class="card-emoji">👸</div>
+        <div class="card-name">PEACH</div>
+        <div class="card-role">Quality Coach</div>
+      </div>
+    </div>
+
+    <!-- RESERVE -->
+    <div class="reserve-separator">
+      <span class="reserve-label">ON STANDBY</span>
+    </div>
+
+    <div class="reserve-grid">
+      <div class="reserve-card">
+        <div class="card-emoji">🐵</div>
+        <div class="card-name">DIDDY</div>
+        <div class="card-role">Flutter Dev 2</div>
+      </div>
+      <div class="reserve-card">
+        <div class="card-emoji">🐒</div>
+        <div class="card-name">DK Jr</div>
+        <div class="card-role">Vue.js Dev 2</div>
+      </div>
+      <div class="reserve-card">
+        <div class="card-emoji">🎨</div>
+        <div class="card-name">LINK</div>
+        <div class="card-role">Design / UX</div>
+      </div>
+      <div class="reserve-card">
+        <div class="card-emoji">🦊</div>
+        <div class="card-name">FOX</div>
+        <div class="card-role">Security Expert</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Navigation -->
+<nav id="cv-nav">
+  <a href="index.html" class="cv-nav-link">Classic</a>
+  <a href="cv-swann-terminal.html" class="cv-nav-link">Terminal</a>
+  <a href="cv-swann-win98.html" class="cv-nav-link">Win98</a>
+  <a href="cv-swann-game.html" class="cv-nav-link">Game</a>
+  <a href="cv-swann-team.html" class="cv-nav-link active">Team</a>
+  <button class="cv-nav-pdf" onclick="window.print()">PDF</button>
+</nav>
+
+</body>
+</html>

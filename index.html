@@ -128,6 +128,14 @@
     color: #333;
   }
 
+  .summary p {
+    margin-bottom: 6px;
+  }
+
+  .summary p:last-child {
+    margin-bottom: 0;
+  }
+
   .summary strong { color: #1a1a1a; }
 
   .divider {
@@ -147,10 +155,27 @@
     background: linear-gradient(90deg, #fdf0ef 0%, transparent 100%);
   }
 
+  /* ── Contact separator ── */
+  .contact-line {
+    font-size: 8.5pt;
+    color: #555;
+    line-height: 1.8;
+  }
+
+  .contact-line a {
+    color: #555;
+    text-decoration: none;
+  }
+
+  .contact-sep {
+    color: #ccc;
+    margin: 0 6px;
+  }
+
   /* ── Expertise Grid ── */
   .expertise {
     display: grid;
-    grid-template-columns: 140px 1fr;
+    grid-template-columns: 150px 1fr;
     gap: 5px 16px;
     margin: 10px 0;
   }
@@ -199,7 +224,7 @@
 
   .company-sub {
     font-size: 8.5pt;
-    color: #888;
+    color: #666;
     font-style: italic;
     margin-bottom: 6px;
   }
@@ -323,43 +348,57 @@
     .page {
       width: 100%;
       min-height: auto;
-      padding: 16px;
+      padding: 14px;
       margin: 0;
       box-shadow: none;
     }
 
+    /* Header : photo + nom en row, contact dessous */
     .header {
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      gap: 12px;
+      flex-wrap: wrap;
+      gap: 10px;
     }
+    .header-photo { width: 100px; height: 100px; }
+    .header-center { flex: 1; min-width: 0; }
+    .header-name { font-size: 18pt; }
+    .header-title { font-size: 9pt; }
+    .header-right {
+      flex-basis: 100%; text-align: left; font-size: 8pt; line-height: 1.4;
+      display: flex; flex-wrap: wrap; gap: 0 12px;
+      border-top: 1px solid #eee; padding-top: 6px; margin-top: -2px;
+    }
+    .header-right br { display: none; }
+    .languages { text-align: left; font-size: 8pt; margin-top: 0; }
 
-    .header-photo { width: 80px; height: 80px; }
-    .header-name { font-size: 22pt; }
-    .header-title { font-size: 10pt; }
-    .header-right { text-align: center; font-size: 8pt; }
+    /* Espacement serré */
+    .summary { font-size: 9pt; margin: 8px 0 10px; }
+    .divider { margin: 8px 0; }
+    .section-title { font-size: 10pt; margin: 10px 0 6px; padding: 2px 8px; }
 
-    .summary { font-size: 9pt; }
+    .contact-sep { margin: 0 4px; }
 
-    .section-title { font-size: 11pt; }
-
+    /* Expertise compact : label inline */
     .expertise {
-      grid-template-columns: 1fr;
-      gap: 8px 0;
+      grid-template-columns: 110px 1fr;
+      gap: 3px 8px;
+      margin: 4px 0;
     }
+    .expertise-label { font-size: 7pt; margin-bottom: 0; }
+    .expertise-value { font-size: 8.5pt; }
 
-    .expertise-label { margin-bottom: -4px; }
-
+    .company { margin: 8px 0 2px; }
     .company-header { flex-direction: column; gap: 2px; }
     .company-name { font-size: 12pt; }
     .company-dates { font-size: 8pt; }
 
-    .role-header { flex-direction: column; gap: 2px; }
+    .role { margin: 6px 0 3px; }
+    .role-header { flex-direction: column; gap: 1px; }
     .role-title { font-size: 10pt; }
 
-    .bullets li { font-size: 8.5pt; }
+    .bullets { margin: 2px 0 4px; }
+    .bullets li { font-size: 8.5pt; margin-bottom: 2px; }
 
+    .tech-tags { margin: 3px 0; padding: 3px 0; }
     .tech-tags span { font-size: 7pt; margin-right: 8px; }
 
     .edu-item { flex-direction: column; gap: 2px; }
@@ -367,13 +406,18 @@
     div[style*="grid-template-columns: 1fr 1fr"] {
       display: block !important;
     }
+    div[style*="grid-template-columns: 1fr 1fr"] > div {
+      margin-bottom: 6px;
+    }
   }
 
-  @media (max-width: 480px) {
-    .page { padding: 12px; }
-    .header-name { font-size: 18pt; }
-    .header-photo { width: 70px; height: 70px; }
-    .summary { font-size: 8.5pt; }
+  @media (max-width: 400px) {
+    .page { padding: 10px; }
+    .header-photo { width: 88px; height: 88px; }
+    .header-name { font-size: 16pt; }
+    .expertise { grid-template-columns: 90px 1fr; gap: 2px 6px; }
+    .expertise-label { font-size: 6.5pt; }
+    .expertise-value { font-size: 8pt; }
     .company-name { font-size: 11pt; }
     .role-title { font-size: 9.5pt; }
     .bullets li { font-size: 8pt; padding-left: 12px; }
@@ -395,17 +439,16 @@
     <div class="header-right">
       Aix-en-Provence / Remote<br>
       <a href="mailto:swann.lvgx@gmail.com">swann.lvgx@gmail.com</a><br>
-      <a href="https://linkedin.com/in/swannlv">linkedin.com/in/swannlv</a><br>
-      <a href="https://swannlv.github.io">swannlv.github.io</a><br>
+      <a href="https://linkedin.com/in/swannlv">linkedin.com/in/swannlv</a><span class="contact-sep">·</span><a href="https://swannlv.github.io">swannlv.github.io</a><br>
       <span style="font-size:8pt; color:#777;">French (Native) | English (Professional — 3y Toronto)</span>
     </div>
   </div>
 
   <!-- Summary -->
   <div class="summary">
-    <strong>Ex-CTO hands-on</strong> (7 years at Comet, team scaled 8→15, GenAI matching engine shipped to production).<br>
-    Now freelance, I deliver full-scope applications — mobile, backoffice, architecture — by <strong>orchestrating specialized AI agents</strong>, combining 17 years of product engineering with modern AI workflows.<br>
-    What I bring: <strong>17 years of experience</strong>, a deep understanding of client needs, and the ability to <strong>turn complex problems into shipped products</strong>. International experience (3y Canada). PSM I certified.
+    <p><strong>Ex-CTO hands-on</strong> (7 years at Comet, team scaled 8→15, GenAI matching engine shipped to production).</p>
+    <p>Now freelance, I deliver full-scope applications — mobile, backoffice, architecture — by <strong>orchestrating specialized AI agents</strong>, combining 17 years of product engineering with modern AI workflows.</p>
+    <p>What I bring: <strong>17 years of experience</strong>, a deep understanding of client needs, and the ability to <strong>turn complex problems into shipped products</strong>. International experience (3y Canada). PSM I certified.</p>
   </div>
 
   <hr class="divider">
@@ -693,39 +736,26 @@
 
 <!-- ── Navigation ── -->
 <nav id="cv-nav">
-  <button class="cv-nav-arrow" onclick="cvNav(-1)">←</button>
   <a href="index.html" class="cv-nav-link active">Classic</a>
   <a href="cv-swann-terminal.html" class="cv-nav-link">Terminal</a>
   <a href="cv-swann-win98.html" class="cv-nav-link">Win98</a>
   <a href="cv-swann-game.html" class="cv-nav-link">Game</a>
-  <button class="cv-nav-arrow" onclick="cvNav(1)">→</button>
+  <a href="cv-swann-team.html" class="cv-nav-link">Team</a>
   <button class="cv-nav-pdf" onclick="window.print()">PDF</button>
 </nav>
-<script>
-  const CV_PAGES=['index.html','cv-swann-terminal.html','cv-swann-win98.html','cv-swann-game.html'];
-  const CV_CUR=0;
-  function cvNav(d){window.location.href=CV_PAGES[(CV_CUR+d+CV_PAGES.length)%CV_PAGES.length]}
-</script>
 <style>
-  body { padding-bottom: 72px; }
+  body { padding-bottom: 52px; }
   #cv-nav {
-    position: fixed; bottom: 0; left: 0; right: 0; height: 64px;
+    position: fixed; bottom: 0; left: 0; right: 0; height: 48px;
     background: rgba(20,20,20,0.97); backdrop-filter: blur(12px);
-    display: flex; align-items: center; justify-content: center; gap: 6px;
+    display: flex; align-items: center; justify-content: center; gap: 0;
     z-index: 9999; border-top: 1px solid rgba(255,255,255,0.12);
-    font-family: -apple-system, sans-serif; padding: 0 10px;
-    padding-bottom: env(safe-area-inset-bottom, 0px);
+    font-family: -apple-system, sans-serif;
+    padding: 0 8px; padding-bottom: env(safe-area-inset-bottom, 0px);
   }
-  .cv-nav-arrow {
-    background: none; border: 1px solid rgba(255,255,255,0.25); color: #fff;
-    width: 44px; height: 44px; border-radius: 10px; cursor: pointer;
-    font-size: 18px; display: flex; align-items: center; justify-content: center;
-    flex-shrink: 0;
-  }
-  .cv-nav-arrow:active { background: rgba(255,255,255,0.15); }
   .cv-nav-link {
     color: rgba(255,255,255,0.4); font-size: 14px; text-decoration: none;
-    padding: 10px 12px; border-radius: 8px; transition: all 0.15s;
+    padding: 12px 14px; border-radius: 8px; transition: all 0.15s;
     white-space: nowrap; min-height: 44px; display: flex; align-items: center;
   }
   .cv-nav-link:hover { color: rgba(255,255,255,0.7); background: rgba(255,255,255,0.05); }
@@ -733,17 +763,16 @@
   .cv-nav-link.active { color: #fff; font-weight: 600; background: rgba(255,255,255,0.12); }
   .cv-nav-pdf {
     background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: #fff;
-    height: 44px; border-radius: 10px; cursor: pointer;
-    font-size: 14px; padding: 0 14px; margin-left: 4px; flex-shrink: 0;
+    height: 36px; border-radius: 8px; cursor: pointer;
+    font-size: 13px; padding: 0 12px; margin-left: auto; flex-shrink: 0;
   }
   .cv-nav-pdf:active { background: rgba(255,255,255,0.2); }
   @media print { #cv-nav { display: none !important; } body { padding-bottom: 0; } }
   @media (max-width: 480px) {
-    #cv-nav { height: 56px; gap: 2px; padding: 0 6px; padding-bottom: env(safe-area-inset-bottom, 0px); }
-    .cv-nav-arrow { width: 40px; height: 40px; font-size: 16px; }
-    .cv-nav-link { font-size: 12px; padding: 8px 8px; min-height: 40px; }
-    .cv-nav-pdf { font-size: 12px; padding: 0 10px; height: 40px; }
-    body { padding-bottom: 64px; }
+    #cv-nav { height: 44px; padding: 0 4px; padding-bottom: env(safe-area-inset-bottom, 0px); }
+    .cv-nav-link { font-size: 12px; padding: 10px 10px; min-height: 40px; }
+    .cv-nav-pdf { font-size: 11px; padding: 0 10px; height: 32px; }
+    body { padding-bottom: 48px; }
   }
 </style>
 </body>
