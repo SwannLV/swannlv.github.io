@@ -595,15 +595,14 @@
           <a href="mailto:swann.lvgx@gmail.com">swann.lvgx@gmail.com</a> ·
           <a href="https://linkedin.com/in/swannlv">linkedin.com/in/swannlv</a> ·
           <a href="https://swannlv.github.io">swannlv.github.io</a><br>
-          <span class="dim">French (Native) | English (Professional — 3y Toronto)</span>
+          <span class="dim">🇫🇷 French (Native) | 🇬🇧 English (Professional — 3y Toronto)</span>
         </div>
       </div>
     </div>
 
     <div class="summary">
-      <strong>Ex-CTO hands-on</strong> (7 years at Comet, team scaled 8→15, GenAI matching engine shipped to production).<br>
-      Now freelance, I deliver full-scope applications — mobile, backoffice, architecture — by <strong>orchestrating specialized AI agents</strong>, combining 17 years of product engineering with modern AI workflows.<br>
-      What I bring: <strong>17 years of experience</strong>, a deep understanding of client needs, and the ability to <strong>turn complex problems into shipped products</strong>.
+      <strong>Ex-CTO hands-on</strong> (7 years at Comet, team scaled 8→15). Now freelance, I deliver full-scope applications — mobile, web, architecture — by <strong>orchestrating specialized AI agents</strong>, combining <strong>17 years of product engineering</strong> with modern AI workflows.<br>
+      Deep understanding of client needs, ability to <strong>turn complex problems into shipped products</strong>. International experience (3y Canada). PSM I certified.
     </div>
   </div>
 
@@ -648,7 +647,7 @@
       <div class="exp-sub">via ExFabrica — Field Service Management App · Remote</div>
       <div class="exp-role">Agentic Engineer & Tech Lead</div>
       <ul class="exp-bullets">
-        <li><strong>AI-Orchestrated Development:</strong> Delivering a complete field service app (Flutter mobile + Vue.js backoffice + architecture) by orchestrating 9 specialized AI agents — scope equivalent to a 4-5 person team, working 4 days/week.</li>
+        <li><strong>AI-Orchestrated Development:</strong> Delivering a complete field service app (Flutter mobile + Vue.js web + architecture) by orchestrating 9 specialized AI agents — scope equivalent to a 4-5 person team, working 4 days/week.</li>
         <li><strong>Offline-First Architecture:</strong> Designed robust sync system ensuring field technicians never lose data — the core technical challenge of the project.</li>
         <li><strong>Human-AI Collaboration:</strong> Coordinating with backend dev and PO, multi-agent review pipeline — every commit signed and validated by a senior human.</li>
       </ul>
@@ -859,55 +858,259 @@
 </div>
 <!-- ── Navigation ── -->
 <nav id="cv-nav">
-  <a href="index.html" class="cv-nav-link">Classic</a>
-  <a href="cv-swann-team.html" class="cv-nav-link">Team</a>
+  <a href="index.html" class="cv-nav-link">Pro</a>
+  <a href="cv-swann-team.html" class="cv-nav-link">Agents</a>
   <a href="cv-swann-terminal.html" class="cv-nav-link active">Terminal</a>
   <a href="cv-swann-win98.html" class="cv-nav-link">Win98</a>
   <a href="cv-swann-game.html" class="cv-nav-link">Game</a>
   <button class="cv-nav-pdf" onclick="window.print()">PDF</button>
 </nav>
 <style>
-  body { padding-bottom: 60px; }
+  body { padding-top: 84px; }
+
+  /* ══ KEYFRAMES FESTIVAL ══ */
+  @keyframes nav-border-flow {
+    0% { border-image-source: linear-gradient(90deg, #ff00ff, #ffd700, #00ffff, #ff00ff); }
+    33% { border-image-source: linear-gradient(90deg, #ffd700, #00ffff, #ff00ff, #ffd700); }
+    66% { border-image-source: linear-gradient(90deg, #00ffff, #ff00ff, #ffd700, #00ffff); }
+    100% { border-image-source: linear-gradient(90deg, #ff00ff, #ffd700, #00ffff, #ff00ff); }
+  }
+  @keyframes nav-bg-shift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+  @keyframes nav-pulse {
+    0%, 100% {
+      text-shadow: 0 0 10px rgba(255,215,0,0.6), 0 0 30px rgba(255,215,0,0.3), 0 0 60px rgba(255,215,0,0.1);
+    }
+    50% {
+      text-shadow: 0 0 20px rgba(255,215,0,1), 0 0 50px rgba(255,215,0,0.6), 0 0 100px rgba(255,215,0,0.3), 0 0 150px rgba(255,215,0,0.1);
+    }
+  }
+  @keyframes nav-shine {
+    0% { left: -100%; }
+    100% { left: 200%; }
+  }
+  @keyframes nav-float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-3px); }
+  }
+  @keyframes pdf-beacon {
+    0%, 100% {
+      box-shadow: 0 0 8px rgba(255,215,0,0.3), 0 0 20px rgba(255,215,0,0.15);
+    }
+    25% {
+      box-shadow: 0 0 15px rgba(255,215,0,0.6), 0 0 40px rgba(255,215,0,0.3), 0 0 80px rgba(255,215,0,0.1);
+    }
+    50% {
+      box-shadow: 0 0 20px rgba(255,100,0,0.6), 0 0 50px rgba(255,150,0,0.3), 0 0 100px rgba(255,200,0,0.15);
+    }
+    75% {
+      box-shadow: 0 0 15px rgba(255,215,0,0.6), 0 0 40px rgba(255,215,0,0.3), 0 0 80px rgba(255,215,0,0.1);
+    }
+  }
+  @keyframes scanline {
+    0% { transform: translateY(-100%); }
+    100% { transform: translateY(100%); }
+  }
+  @keyframes link-idle {
+    0%, 100% { border-color: rgba(255,255,255,0.08); }
+    50% { border-color: rgba(255,215,0,0.15); }
+  }
+
+  /* ══ NAV CONTAINER ══ */
   #cv-nav {
-    position: fixed; bottom: 0; left: 0; right: 0; height: 52px;
-    background: linear-gradient(180deg, rgba(10,10,30,0.95), rgba(5,5,20,0.98));
-    backdrop-filter: blur(16px);
-    display: flex; align-items: center; justify-content: center; gap: 2px;
+    position: fixed; top: 0; left: 0; right: 0; height: 80px;
+    background: linear-gradient(135deg, rgba(8,8,30,0.98), rgba(15,5,25,0.98), rgba(8,8,30,0.98));
+    background-size: 200% 200%;
+    animation: nav-bg-shift 8s ease-in-out infinite;
+    backdrop-filter: blur(24px) saturate(1.5);
+    display: flex; align-items: center; justify-content: center; gap: 10px;
     z-index: 9999;
-    border-top: 2px solid rgba(255,215,0,0.15);
-    box-shadow: 0 -4px 20px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,215,0,0.08);
+    border-bottom: 3px solid;
+    border-image: linear-gradient(90deg, #ff00ff, #ffd700, #00ffff, #ff00ff) 1;
+    animation: nav-bg-shift 8s ease-in-out infinite, nav-border-flow 3s linear infinite;
     font-family: 'Press Start 2P', monospace;
-    padding: 0 8px; padding-bottom: env(safe-area-inset-bottom, 0px);
+    padding: 0 20px;
     max-width: 100vw; overflow: hidden;
   }
+
+  /* Scanline overlay */
+  #cv-nav::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(255,255,255,0.015) 2px,
+      rgba(255,255,255,0.015) 4px
+    );
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  /* Shine sweep */
+  #cv-nav::after {
+    content: '';
+    position: absolute;
+    top: 0; bottom: 0;
+    width: 60%;
+    background: linear-gradient(90deg, transparent, rgba(255,215,0,0.06), rgba(255,255,255,0.08), rgba(255,215,0,0.06), transparent);
+    animation: nav-shine 4s ease-in-out infinite;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  /* ══ NAV LINKS ══ */
   .cv-nav-link {
-    color: rgba(255,255,255,0.35); font-size: 8px; text-decoration: none;
-    padding: 8px 8px; border-radius: 6px; transition: all 0.2s;
-    white-space: nowrap; min-height: 40px; display: flex; align-items: center;
+    color: rgba(255,255,255,0.55);
+    font-size: 11px;
+    text-decoration: none;
+    padding: 14px 18px;
+    border-radius: 12px;
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    white-space: nowrap;
+    min-height: 50px;
+    display: flex;
+    align-items: center;
     text-transform: uppercase;
+    cursor: pointer;
+    border: 1.5px solid rgba(255,255,255,0.06);
+    background: rgba(255,255,255,0.02);
+    position: relative;
+    z-index: 2;
+    overflow: hidden;
+    animation: link-idle 4s ease-in-out infinite;
+    letter-spacing: 1px;
   }
-  .cv-nav-link:hover { color: #ffd700; background: rgba(255,215,0,0.08); text-shadow: 0 0 8px rgba(255,215,0,0.3); }
-  .cv-nav-link:active { background: rgba(255,215,0,0.15); }
+
+  /* Shine sweep on each link */
+  .cv-nav-link::after {
+    content: '';
+    position: absolute;
+    top: 0; bottom: 0;
+    width: 30px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+    transform: skewX(-15deg);
+    left: -50px;
+    transition: left 0.6s ease;
+  }
+
+  .cv-nav-link:hover::after {
+    left: calc(100% + 50px);
+  }
+
+  .cv-nav-link:hover {
+    color: #fff;
+    background: linear-gradient(180deg, rgba(255,215,0,0.2), rgba(255,100,200,0.08));
+    text-shadow:
+      0 0 12px rgba(255,215,0,0.9),
+      0 0 30px rgba(255,215,0,0.5),
+      0 0 60px rgba(255,215,0,0.2);
+    border-color: rgba(255,215,0,0.5);
+    transform: translateY(-4px) scale(1.08);
+    box-shadow:
+      0 6px 25px rgba(255,215,0,0.2),
+      0 0 40px rgba(255,215,0,0.1),
+      inset 0 1px 0 rgba(255,255,255,0.1);
+  }
+
+  .cv-nav-link:active {
+    transform: translateY(0) scale(0.98);
+    box-shadow: 0 0 15px rgba(255,215,0,0.3), inset 0 2px 8px rgba(0,0,0,0.3);
+    background: rgba(255,215,0,0.25);
+    transition: all 0.05s ease;
+  }
+
+  /* ══ ACTIVE LINK — THE CHOSEN ONE ══ */
   .cv-nav-link.active {
-    color: #ffd700; background: rgba(255,215,0,0.12);
-    text-shadow: 0 0 10px rgba(255,215,0,0.4);
-    border: 1px solid rgba(255,215,0,0.2);
+    color: #ffd700;
+    background: linear-gradient(180deg, rgba(255,215,0,0.25), rgba(255,150,0,0.1));
+    border: 2px solid rgba(255,215,0,0.6);
+    box-shadow:
+      0 0 15px rgba(255,215,0,0.25),
+      0 0 40px rgba(255,215,0,0.1),
+      0 0 80px rgba(255,215,0,0.05),
+      inset 0 0 20px rgba(255,215,0,0.08),
+      inset 0 1px 0 rgba(255,255,255,0.15);
+    animation: nav-pulse 2.5s ease-in-out infinite, nav-float 3s ease-in-out infinite;
+    letter-spacing: 2px;
   }
+
+  .cv-nav-link.active::before {
+    content: '';
+    position: absolute;
+    top: -1px; left: -1px; right: -1px; bottom: -1px;
+    border-radius: 12px;
+    background: linear-gradient(45deg, rgba(255,215,0,0.3), transparent, rgba(255,215,0,0.3));
+    z-index: -1;
+    filter: blur(4px);
+  }
+
+  /* ══ PDF — THE GOLDEN BUTTON ══ */
   .cv-nav-pdf {
-    background: rgba(255,215,0,0.12); border: 1.5px solid rgba(255,215,0,0.3); color: #ffd700;
-    height: 34px; border-radius: 6px; cursor: pointer;
+    background: linear-gradient(180deg, rgba(255,215,0,0.35), rgba(255,150,0,0.15));
+    border: 2px solid rgba(255,215,0,0.7);
+    color: #ffd700;
+    height: 50px;
+    border-radius: 12px;
+    cursor: pointer;
     font-family: 'Press Start 2P', monospace;
-    font-size: 8px; padding: 0 10px; flex-shrink: 0; margin-left: auto;
-    transition: all 0.2s;
+    font-size: 11px;
+    padding: 0 22px;
+    flex-shrink: 0;
+    margin-left: auto;
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    text-shadow: 0 0 10px rgba(255,215,0,0.6), 0 0 30px rgba(255,215,0,0.3);
+    animation: pdf-beacon 3s ease-in-out infinite;
+    position: relative;
+    z-index: 2;
+    overflow: hidden;
+    letter-spacing: 2px;
   }
-  .cv-nav-pdf:hover { background: rgba(255,215,0,0.2); text-shadow: 0 0 8px rgba(255,215,0,0.3); }
-  .cv-nav-pdf:active { background: rgba(255,215,0,0.25); }
-  @media print { #cv-nav { display: none !important; } body { padding-bottom: 0; } }
+
+  .cv-nav-pdf::after {
+    content: '';
+    position: absolute;
+    top: 0; bottom: 0;
+    width: 40px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+    transform: skewX(-15deg);
+    left: -60px;
+    transition: left 0.5s ease;
+  }
+
+  .cv-nav-pdf:hover::after {
+    left: calc(100% + 60px);
+  }
+
+  .cv-nav-pdf:hover {
+    background: linear-gradient(180deg, rgba(255,215,0,0.55), rgba(255,150,0,0.3));
+    text-shadow: 0 0 20px rgba(255,215,0,1), 0 0 50px rgba(255,215,0,0.6), 0 0 100px rgba(255,200,0,0.3);
+    color: #fff;
+    border-color: #ffd700;
+    transform: translateY(-4px) scale(1.1);
+    box-shadow:
+      0 8px 30px rgba(255,215,0,0.35),
+      0 0 60px rgba(255,215,0,0.2),
+      0 0 120px rgba(255,215,0,0.1);
+  }
+
+  .cv-nav-pdf:active {
+    transform: translateY(0) scale(0.95);
+    box-shadow: 0 0 20px rgba(255,215,0,0.4), inset 0 2px 10px rgba(0,0,0,0.3);
+    transition: all 0.05s ease;
+  }
+
+  @media print { #cv-nav { display: none !important; } body { padding-top: 0; } }
   @media (max-width: 480px) {
-    #cv-nav { height: 48px; padding: 0 4px; padding-bottom: env(safe-area-inset-bottom, 0px); }
-    .cv-nav-link { font-size: 7px; padding: 6px 6px; min-height: 36px; }
-    .cv-nav-pdf { font-size: 7px; padding: 0 8px; height: 30px; }
-    body { padding-bottom: 52px; }
+    #cv-nav { height: 64px; padding: 0 8px; gap: 6px; }
+    .cv-nav-link { font-size: 7px; padding: 10px 10px; min-height: 42px; letter-spacing: 0.5px; }
+    .cv-nav-pdf { font-size: 7px; padding: 0 12px; height: 40px; letter-spacing: 1px; }
+    body { padding-top: 68px; }
   }
 </style>
 </body>

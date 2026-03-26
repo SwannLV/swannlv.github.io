@@ -9,13 +9,13 @@
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
+  html { scroll-behavior: smooth; overflow-x: clip; }
 
   body {
     font-family: 'Inter', sans-serif;
     color: #fff;
     background: #0a0a1a;
-    overflow-x: hidden;
+    padding-top: 84px;
   }
 
   /* ── Canvas layers ── */
@@ -44,30 +44,32 @@
 
   /* ── Section / World ── */
   .world {
-    min-height: 220vh;
-    display: flex;
-    align-items: flex-start;
-    justify-content: center;
-    padding: 95vh 24px 50vh;
+    padding: 80vh 24px 150vh;
     position: relative;
   }
 
   .world-card {
     max-width: 640px;
     width: 100%;
+    margin: 0 auto;
     background: rgba(0,0,0,0.75);
     backdrop-filter: blur(12px);
     border-radius: 12px;
     padding: 32px 36px;
     border: 1px solid rgba(255,255,255,0.08);
     opacity: 0;
-    transition: opacity 0.6s ease;
-    position: sticky;
-    top: 20vh;
   }
 
   .world-card.visible {
     opacity: 1;
+  }
+
+  .world-card.card-fixed {
+    position: fixed;
+    top: 20vh;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 5;
   }
 
   /* ── Floating themed elements ── */
@@ -104,13 +106,13 @@
 
   /* ── Header section ── */
   .hero.world {
-    min-height: 100vh;
+    min-height: 70vh;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     text-align: center;
-    padding: 5vh 24px 15vh;
+    padding: 15vh 24px 10vh;
     position: relative;
     z-index: 3;
   }
@@ -164,12 +166,14 @@
   .scroll-hint {
     margin-top: 40px;
     font-family: 'Press Start 2P', monospace;
-    font-size: 8px;
-    color: #444;
-    animation: pulse 2s infinite;
+    font-size: 10px;
+    color: #ffd700;
+    text-shadow: 0 0 8px rgba(255,215,0,0.6), 0 0 20px rgba(255,215,0,0.3);
+    animation: scroll-pulse 2s infinite;
+    letter-spacing: 2px;
   }
 
-  @keyframes pulse { 0%,100%{opacity:0.3} 50%{opacity:1} }
+  @keyframes scroll-pulse { 0%,100%{opacity:0.5; transform:translateY(0)} 50%{opacity:1; transform:translateY(5px)} }
 
   /* ── World header ── */
   .world-label {
@@ -316,6 +320,7 @@
     padding: 5vh 24px 15vh;
     position: relative;
     z-index: 3;
+    display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
@@ -336,52 +341,254 @@
     line-height: 2.5;
   }
 
-  /* ── Nav ── */
+  /* ══ KEYFRAMES FESTIVAL ══ */
+  @keyframes nav-border-flow {
+    0% { border-image-source: linear-gradient(90deg, #ff00ff, #ffd700, #00ffff, #ff00ff); }
+    33% { border-image-source: linear-gradient(90deg, #ffd700, #00ffff, #ff00ff, #ffd700); }
+    66% { border-image-source: linear-gradient(90deg, #00ffff, #ff00ff, #ffd700, #00ffff); }
+    100% { border-image-source: linear-gradient(90deg, #ff00ff, #ffd700, #00ffff, #ff00ff); }
+  }
+  @keyframes nav-bg-shift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+  @keyframes nav-pulse {
+    0%, 100% {
+      text-shadow: 0 0 10px rgba(255,215,0,0.6), 0 0 30px rgba(255,215,0,0.3), 0 0 60px rgba(255,215,0,0.1);
+    }
+    50% {
+      text-shadow: 0 0 20px rgba(255,215,0,1), 0 0 50px rgba(255,215,0,0.6), 0 0 100px rgba(255,215,0,0.3), 0 0 150px rgba(255,215,0,0.1);
+    }
+  }
+  @keyframes nav-shine {
+    0% { left: -100%; }
+    100% { left: 200%; }
+  }
+  @keyframes nav-float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-3px); }
+  }
+  @keyframes pdf-beacon {
+    0%, 100% {
+      box-shadow: 0 0 8px rgba(255,215,0,0.3), 0 0 20px rgba(255,215,0,0.15);
+    }
+    25% {
+      box-shadow: 0 0 15px rgba(255,215,0,0.6), 0 0 40px rgba(255,215,0,0.3), 0 0 80px rgba(255,215,0,0.1);
+    }
+    50% {
+      box-shadow: 0 0 20px rgba(255,100,0,0.6), 0 0 50px rgba(255,150,0,0.3), 0 0 100px rgba(255,200,0,0.15);
+    }
+    75% {
+      box-shadow: 0 0 15px rgba(255,215,0,0.6), 0 0 40px rgba(255,215,0,0.3), 0 0 80px rgba(255,215,0,0.1);
+    }
+  }
+  @keyframes scanline {
+    0% { transform: translateY(-100%); }
+    100% { transform: translateY(100%); }
+  }
+  @keyframes link-idle {
+    0%, 100% { border-color: rgba(255,255,255,0.08); }
+    50% { border-color: rgba(255,215,0,0.15); }
+  }
+
+  /* ══ NAV CONTAINER ══ */
   #cv-nav {
-    position: fixed; bottom: 0; left: 0; right: 0; height: 52px;
-    background: linear-gradient(180deg, rgba(10,10,30,0.95), rgba(5,5,20,0.98));
-    backdrop-filter: blur(16px);
-    display: flex; align-items: center; justify-content: center; gap: 2px;
+    position: fixed; top: 0; left: 0; right: 0; height: 80px;
+    background: linear-gradient(135deg, rgba(8,8,30,0.98), rgba(15,5,25,0.98), rgba(8,8,30,0.98));
+    background-size: 200% 200%;
+    animation: nav-bg-shift 8s ease-in-out infinite;
+    backdrop-filter: blur(24px) saturate(1.5);
+    display: flex; align-items: center; justify-content: center; gap: 10px;
     z-index: 9999;
-    border-top: 2px solid rgba(255,215,0,0.15);
-    box-shadow: 0 -4px 20px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,215,0,0.08);
+    border-bottom: 3px solid;
+    border-image: linear-gradient(90deg, #ff00ff, #ffd700, #00ffff, #ff00ff) 1;
+    animation: nav-bg-shift 8s ease-in-out infinite, nav-border-flow 3s linear infinite;
     font-family: 'Press Start 2P', monospace;
-    padding: 0 8px; padding-bottom: env(safe-area-inset-bottom, 0px);
+    padding: 0 20px;
     max-width: 100vw; overflow: hidden;
   }
+
+  /* Scanline overlay */
+  #cv-nav::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(255,255,255,0.015) 2px,
+      rgba(255,255,255,0.015) 4px
+    );
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  /* Shine sweep */
+  #cv-nav::after {
+    content: '';
+    position: absolute;
+    top: 0; bottom: 0;
+    width: 60%;
+    background: linear-gradient(90deg, transparent, rgba(255,215,0,0.06), rgba(255,255,255,0.08), rgba(255,215,0,0.06), transparent);
+    animation: nav-shine 4s ease-in-out infinite;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  /* ══ NAV LINKS ══ */
   .cv-nav-link {
-    color: rgba(255,255,255,0.35); font-size: 8px; text-decoration: none;
-    padding: 8px 8px; border-radius: 6px; transition: all 0.2s;
-    white-space: nowrap; min-height: 40px; display: flex; align-items: center;
+    color: rgba(255,255,255,0.55);
+    font-size: 11px;
+    text-decoration: none;
+    padding: 14px 18px;
+    border-radius: 12px;
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    white-space: nowrap;
+    min-height: 50px;
+    display: flex;
+    align-items: center;
     text-transform: uppercase;
+    cursor: pointer;
+    border: 1.5px solid rgba(255,255,255,0.06);
+    background: rgba(255,255,255,0.02);
+    position: relative;
+    z-index: 2;
+    overflow: hidden;
+    animation: link-idle 4s ease-in-out infinite;
+    letter-spacing: 1px;
   }
-  .cv-nav-link:hover { color: #ffd700; background: rgba(255,215,0,0.08); text-shadow: 0 0 8px rgba(255,215,0,0.3); }
-  .cv-nav-link:active { background: rgba(255,215,0,0.15); }
+
+  /* Shine sweep on each link */
+  .cv-nav-link::after {
+    content: '';
+    position: absolute;
+    top: 0; bottom: 0;
+    width: 30px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+    transform: skewX(-15deg);
+    left: -50px;
+    transition: left 0.6s ease;
+  }
+
+  .cv-nav-link:hover::after {
+    left: calc(100% + 50px);
+  }
+
+  .cv-nav-link:hover {
+    color: #fff;
+    background: linear-gradient(180deg, rgba(255,215,0,0.2), rgba(255,100,200,0.08));
+    text-shadow:
+      0 0 12px rgba(255,215,0,0.9),
+      0 0 30px rgba(255,215,0,0.5),
+      0 0 60px rgba(255,215,0,0.2);
+    border-color: rgba(255,215,0,0.5);
+    transform: translateY(-4px) scale(1.08);
+    box-shadow:
+      0 6px 25px rgba(255,215,0,0.2),
+      0 0 40px rgba(255,215,0,0.1),
+      inset 0 1px 0 rgba(255,255,255,0.1);
+  }
+
+  .cv-nav-link:active {
+    transform: translateY(0) scale(0.98);
+    box-shadow: 0 0 15px rgba(255,215,0,0.3), inset 0 2px 8px rgba(0,0,0,0.3);
+    background: rgba(255,215,0,0.25);
+    transition: all 0.05s ease;
+  }
+
+  /* ══ ACTIVE LINK — THE CHOSEN ONE ══ */
   .cv-nav-link.active {
-    color: #ffd700; background: rgba(255,215,0,0.12);
-    text-shadow: 0 0 10px rgba(255,215,0,0.4);
-    border: 1px solid rgba(255,215,0,0.2);
+    color: #ffd700;
+    background: linear-gradient(180deg, rgba(255,215,0,0.25), rgba(255,150,0,0.1));
+    border: 2px solid rgba(255,215,0,0.6);
+    box-shadow:
+      0 0 15px rgba(255,215,0,0.25),
+      0 0 40px rgba(255,215,0,0.1),
+      0 0 80px rgba(255,215,0,0.05),
+      inset 0 0 20px rgba(255,215,0,0.08),
+      inset 0 1px 0 rgba(255,255,255,0.15);
+    animation: nav-pulse 2.5s ease-in-out infinite, nav-float 3s ease-in-out infinite;
+    letter-spacing: 2px;
   }
+
+  .cv-nav-link.active::before {
+    content: '';
+    position: absolute;
+    top: -1px; left: -1px; right: -1px; bottom: -1px;
+    border-radius: 12px;
+    background: linear-gradient(45deg, rgba(255,215,0,0.3), transparent, rgba(255,215,0,0.3));
+    z-index: -1;
+    filter: blur(4px);
+  }
+
+  /* ══ PDF — THE GOLDEN BUTTON ══ */
   .cv-nav-pdf {
-    background: rgba(255,215,0,0.12); border: 1.5px solid rgba(255,215,0,0.3); color: #ffd700;
-    height: 34px; border-radius: 6px; cursor: pointer;
+    background: linear-gradient(180deg, rgba(255,215,0,0.35), rgba(255,150,0,0.15));
+    border: 2px solid rgba(255,215,0,0.7);
+    color: #ffd700;
+    height: 50px;
+    border-radius: 12px;
+    cursor: pointer;
     font-family: 'Press Start 2P', monospace;
-    font-size: 8px; padding: 0 10px; flex-shrink: 0; margin-left: auto;
-    transition: all 0.2s;
+    font-size: 11px;
+    padding: 0 22px;
+    flex-shrink: 0;
+    margin-left: auto;
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    text-shadow: 0 0 10px rgba(255,215,0,0.6), 0 0 30px rgba(255,215,0,0.3);
+    animation: pdf-beacon 3s ease-in-out infinite;
+    position: relative;
+    z-index: 2;
+    overflow: hidden;
+    letter-spacing: 2px;
   }
-  .cv-nav-pdf:hover { background: rgba(255,215,0,0.2); text-shadow: 0 0 8px rgba(255,215,0,0.3); }
-  .cv-nav-pdf:active { background: rgba(255,215,0,0.25); }
+
+  .cv-nav-pdf::after {
+    content: '';
+    position: absolute;
+    top: 0; bottom: 0;
+    width: 40px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+    transform: skewX(-15deg);
+    left: -60px;
+    transition: left 0.5s ease;
+  }
+
+  .cv-nav-pdf:hover::after {
+    left: calc(100% + 60px);
+  }
+
+  .cv-nav-pdf:hover {
+    background: linear-gradient(180deg, rgba(255,215,0,0.55), rgba(255,150,0,0.3));
+    text-shadow: 0 0 20px rgba(255,215,0,1), 0 0 50px rgba(255,215,0,0.6), 0 0 100px rgba(255,200,0,0.3);
+    color: #fff;
+    border-color: #ffd700;
+    transform: translateY(-4px) scale(1.1);
+    box-shadow:
+      0 8px 30px rgba(255,215,0,0.35),
+      0 0 60px rgba(255,215,0,0.2),
+      0 0 120px rgba(255,215,0,0.1);
+  }
+
+  .cv-nav-pdf:active {
+    transform: translateY(0) scale(0.95);
+    box-shadow: 0 0 20px rgba(255,215,0,0.4), inset 0 2px 10px rgba(0,0,0,0.3);
+    transition: all 0.05s ease;
+  }
 
   /* ── Responsive ── */
   @media (max-width: 700px) {
-    .hero.world { padding: 2vh 16px 35vh; min-height: 100vh; }
+    .hero.world { padding: 28vh 16px 5vh; min-height: 60vh; }
     .hero-name { font-size: 16px; }
     .hero-title { font-size: 13px; }
     .hero-photo { width: 80px; height: 80px; }
     .hero-summary { font-size: 13px; line-height: 1.7; }
     .hero-contact { font-size: 12px; }
-    .world { padding: 75vh 12px 18vh; min-height: 130vh; }
-    .world-card { padding: 20px 16px; max-width: 100%; top: 15vh; }
+    .world { padding: 75vh 12px 120vh; min-height: 280vh; }
+    .world-card { padding: 20px 16px; max-width: 100%; }
+    .world-card.card-fixed { top: 15vh; width: calc(100% - 24px); max-width: 100%; }
     .world-company { font-size: 17px; }
     .world-label { font-size: 7px; }
     .world-role { font-size: 13px; }
@@ -409,13 +616,15 @@
   }
 
   @media (max-width: 480px) {
-    #cv-nav { height: 48px; padding: 0 4px; padding-bottom: env(safe-area-inset-bottom, 0px); }
-    .cv-nav-link { font-size: 7px; padding: 6px 6px; min-height: 36px; }
-    .cv-nav-pdf { font-size: 7px; padding: 0 8px; height: 30px; }
+    #cv-nav { height: 64px; padding: 0 8px; gap: 6px; }
+    .cv-nav-link { font-size: 7px; padding: 10px 10px; min-height: 42px; letter-spacing: 0.5px; }
+    .cv-nav-pdf { font-size: 7px; padding: 0 12px; height: 40px; letter-spacing: 1px; }
+    body { padding-top: 68px; }
   }
 
   @media print {
     #cv-nav, #game-canvas, .scroll-hint { display: none !important; }
+    body { padding-top: 0; }
     .hero { min-height: auto; padding: 20px 0; }
     .world { min-height: auto; padding: 20px 0; break-inside: avoid; }
     .world-card { background: none; backdrop-filter: none; border: none; padding: 0; break-inside: avoid; }
@@ -438,15 +647,13 @@
 
   <!-- ══ HERO ══ -->
   <div class="hero world" data-sky1="#0a0a1a" data-sky2="#1a1a3e" data-accent="#ffd700" data-ground="#1a1a2e">
-    <div class="hero-photo"><img src="1769980301719.jpeg" alt="Swann Le Vigouroux"></div>
     <div class="hero-name">SWANN LE VIGOUROUX</div>
     <div class="hero-title">Agentic Engineer · Ex-CTO</div>
     <div class="hero-contact">
       Aix-en-Provence / Remote<br>
       <a href="mailto:swann.lvgx@gmail.com">swann.lvgx@gmail.com</a> ·
-      <a href="https://linkedin.com/in/swannlv">linkedin.com/in/swannlv</a> ·
-      <a href="https://swannlv.github.io">swannlv.github.io</a><br>
-      French (Native) | English (Professional — 3y Toronto)
+      <a href="https://linkedin.com/in/swannlv">linkedin.com/in/swannlv</a><br>
+      🇫🇷 French (Native) | 🇬🇧 English (Professional — 3y Toronto)
     </div>
     <div class="scroll-hint">▼ SCROLL TO EXPLORE ▼</div>
   </div>
@@ -584,7 +791,7 @@
       <div class="world-dates">Jan 2026 → Present · <span class="dur" style="color:#00a651">ongoing</span></div>
       <div class="world-sub">via ExFabrica — Field Service Management App · Remote</div>
       <ul class="world-bullets">
-        <li><strong>AI-Orchestrated Development:</strong> Delivering a complete field service app (Flutter mobile + Vue.js backoffice + architecture) by orchestrating 9 specialized AI agents — scope equivalent to a 4-5 person team, working 4 days/week.</li>
+        <li><strong>AI-Orchestrated Development:</strong> Delivering a complete field service app (Flutter mobile + Vue.js web + architecture) by orchestrating 9 specialized AI agents — scope equivalent to a 4-5 person team, working 4 days/week.</li>
         <li><strong>Offline-First Architecture:</strong> Designed robust sync system ensuring field technicians never lose data — the core technical challenge of the project.</li>
         <li><strong>Human-AI Collaboration:</strong> Coordinating with backend dev and PO, multi-agent review pipeline — every commit signed and validated by a senior human.</li>
       </ul>
@@ -600,22 +807,14 @@
 
   <!-- ══ END ══ -->
   <div class="world end-screen" data-sky1="#0a0a0a" data-sky2="#0a1a0a" data-accent="#00a651" data-ground="#0a1a0a">
-    <div>
-      <div class="end-title">QUEST COMPLETE</div>
-      <div class="end-stats">
-        17 YEARS · 6 COMPANIES · 2 COUNTRIES<br><br>
-        <span style="color:#ffd700">swann.lvgx@gmail.com</span><br>
-        <span style="color:#58a6ff">linkedin.com/in/swannlv</span>
-      </div>
-    </div>
   </div>
 
 </div>
 
 <!-- ── Navigation ── -->
 <nav id="cv-nav">
-  <a href="index.html" class="cv-nav-link">Classic</a>
-  <a href="cv-swann-team.html" class="cv-nav-link">Team</a>
+  <a href="index.html" class="cv-nav-link">Pro</a>
+  <a href="cv-swann-team.html" class="cv-nav-link">Agents</a>
   <a href="cv-swann-terminal.html" class="cv-nav-link">Terminal</a>
   <a href="cv-swann-win98.html" class="cv-nav-link">Win98</a>
   <a href="cv-swann-game.html" class="cv-nav-link active">Game</a>
@@ -649,38 +848,18 @@ addEventListener('resize',resize);resize();
 
 // Detect which world is in view — sky colors
 const worlds=document.querySelectorAll('.world');
-const worldNames=['hero','skills','anyware','union','lvgx','cmacgm','comet','proxiserve','edu','recos','end'];
-// Find which world should be active — trigger when card enters viewport
-function updateWorld(){
-  let best=-1,bestDist=Infinity;
-  worlds.forEach((w,i)=>{
-    const card=w.querySelector('.world-card');
-    if(card){
-      const r=card.getBoundingClientRect();
-      // Trigger when card top enters the bottom 30% of viewport
-      if(r.top < innerHeight*0.85){
-        const dist=Math.abs(r.top+r.height/2-innerHeight/2);
-        if(dist<bestDist){bestDist=dist;best=i;}
-      }
-    } else {
-      // Hero and end-screen have no card, use section center
-      const r=w.getBoundingClientRect();
-      const center=r.top+r.height/2;
-      const dist=Math.abs(center-innerHeight/2);
-      if(dist<bestDist){bestDist=dist;best=i;}
-    }
-  });
-  if(best>=0&&best!==currentWorldIdx){
-    currentWorldIdx=best;
-    const w=worlds[best];
+const worldNames=['hero','anyware','union','lvgx','cmacgm','comet','proxiserve','end'];
+// updateWorld is now called from updateCardPositions with the resolved world index
+function setWorld(idx){
+  if(idx>=0 && idx<worlds.length && idx!==currentWorldIdx){
+    currentWorldIdx=idx;
+    const w=worlds[idx];
     targetSky1=w.dataset.sky1||'#0a0a1a';
     targetSky2=w.dataset.sky2||'#1a1a3e';
     targetAccent=w.dataset.accent||'#ffd700';
     targetGround=w.dataset.ground||'#1a1a2e';
   }
 }
-addEventListener('scroll',updateWorld,{passive:true});
-updateWorld();
 
 // Fade-in cards on scroll
 const cards=document.querySelectorAll('.world-card');
@@ -690,6 +869,61 @@ const cardObserver=new IntersectionObserver(entries=>{
   });
 },{threshold:0.15});
 cards.forEach(c=>cardObserver.observe(c));
+
+// Manual sticky: fix cards to viewport while their parent .world is in range
+// Only one card visible at a time — no trembling
+let lastActiveIdx=-1;
+function updateCardPositions(){
+  const fixTop=innerHeight*0.2;
+  let activeIdx=-1;
+  for(let i=0;i<cards.length;i++){
+    const wr=cards[i].parentElement.getBoundingClientRect();
+    const cardH=cards[i].offsetHeight;
+    if(wr.top<=fixTop && wr.bottom>fixTop+cardH){
+      activeIdx=i;
+    }
+  }
+  // Between sections: always keep previous card visible (no gap)
+  // Only hide if scrolled back above the very first section (hero area)
+  if(activeIdx===-1 && lastActiveIdx>=0){
+    const firstWorldTop=cards[0].parentElement.getBoundingClientRect().top;
+    if(firstWorldTop<=fixTop){
+      activeIdx=lastActiveIdx; // keep showing previous card
+    }
+  }
+  if(activeIdx>=0) lastActiveIdx=activeIdx;
+  for(let i=0;i<cards.length;i++){
+    if(i===activeIdx){
+      cards[i].classList.add('card-fixed');
+      cards[i].style.opacity='1';
+    } else {
+      cards[i].classList.remove('card-fixed');
+      cards[i].style.opacity='0';
+    }
+  }
+  // Sync world index
+  if(activeIdx>=0){
+    setWorld(activeIdx+1); // +1 because hero is world[0]
+  } else {
+    // No active card = we're in the hero or end area
+    const firstWorldTop=cards[0].parentElement.getBoundingClientRect().top;
+    if(firstWorldTop>fixTop) setWorld(0); // scrolled back to hero
+  }
+}
+window.addEventListener('scroll',updateCardPositions,{passive:true});
+updateCardPositions();
+
+// Timeline dot positions — computed once
+const dotPositions=[];
+(function computeDots(){
+  const maxS=document.documentElement.scrollHeight-innerHeight;
+  if(maxS<=0) return;
+  const fixTop=innerHeight*0.2;
+  document.querySelectorAll('.world:not(.hero):not(.end-screen)').forEach(w=>{
+    const wTop=w.offsetTop-fixTop;
+    dotPositions.push(Math.max(0,Math.min(1,wTop/maxS)));
+  });
+})();
 
 // Scroll progress
 function getScroll(){
@@ -736,62 +970,124 @@ function draw(){
   const wi=currentWorldIdx;
 
   if(wi===1){ // ANYWARE VIDEO — broadcast studio, Marseille
-    // Big studio building silhouettes
-    X.globalAlpha=0.3;
-    X.fillStyle='#2a2a40';
-    X.fillRect(W*0.03,gy-DH*0.55,W*0.27,DH*0.55);
-    X.fillStyle='#222238';
-    X.fillRect(W*0.7,gy-DH*0.45,W*0.27,DH*0.45);
-    // Windows on buildings
-    X.fillStyle='#ffd700';X.globalAlpha=0.12;
-    for(let row=0;row<5;row++)for(let col=0;col<3;col++){
-      X.fillRect(W*0.06+col*W*0.07,gy-DH*0.50+row*DH*0.08,W*0.04,DH*0.04);
+    // Marseille city skyline silhouette (far background)
+    X.globalAlpha=0.12;X.fillStyle='#4a4a6a';
+    for(let i=0;i<12;i++){
+      const bx=i*W/12, bw=W/12-sc*2, bh=DH*(0.15+Math.sin(i*1.7)*0.08);
+      X.fillRect(bx,gy-bh,bw,bh);
     }
-    for(let row=0;row<4;row++)for(let col=0;col<3;col++){
-      X.fillRect(W*0.73+col*W*0.07,gy-DH*0.40+row*DH*0.08,W*0.04,DH*0.04);
-    }
-    X.globalAlpha=1;
-    // "STUDIO" sign
-    X.fillStyle='#e60012';X.font=(sc*8)+'px "Press Start 2P"';X.globalAlpha=0.3;
-    X.fillText('STUDIO A',W*0.07,gy-DH*0.42);X.globalAlpha=1;
 
-    // Giant TV screen center
-    const tvx=W*0.35,tvy=gy-DH*0.8,tvw=W*0.3,tvh=DH*0.25;
-    X.fillStyle='#111';X.fillRect(tvx-sc*5,tvy-sc*5,tvw+sc*10,tvh+sc*10);
-    // Screen content - color bars
-    const bars=['#fff','#ff0','#0ff','#0f0','#f0f','#f00','#00f'];
-    bars.forEach((c,i)=>{X.fillStyle=c;X.globalAlpha=0.3;X.fillRect(tvx+i*(tvw/7),tvy,tvw/7,tvh);});
+    // Studio building left — main
+    X.globalAlpha=0.35;X.fillStyle='#1a1a30';
+    X.fillRect(W*0.02,gy-DH*0.45,W*0.2,DH*0.45);
+    // Studio roof detail
+    X.fillRect(W*0.05,gy-DH*0.48,W*0.14,DH*0.03);
+
+    // Studio building right
+    X.fillStyle='#1a1a2a';
+    X.fillRect(W*0.78,gy-DH*0.38,W*0.2,DH*0.38);
+    X.fillRect(W*0.81,gy-DH*0.41,W*0.14,DH*0.03);
     X.globalAlpha=1;
-    // "ON AIR" blinking
-    if(frame%60<35){
-      X.fillStyle='#e60012';X.font=(sc*10)+'px "Press Start 2P"';
-      X.fillText('ON AIR',tvx+tvw*0.25,tvy+tvh*0.6);
+
+    // Lit windows — warm glow effect
+    for(let row=0;row<4;row++)for(let col=0;col<2;col++){
+      const wx=W*0.05+col*W*0.08, wy=gy-DH*0.42+row*DH*0.09;
+      const lit=Math.sin(frame*0.02+row*2+col*3)>-0.3;
+      X.fillStyle=lit?'#ffd700':'#333';
+      X.globalAlpha=lit?0.25:0.08;
+      X.fillRect(wx,wy,W*0.05,DH*0.05);
+      if(lit){X.fillStyle='#ffd700';X.globalAlpha=0.06;X.fillRect(wx-sc*4,wy-sc*4,W*0.05+sc*8,DH*0.05+sc*8);}
     }
-    // Channel logos above ground
-    X.fillStyle='#aaa';X.font=(sc*7)+'px "Press Start 2P"';X.globalAlpha=0.5;
+    for(let row=0;row<3;row++)for(let col=0;col<2;col++){
+      const wx=W*0.81+col*W*0.08, wy=gy-DH*0.35+row*DH*0.09;
+      const lit=Math.sin(frame*0.02+row*5+col*7)>-0.2;
+      X.fillStyle=lit?'#ffd700':'#333';
+      X.globalAlpha=lit?0.2:0.08;
+      X.fillRect(wx,wy,W*0.05,DH*0.05);
+    }
+    X.globalAlpha=1;
+
+    // "STUDIO A" neon sign
+    const neonFlicker=Math.sin(frame*0.1)>-0.8;
+    X.fillStyle='#e60012';X.font=(sc*7)+'px "Press Start 2P"';
+    X.globalAlpha=neonFlicker?0.6:0.15;
+    X.fillText('STUDIO A',W*0.04,gy-DH*0.25);
+    if(neonFlicker){X.globalAlpha=0.1;X.fillStyle='#ff4444';X.fillText('STUDIO A',W*0.04,gy-DH*0.25);}
+    X.globalAlpha=1;
+
+    // Broadcast TV — bigger on mobile, near ground level
+    const mobileTV=H>W*1.5;
+    const tvw=mobileTV?W*0.35:sc*80, tvh=mobileTV?W*0.22:sc*50;
+    const tvx=W*0.5-tvw/2,tvy=mobileTV ? gy-DH*0.55 : gy-DH*0.25;
+    // Screen frame with glow
+    X.fillStyle='#0a0a0a';X.fillRect(tvx-sc*6,tvy-sc*6,tvw+sc*12,tvh+sc*12);
+    X.strokeStyle='#333';X.lineWidth=sc*2;X.strokeRect(tvx-sc*6,tvy-sc*6,tvw+sc*12,tvh+sc*12);
+    // Animated content — switching between color bars and static
+    const tvMode=Math.floor(frame/120)%3;
+    if(tvMode===0){
+      // Color bars
+      const bars=['#fff','#ff0','#0ff','#0f0','#f0f','#f00','#00f'];
+      bars.forEach((c,i)=>{X.fillStyle=c;X.globalAlpha=0.5;X.fillRect(tvx+i*(tvw/7),tvy,tvw/7,tvh);});
+    } else if(tvMode===1){
+      // Static noise
+      X.globalAlpha=0.3;
+      for(let ny=0;ny<10;ny++)for(let nx=0;nx<14;nx++){
+        const bright=Math.random()>0.5?'#fff':'#000';
+        X.fillStyle=bright;X.fillRect(tvx+nx*(tvw/14),tvy+ny*(tvh/10),tvw/14,tvh/10);
+      }
+    } else {
+      // Blue screen with countdown
+      X.fillStyle='#000080';X.globalAlpha=0.5;X.fillRect(tvx,tvy,tvw,tvh);
+      X.fillStyle='#fff';X.globalAlpha=0.6;X.font=(sc*16)+'px "Press Start 2P"';
+      X.textAlign='center';X.fillText(String(5-Math.floor(frame/30)%5),tvx+tvw/2,tvy+tvh*0.65);X.textAlign='left';
+    }
+    X.globalAlpha=1;
+    // "ON AIR" blinking red badge
+    if(frame%80<50){
+      X.fillStyle='#e60012';X.globalAlpha=0.9;
+      const oaw=sc*60,oah=sc*14;
+      X.fillRect(tvx+tvw-oaw-sc*4,tvy+sc*4,oaw,oah);
+      X.fillStyle='#fff';X.font=(sc*6)+'px "Press Start 2P"';
+      X.fillText('ON AIR',tvx+tvw-oaw,tvy+sc*14);
+      // Red dot
+      X.fillStyle='#ff0000';X.beginPath();X.arc(tvx+tvw-oaw-sc*8+sc*2,tvy+sc*11,sc*3,0,Math.PI*2);X.fill();
+    }
+    X.globalAlpha=1;
+
+    // Satellite dishes — two at different sizes
+    const d1x=W*0.88,d1y=gy-DH*0.42;
+    X.fillStyle='#2a2a3a';X.fillRect(d1x-sc*1.5,d1y,sc*3,gy-d1y); // pole
+    X.strokeStyle='#4a4a5a';X.lineWidth=sc*2.5;
+    X.beginPath();X.arc(d1x,d1y,sc*18,Math.PI*0.85,Math.PI*1.75);X.stroke();
+    X.fillStyle=frame%40<20?'#e60012':'#400';
+    X.beginPath();X.arc(d1x,d1y-sc*1,sc*3,0,Math.PI*2);X.fill();
+
+    const d2x=W*0.75,d2y=gy-DH*0.3;
+    X.fillStyle='#2a2a3a';X.fillRect(d2x-sc,d2y,sc*2,gy-d2y);
+    X.strokeStyle='#4a4a5a';X.lineWidth=sc*2;
+    X.beginPath();X.arc(d2x,d2y,sc*12,Math.PI*0.85,Math.PI*1.75);X.stroke();
+
+    // Channel logos — neon style at ground level
+    X.font=(sc*6)+'px "Press Start 2P"';
     ['TF1','AB PROD','LCP','GAMEONE'].forEach((ch,i)=>{
-      X.fillText(ch,W*0.1+i*W*0.22,gy-DH*0.12);
+      const cx2=W*0.08+i*W*0.23, cy2=gy-DH*0.06;
+      const glow=Math.sin(frame*0.03+i*1.5)>0;
+      X.fillStyle='#e60012';X.globalAlpha=glow?0.6:0.2;
+      X.fillText(ch,cx2,cy2);
+      if(glow){X.globalAlpha=0.08;X.font=(sc*7)+'px "Press Start 2P"';X.fillText(ch,cx2-sc,cy2);X.font=(sc*6)+'px "Press Start 2P"';}
     });
     X.globalAlpha=1;
 
-    // Satellite dish
-    const dx=W*0.85,dy=gy-DH*0.7;
-    X.strokeStyle='#555';X.lineWidth=sc*3;
-    X.beginPath();X.arc(dx,dy,sc*25,Math.PI*0.8,Math.PI*1.8);X.stroke();
-    X.fillStyle='#444';X.fillRect(dx-sc*2,dy,sc*4,gy-dy);
-    // Blinking red light on top
-    X.fillStyle=frame%30<15?'#e60012':'#400';
-    X.beginPath();X.arc(dx,dy-sc*2,sc*4,0,Math.PI*2);X.fill();
-
-    // Camera on tripod
-    const cx=W*0.15,cy=gy-sc*30;
-    X.fillStyle='#333';X.fillRect(cx-sc*8,cy,sc*16,sc*12);
-    X.fillStyle='#222';X.fillRect(cx+sc*8,cy+sc*2,sc*10,sc*8); // lens
-    X.fillStyle='#e60012';X.beginPath();X.arc(cx-sc*4,cy+sc*3,sc*2,0,Math.PI*2);X.fill(); // rec
-    // Tripod
-    X.strokeStyle='#444';X.lineWidth=sc*2;
-    X.beginPath();X.moveTo(cx,cy+sc*12);X.lineTo(cx-sc*15,gy);X.stroke();
-    X.beginPath();X.moveTo(cx,cy+sc*12);X.lineTo(cx+sc*15,gy);X.stroke();
+    // Floating video signal particles
+    X.fillStyle='#e60012';
+    for(let p=0;p<8;p++){
+      const px2=W*(0.1+Math.sin(frame*0.01+p*2)*0.4+0.4);
+      const py=gy-DH*(0.1+Math.abs(Math.sin(frame*0.008+p*1.3))*0.5);
+      X.globalAlpha=0.15+Math.sin(frame*0.05+p)*0.1;
+      X.fillRect(px2,py,sc*3,sc*2);
+      X.fillRect(px2+sc*5,py-sc*1,sc*2,sc*2);
+    }
+    X.globalAlpha=1;
   }
 
   if(wi===2||wi===3){ // TORONTO — CN Tower, buildings, maple
@@ -903,7 +1199,7 @@ function draw(){
     X.globalAlpha=1;
 
     // Big Canadian flag
-    const fx=W*0.5,fpy=gy-DH*0.85;
+    const fx=W*0.5,fpy=gy-DH*0.22;
     // Pole
     X.fillStyle='#999';X.fillRect(fx-sc*2,fpy,sc*4,gy-fpy);
     X.fillStyle='#ffd700';X.beginPath();X.arc(fx,fpy-sc*3,sc*5,0,Math.PI*2);X.fill();
@@ -955,6 +1251,79 @@ function draw(){
       X.beginPath();X.moveTo(bx-sc*10,by+wing);X.lineTo(bx,by);X.lineTo(bx+sc*10,by+wing);X.stroke();
     }
     X.globalAlpha=1;
+    // Tour CMA CGM — Marseille iconic tower (prow-shaped)
+    // Tour CMA CGM + grues — desktop only (too thin on mobile)
+    if(W>H){ (function(){
+      X.save();
+      const tx=W*0.85, botY=gy, topY=gy-DH*0.5;
+      const th=botY-topY;
+      const baseW=sc*50, topW=sc*30;
+      // Left side: straight. Right side: curved outward (prow of a ship)
+      X.globalAlpha=0.3;
+      X.fillStyle='#1a3a5e';
+      X.beginPath();
+      X.moveTo(tx-topW/2, topY);                    // top-left
+      X.lineTo(tx-baseW/2, botY);                   // bottom-left (straight, slightly wider)
+      X.lineTo(tx+baseW/2+sc*8, botY);              // bottom-right (wider, the prow base)
+      // Right edge curves inward to top — the iconic prow shape
+      X.bezierCurveTo(
+        tx+baseW/2+sc*6, botY-th*0.25,
+        tx+topW/2+sc*10, botY-th*0.55,
+        tx+topW/2, topY
+      );
+      X.closePath();X.fill();
+      // Glass facade overlay
+      const grad=X.createLinearGradient(tx-baseW/2,topY,tx+baseW/2,topY);
+      grad.addColorStop(0,'rgba(60,120,180,0.08)');
+      grad.addColorStop(0.5,'rgba(100,170,230,0.15)');
+      grad.addColorStop(1,'rgba(60,120,180,0.05)');
+      X.fillStyle=grad;X.fill();
+      // Horizontal floor lines
+      X.strokeStyle='rgba(120,200,255,0.12)';X.lineWidth=sc*0.8;
+      for(let f=1;f<30;f++){
+        const frac=f/30;
+        const fy=topY+frac*th;
+        // Interpolate width from top to bottom
+        const leftX=tx-topW/2-(baseW/2-topW/2)*frac;
+        // Right side follows the curve roughly
+        const rightX=tx+topW/2+(baseW/2+sc*8-topW/2)*Math.pow(frac,0.6);
+        X.beginPath();X.moveTo(leftX,fy);X.lineTo(rightX,fy);X.stroke();
+      }
+      // Lit windows — warm yellow and cool blue
+      for(let f=1;f<28;f++){
+        const frac=f/30;
+        const fy=topY+frac*th;
+        const leftX=tx-topW/2-(baseW/2-topW/2)*frac;
+        const rightX=tx+topW/2+(baseW/2+sc*8-topW/2)*Math.pow(frac,0.6);
+        const rowW=rightX-leftX;
+        for(let c=0;c<6;c++){
+          if(Math.sin(f*5.3+c*11.7)>0){
+            const wx=leftX+sc*3+c*(rowW-sc*6)/6;
+            X.fillStyle=Math.sin(f*2.1+c*7.3)>0?'rgba(255,210,80,0.25)':'rgba(100,180,255,0.15)';
+            X.globalAlpha=0.3;
+            X.fillRect(wx,fy+sc*0.5,sc*4,th/30-sc*1.5);
+          }
+        }
+      }
+      X.globalAlpha=1;
+      // Antenna mast
+      X.strokeStyle='rgba(180,180,180,0.3)';X.lineWidth=sc*2;
+      X.beginPath();X.moveTo(tx,topY);X.lineTo(tx,topY-sc*18);X.stroke();
+      // Red aviation light on top
+      X.fillStyle='#f00';X.globalAlpha=0.4+0.3*Math.sin(frame*0.1);
+      X.beginPath();X.arc(tx,topY-sc*18,sc*2,0,Math.PI*2);X.fill();
+      X.restore();
+    })();
+    // Port cranes silhouettes behind ships
+    X.save();X.globalAlpha=0.12;X.fillStyle='#556';
+    for(let i=0;i<3;i++){
+      const cx=W*0.55+i*W*0.15, cy=gy;
+      X.fillRect(cx,cy-DH*0.45,sc*4,DH*0.45);
+      X.fillRect(cx-sc*20,cy-DH*0.43,sc*60,sc*3);
+      X.fillRect(cx-sc*30,cy-DH*0.42,sc*12,sc*2);
+    }
+    X.restore();
+    } // end desktop-only tower+cranes
   }
 
   if(wi===5){ // COMET — comets, startup vibes
@@ -973,13 +1342,60 @@ function draw(){
       const px=W*0.05+i*W*0.12,py=gy-DH*0.2-Math.sin(i*2.3)*DH*0.08;
       X.fillStyle=pcols[i%4];X.globalAlpha=0.15;X.fillRect(px,py,sc*30,sc*25);X.globalAlpha=1;
     }
-    // Eiffel Tower silhouette (precise outline)
+    // Paris skyline — Haussmann rooftops
+    (function(){
+      X.save();
+      X.globalAlpha=0.15;
+      X.fillStyle='#334';
+      // Row of Haussmann buildings
+      const bw=sc*40, gap=sc*3;
+      for(let i=0;i<Math.ceil(W/(bw+gap))+1;i++){
+        const bx=i*(bw+gap)-sc*10, bh=DH*0.18+Math.sin(i*1.7)*DH*0.06;
+        const by=gy-bh;
+        // Building body
+        X.fillRect(bx,by,bw,bh);
+        // Mansard roof (trapezoid)
+        X.fillStyle='#445';
+        X.beginPath();
+        X.moveTo(bx-sc*2,by);X.lineTo(bx+sc*4,by-DH*0.05);
+        X.lineTo(bx+bw-sc*4,by-DH*0.05);X.lineTo(bx+bw+sc*2,by);
+        X.closePath();X.fill();
+        // Chimney
+        if(i%2===0){X.fillRect(bx+bw*0.3,by-DH*0.05-sc*8,sc*5,sc*8);}
+        X.fillStyle='#334';
+        // Windows (lit)
+        X.fillStyle='rgba(255,200,100,0.15)';
+        for(let r=0;r<3;r++){for(let c=0;c<4;c++){
+          X.fillRect(bx+sc*4+c*(bw/4.5),by+sc*5+r*DH*0.045,sc*5,sc*6);
+        }}
+        X.fillStyle='#334';
+      }
+      X.restore();
+    })();
+    // Sacré-Cœur silhouette on the left
+    (function(){
+      X.save();
+      X.globalAlpha=0.18;X.fillStyle='#ddd';
+      const sx=W*0.12,sy=gy-DH*0.55;
+      // Main dome
+      X.beginPath();X.arc(sx,sy,sc*18,Math.PI,0);X.fill();
+      // Two smaller domes
+      X.beginPath();X.arc(sx-sc*16,sy+sc*4,sc*10,Math.PI,0);X.fill();
+      X.beginPath();X.arc(sx+sc*16,sy+sc*4,sc*10,Math.PI,0);X.fill();
+      // Base
+      X.fillRect(sx-sc*22,sy,sc*44,DH*0.12);
+      // Bell tower
+      X.fillRect(sx-sc*3,sy-sc*26,sc*6,sc*26);
+      X.beginPath();X.arc(sx,sy-sc*26,sc*5,Math.PI,0);X.fill();
+      X.restore();
+    })();
+    // Eiffel Tower silhouette (precise outline, more visible)
     (function(){
       const tx=W*0.82, topY=gy-DH*0.8, botY=gy;
       const th=botY-topY;
       X.save();
-      X.globalAlpha=0.2;
-      X.strokeStyle='#556';
+      X.globalAlpha=0.35;
+      X.strokeStyle='#667';
       X.lineWidth=sc*2;
       // --- Antenna/spire ---
       X.beginPath();
@@ -1080,6 +1496,26 @@ function draw(){
       }
       X.restore();
     })();
+    // Seine river — wavy blue band near ground
+    X.save();
+    X.globalAlpha=0.12;X.fillStyle='#4488cc';
+    X.beginPath();X.moveTo(0,gy-DH*0.04);
+    for(let rx=0;rx<=W;rx+=sc*10){X.lineTo(rx,gy-DH*0.04+Math.sin(rx*0.01+frame*0.03)*sc*4);}
+    X.lineTo(W,gy);X.lineTo(0,gy);X.closePath();X.fill();
+    // Sparkles on water
+    X.fillStyle='#88bbee';X.globalAlpha=0.2;
+    for(let i=0;i<12;i++){
+      const sx=(i*W*0.09+frame*0.3)%W, sy=gy-DH*0.03+Math.sin(i*3+frame*0.05)*sc*3;
+      X.fillRect(sx,sy,sc*2,sc*1);
+    }
+    X.restore();
+    // Tricolore flag at Eiffel top
+    X.save();X.globalAlpha=0.4;
+    const fgx=W*0.82, fgy=gy-DH*0.82;
+    X.fillStyle='#0055a4';X.fillRect(fgx+sc*2,fgy-sc*8,sc*4,sc*6);
+    X.fillStyle='#fff';X.fillRect(fgx+sc*6,fgy-sc*8,sc*4,sc*6);
+    X.fillStyle='#ef4135';X.fillRect(fgx+sc*10,fgy-sc*8,sc*4,sc*6);
+    X.restore();
   }
 
   if(wi===6||wi===7){ // PROXISERVE + END — matrix, agent nodes
@@ -1101,7 +1537,7 @@ function draw(){
     agents.forEach((a,i)=>{
       const col=i%cols, row=Math.floor(i/cols);
       const ax=W*(0.2+col*(0.6/(cols-1)));
-      const ay=gy-DH*(mobile?0.25:0.15)-row*asc*55-Math.sin(frame*0.03+i*0.8)*asc*8;
+      const ay=gy-DH*(mobile?0.12:0.15)-row*asc*45-Math.sin(frame*0.03+i*0.8)*asc*8;
       X.fillStyle='#00a651';X.globalAlpha=0.15;X.beginPath();X.arc(ax,ay,asc*20,0,Math.PI*2);X.fill();
       X.globalAlpha=1;X.strokeStyle='#00a651';X.lineWidth=asc*1.5;X.beginPath();X.arc(ax,ay,asc*20,0,Math.PI*2);X.stroke();
       X.fillStyle='#00a651';X.font=(asc*7)+'px "Press Start 2P"';X.textAlign='center';X.fillText(a,ax,ay+asc*3);X.textAlign='left';
@@ -1109,7 +1545,7 @@ function draw(){
       if(col>0){
         const pi=i-1;const pcol=pi%cols,prow=Math.floor(pi/cols);
         const pax=W*(0.2+pcol*(0.6/(cols-1)));
-        const pay=gy-DH*(mobile?0.55:0.15)-prow*asc*55-Math.sin(frame*0.03+pi*0.8)*asc*8;
+        const pay=gy-DH*(mobile?0.12:0.15)-prow*asc*45-Math.sin(frame*0.03+pi*0.8)*asc*8;
         X.strokeStyle='#00a651';X.globalAlpha=0.08;X.lineWidth=asc;
         X.beginPath();X.moveTo(ax,ay);X.lineTo(pax,pay);X.stroke();X.globalAlpha=1;
       }
@@ -1128,10 +1564,21 @@ function draw(){
   FX.beginPath();FX.moveTo(0,gy);FX.lineTo(W,gy);FX.stroke();
   FX.globalAlpha=1;
 
+  // Timeline dots — fixed positions, computed once
+  if(dotPositions.length>0){
+    FX.fillStyle='#888';
+    dotPositions.forEach(dp=>{
+      const dx=W*0.08+dp*W*0.84;
+      FX.globalAlpha=0.35;
+      FX.beginPath();FX.arc(dx,gy,sc*4,0,Math.PI*2);FX.fill();
+    });
+    FX.globalAlpha=1;
+  }
+
   // Player - walks based on scroll, bigger
   const progress=getScroll();
   const atEnd=progress>0.95;
-  const ps=Math.max(sc*1.8, W*0.004); // player scale, minimum size on mobile
+  const ps=H>W*1.5 ? Math.max(sc*2.2, W*0.008) : Math.max(sc*1.8, W*0.004); // bigger on mobile
   const px=W*0.08+progress*W*0.84;
   const py=gy;
   const bob=atEnd?0:Math.sin(frame*0.12)*1*ps;
@@ -1192,10 +1639,64 @@ function draw(){
     FX.fillStyle='#2c3e50';
     FX.fillRect(-2*ps,-28*ps,4*ps,19*ps);
 
-    // Arms - walking
+    // Right arm extended forward holding laptop
+    const bob=Math.sin(progress*80)*1;
+    // Left arm swings normally
     const armA=Math.sin(progress*80)*12;
     FX.save();FX.translate(-8*ps,-25*ps);FX.rotate(armA*Math.PI/180);FX.fillStyle='#34495e';FX.fillRect(-2*ps,0,4*ps,11*ps);FX.restore();
-    FX.save();FX.translate(8*ps,-25*ps);FX.rotate(-armA*Math.PI/180);FX.fillStyle='#34495e';FX.fillRect(-2*ps,0,4*ps,11*ps);FX.restore();
+    // Right arm holds laptop out to the right
+    FX.fillStyle='#34495e';
+    FX.fillRect(8*ps,-24*ps,8*ps,3*ps); // arm stretched right
+
+    // Laptop — keyboard near character, screen angled so viewer can see it partially
+    const lx=14*ps, ly=(-22+bob)*ps;
+    // Laptop base / keyboard
+    FX.fillStyle='#555';
+    FX.fillRect(lx,ly,14*ps,1.5*ps);
+    // Screen — angled: hinge at right, top leans left toward character
+    // This creates a trapezoid shape visible to us
+    FX.fillStyle='#222';
+    FX.beginPath();
+    FX.moveTo(lx+11*ps, ly-12*ps);  // top-left
+    FX.lineTo(lx+13*ps, ly-12*ps);  // top-right
+    FX.lineTo(lx+13*ps, ly);         // bottom-right (hinge)
+    FX.lineTo(lx+11*ps, ly);         // bottom-left
+    FX.closePath();FX.fill();
+    // Visible screen face (the angled part we can see)
+    FX.fillStyle='#0a0a1a';
+    FX.beginPath();
+    FX.moveTo(lx+1*ps, ly-11*ps);   // top-left (perspective)
+    FX.lineTo(lx+11*ps, ly-12*ps);  // top-right
+    FX.lineTo(lx+11*ps, ly);         // bottom-right
+    FX.lineTo(lx+1*ps, ly-1*ps);    // bottom-left (perspective)
+    FX.closePath();FX.fill();
+    // Screen border
+    FX.strokeStyle='#444';FX.lineWidth=ps*0.5;
+    FX.beginPath();
+    FX.moveTo(lx+1*ps, ly-11*ps);
+    FX.lineTo(lx+11*ps, ly-12*ps);
+    FX.lineTo(lx+11*ps, ly);
+    FX.lineTo(lx+1*ps, ly-1*ps);
+    FX.closePath();FX.stroke();
+    // Code lines on the visible screen (perspective-adjusted)
+    FX.globalAlpha=0.85;
+    for(let l=0;l<5;l++){
+      const yOff=ly/ps-10+l*2;
+      const xLeft=lx/ps+2;
+      const lw=(1.5+Math.sin(l*2.7+frame*0.06)*2.5);
+      const indent=((l%3)===0)?0:1;
+      FX.fillStyle=(l%2===0)?'#00ff88':'#66ccff';
+      FX.fillRect((xLeft+indent)*ps,(yOff+bob)*ps,lw*ps,0.8*ps);
+    }
+    // Cursor blink
+    if(frame%40<25){
+      FX.fillStyle='#fff';
+      FX.fillRect((lx/ps+5)*ps,(ly/ps-2+bob)*ps,0.8*ps,1.2*ps);
+    }
+    // Green glow on character from screen
+    FX.fillStyle='#00ff88';FX.globalAlpha=0.05;
+    FX.fillRect(-12*ps,-30*ps,26*ps,20*ps);
+    FX.globalAlpha=1;
   }
 
   // Head photo (both poses)
@@ -1210,8 +1711,56 @@ function draw(){
 
   FX.restore();
 
-  // Year counter under player
-  const year=Math.min(2026, Math.round(2009+progress*20)); // 2009 → 2026 (reached at ~85%)
+  // Year counter — synced to .world section scroll positions (not cards, since cards are fixed)
+  const worldYears=[2009,2012,2015,2016,2018,2026]; // anyware, union, lvgx, cmacgm, comet, proxiserve
+  const worldSections=document.querySelectorAll('.world:not(.hero):not(.end-screen)');
+  const vcenter=innerHeight/2;
+  // Build array from parent .world positions (these scroll normally)
+  const sectionPositions=[];
+  worldSections.forEach((w,i)=>{
+    if(i<worldYears.length){
+      const r=w.getBoundingClientRect();
+      // Start of section = when card appears (after padding-top)
+      sectionPositions.push({top:r.top, bottom:r.bottom, year:worldYears[i]});
+    }
+  });
+  // For Comet (index 4): long period, interpolate 2018→2025 within section, then 2025→2026 to Proxiserve
+  let year=2009;
+  if(sectionPositions.length>0){
+    // Find which section the viewport center is in
+    let found=false;
+    for(let i=0;i<sectionPositions.length;i++){
+      const s=sectionPositions[i];
+      if(vcenter>=s.top && vcenter<=s.bottom){
+        const t=(vcenter-s.top)/(s.bottom-s.top);
+        const startY=s.year;
+        const endY=(i===4)?2025:(i<sectionPositions.length-1)?sectionPositions[i+1].year:s.year;
+        year=Math.round(startY+(endY-startY)*t);
+        found=true;
+        break;
+      }
+    }
+    if(!found){
+      // Before first section
+      if(sectionPositions.length>0 && vcenter<sectionPositions[0].top){
+        year=sectionPositions[0].year;
+      }
+      // After last section
+      else if(sectionPositions.length>0 && vcenter>sectionPositions[sectionPositions.length-1].bottom){
+        year=sectionPositions[sectionPositions.length-1].year;
+      }
+      // Between sections — interpolate
+      else {
+        for(let i=0;i<sectionPositions.length-1;i++){
+          if(vcenter>sectionPositions[i].bottom && vcenter<sectionPositions[i+1].top){
+            const endYearPrev=(i===4)?2025:sectionPositions[i+1].year;
+            year=endYearPrev;
+            break;
+          }
+        }
+      }
+    }
+  }
   const flag=(year>=2012&&year<2016)?'\u{1F1E8}\u{1F1E6}':'\u{1F1EB}\u{1F1F7}'; // CA or FR
   const mobileYear=H>W*1.5;
   const yfSize=mobileYear?Math.max(sc*24, 28):Math.max(sc*12, 16);
