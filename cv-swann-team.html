@@ -15,7 +15,7 @@
     background: #1a1a2e;
     color: #ccc;
     min-height: 100vh;
-    padding-bottom: 64px;
+    padding-bottom: 60px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -270,32 +270,44 @@
 
   /* ── Nav ── */
   #cv-nav {
-    position: fixed; bottom: 0; left: 0; right: 0; height: 48px;
-    background: rgba(10,10,26,0.97); backdrop-filter: blur(12px);
-    display: flex; align-items: center; justify-content: center; gap: 0;
-    z-index: 9999; border-top: 1px solid rgba(255,255,255,0.08);
-    font-family: -apple-system, sans-serif;
+    position: fixed; bottom: 0; left: 0; right: 0; height: 52px;
+    background: linear-gradient(180deg, rgba(10,10,30,0.95), rgba(5,5,20,0.98));
+    backdrop-filter: blur(16px);
+    display: flex; align-items: center; justify-content: center; gap: 2px;
+    z-index: 9999;
+    border-top: 2px solid rgba(255,215,0,0.15);
+    box-shadow: 0 -4px 20px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,215,0,0.08);
+    font-family: 'Press Start 2P', monospace;
     padding: 0 8px; padding-bottom: env(safe-area-inset-bottom, 0px);
+    max-width: 100vw; overflow: hidden;
   }
   .cv-nav-link {
-    color: rgba(255,255,255,0.4); font-size: 14px; text-decoration: none;
-    padding: 12px 14px; border-radius: 8px; transition: all 0.15s;
-    white-space: nowrap; min-height: 44px; display: flex; align-items: center;
+    color: rgba(255,255,255,0.35); font-size: 8px; text-decoration: none;
+    padding: 8px 8px; border-radius: 6px; transition: all 0.2s;
+    white-space: nowrap; min-height: 40px; display: flex; align-items: center;
+    text-transform: uppercase;
   }
-  .cv-nav-link:hover { color: rgba(255,255,255,0.7); background: rgba(255,255,255,0.05); }
-  .cv-nav-link:active { background: rgba(255,255,255,0.12); }
-  .cv-nav-link.active { color: #fff; font-weight: 600; background: rgba(255,255,255,0.12); }
+  .cv-nav-link:hover { color: #ffd700; background: rgba(255,215,0,0.08); text-shadow: 0 0 8px rgba(255,215,0,0.3); }
+  .cv-nav-link:active { background: rgba(255,215,0,0.15); }
+  .cv-nav-link.active {
+    color: #ffd700; background: rgba(255,215,0,0.12);
+    text-shadow: 0 0 10px rgba(255,215,0,0.4);
+    border: 1px solid rgba(255,215,0,0.2);
+  }
   .cv-nav-pdf {
-    background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: #fff;
-    height: 36px; border-radius: 8px; cursor: pointer;
-    font-size: 13px; padding: 0 12px; margin-left: auto; flex-shrink: 0;
+    background: rgba(255,215,0,0.12); border: 1.5px solid rgba(255,215,0,0.3); color: #ffd700;
+    height: 34px; border-radius: 6px; cursor: pointer;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 8px; padding: 0 10px; flex-shrink: 0; margin-left: auto;
+    transition: all 0.2s;
   }
-  .cv-nav-pdf:active { background: rgba(255,255,255,0.2); }
+  .cv-nav-pdf:hover { background: rgba(255,215,0,0.2); text-shadow: 0 0 8px rgba(255,215,0,0.3); }
+  .cv-nav-pdf:active { background: rgba(255,215,0,0.25); }
 
   @media (max-width: 480px) {
-    #cv-nav { height: 44px; padding: 0 4px; padding-bottom: env(safe-area-inset-bottom, 0px); }
-    .cv-nav-link { font-size: 11px; padding: 10px 8px; min-height: 40px; }
-    .cv-nav-pdf { font-size: 11px; padding: 0 10px; height: 32px; }
+    #cv-nav { height: 48px; padding: 0 4px; padding-bottom: env(safe-area-inset-bottom, 0px); }
+    .cv-nav-link { font-size: 7px; padding: 6px 6px; min-height: 36px; }
+    .cv-nav-pdf { font-size: 7px; padding: 0 8px; height: 30px; }
   }
 
   @media print {
@@ -309,7 +321,7 @@
 <div class="team-page">
 
   <div class="team-title">MY TEAM</div>
-  <div class="team-subtitle">9 specialized AI agents, powered by Claude Code</div>
+  <div class="team-subtitle">9 specialized AI agents</div>
 
   <div class="org">
 
@@ -405,10 +417,10 @@
 <!-- Navigation -->
 <nav id="cv-nav">
   <a href="index.html" class="cv-nav-link">Classic</a>
+  <a href="cv-swann-team.html" class="cv-nav-link active">Team</a>
   <a href="cv-swann-terminal.html" class="cv-nav-link">Terminal</a>
   <a href="cv-swann-win98.html" class="cv-nav-link">Win98</a>
   <a href="cv-swann-game.html" class="cv-nav-link">Game</a>
-  <a href="cv-swann-team.html" class="cv-nav-link active">Team</a>
   <button class="cv-nav-pdf" onclick="window.print()">PDF</button>
 </nav>
 
